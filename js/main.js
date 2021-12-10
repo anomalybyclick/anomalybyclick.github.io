@@ -1,6 +1,10 @@
-//https://raw.githubusercontent.com/plotly/datasets/master/custom_heatmap_colorscale.json
+//https://raw.githubusercontent.com/Joker84a/alterdataset/main/datasets/patient_109.json
 var x = 0;
 var y = 0;
+
+var a = nj.array([2,3,4]);
+console.log(a);
+
 
 var x1= 0;
 var y1= 0;
@@ -8,7 +12,7 @@ var activity = 0;
 
 var type = "point";
 var isShift= false;
-var link_dataset="";
+var link_dataset="https://raw.githubusercontent.com/Joker84a/alterdataset/main/datasets/patient_109.json";
 
 var colorscaleValue = [
             [0, 'rgb(165,0,38)'],
@@ -48,9 +52,10 @@ var data_matrix = [
     z: [[1, null, 2, 3, 5], [0, 2, 2, 3, 1], [5, 4, 4,4, 2]],
     colorscale: colorscaleValue,
     type: 'heatmap',
+    showscale:false,
     hoverongaps: false,
     colorbar:{
-      autotick: false,
+      autotick: true,
       tick0: 0,
       dtick: 1
     }
@@ -59,6 +64,10 @@ var data_matrix = [
 
 
 
+
+$('.dropdown-toggle').on('show.bs.dropdown', function () {
+  console.log($(this).html());
+})
 
 /**on startup page */
 setLinkFromCookie();
@@ -83,31 +92,27 @@ function checkMode(anomaly) {
     }
 }
 
-
+/*
 var slider = document.getElementById("myRange");
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
   activity = this.value;
   $("#activity_selected").html(activity);
 
-}
+}*/
 
 /**plot */
 
 var myPlot = document.getElementById('myDiv'),
-    d3 = Plotly.d3,
-    layout = {
-        hovermode:'closest',
-        title:'CUSTOM DISCRETIZED HEATMAP COLORSCALE'
-     };
+    d3 = Plotly.d3;
 
-Plotly.newPlot('myDiv', data_matrix, layout);
+Plotly.newPlot('myDiv', data_matrix);
 
 myPlot.on('plotly_click', function(data){
     var tmp_x = 0;
     var tmp_y = 0;
     for(var i=0; i < data.points.length; i++){
-            tmp_x= data.points[i].x;
+            tmp_x= data.points[i].x; 
             tmp_y= data.points[i].y;
     }
     if (type == "point") {

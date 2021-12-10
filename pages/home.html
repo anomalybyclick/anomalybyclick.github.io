@@ -1,55 +1,242 @@
-<html>
-    <head>
-        <!-- Load plotly.js into the DOM -->
-        <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="../css/style.css">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="en">
 
-        <nav class="navbar navbar-dark bg-dark">
-            <span class="navbar-brand mb-0 h1">AlterYourDataset.AI</span>
-            <div class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Input dataset link" id="link" aria-label="Search">
-                <button class="btn  btn-light my-2 my-sm-0" type="submit" onclick="loadDataset(false)">Load</button>
-            </div>
-        </nav>
+<head>
 
-        <div class= "bg-light"id='myDiv'> </div>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Home</title>
 
-        <nav class="navbar navbar-light bg-light">
-            <div class="container d-flex justify-content-center" style="width: 100%;">
-                <div class="row">
-                    <div class="col">
-                        <span class="badge badge-secondary">Select anomlay to introduce: </span>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="point" value="point" onclick="checkMode(this)" checked>
-                            <label class="form-check-label" for="point">Point</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="shift" value="shift" onclick="checkMode(this)">
-                            <label class="form-check-label" for="shift">Shift</label>
-                        </div>
-                    </div>
-                    <div class="col"></div>
-                  
-                    <div class="col">
-                        <span class="badge badge-secondary">Select activity to introduce: </span>
-                        <input type="range" min="0" max="60" value="0" class="form-range" id="myRange">
-                    
-                        <span class="badge badge-info" id="activity_selected">0</span>
-                    </div>
+  <link rel="stylesheet" href="../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../images/favicon.png" />
+
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <div class="container-scroller"> 
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">   
+        <div>
+          <a class="navbar-brand brand-logo" href="../index.html">
+            <img src="../images/logo.svg" alt="logo" />
+          </a>
+        </div>
+      </div>
+
+      <div class="navbar-menu-wrapper d-flex align-items-top"> 
+        <ul class="navbar-nav">
+          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+            <h1 class="welcome-text">Upload your <span class="text-black fw-bold">dataset in json format</span></h1>
+            <h3 class="welcome-sub-text">from Github or an other host </h3>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown d-none d-lg-block">
+            <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Activity </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
+              <a class="dropdown-item py-3" >
+                <p class="mb-0 font-weight-medium float-left">Select activity</p>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item preview-item" data-acivity-code="1">
+                <div class="preview-item-content flex-grow py-2">
+                  <p class="preview-subject ellipsis font-weight-medium text-dark" >Bed</p>
+                  <p class="fw-light small-text mb-0">Code 1</p>
                 </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-item-content flex-grow py-2" data-acivity-code="2">
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">Court</p>
+                  <p class="fw-light small-text mb-0">Code 2</p>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-item-content flex-grow py-2" data-acivity-code="3">
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">Hygine</p>
+                  <p class="fw-light small-text mb-0">Code 3</p>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-item-content flex-grow py-2" data-acivity-code="4">
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">Dining Room</p>
+                  <p class="fw-light small-text mb-0">Code 4</p>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-item-content flex-grow py-2" data-acivity-code="5">
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">WC</p>
+                  <p class="fw-light small-text mb-0">Code 5</p>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-item-content flex-grow py-2" data-acivity-code="6">
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">Recreation Room</p>
+                  <p class="fw-light small-text mb-0">Code 6</p>
+                </div>
+              </a>
             </div>
-            
-        </nav>
+          </li>
+          <li class="nav-item d-none d-lg-block">
+            <div class="col-12">
+              <div class='row justify-content-start'>
+                <div class="col-lg-5">
+                  <div class='row justify-content-start'>
+                    <div class="col-lg-12">
+                      <button type="button" class="btn btn-primary btn-block" style="
+                      width: 100%;
+                      height: 32px;
+                      padding: 0;" id="submitButton" onclick="loadDataset(true)">Load</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-7 my-auto">
+                  <input id="link" type="text"  placeholder="Input dataset link" class="form-control "  title="Search here">
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item nav-category">help</li>
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              <i class="menu-icon mdi mdi-file-document"></i>
+              <span class="menu-title">Documentation</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="home-tab">
+                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active ps-0 anomaly" id="frequencyAnomaly" data-bs-toggle="tab" href="" role="tab" data-anomaly="frequency" aria-controls="overview" aria-selected="true">Frequency anomaly</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link anomaly" id="durationAnomaly" data-bs-toggle="tab" href="" role="tab" data-anomaly="duration" aria-selected="false">Duration anomaly</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link anomaly" id="orderAnomaly" data-bs-toggle="tab" href="" role="tab" data-anomaly="order" aria-selected="false">Order anomaly</a>
+                    </li>
+                    <li class="nav-item ">
+                      <a class="nav-link border-0 anomaly" id="positionAnomaly" data-bs-toggle="tab" href="" role="tab" data-anomaly="postion" aria-selected="false">Position anomaly</a>
+                    </li>
+                  </ul>
+                  <div>
+                    <div class="btn-wrapper">
+                      <!--<a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>
+                      <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i> Print</a>-->
+                      <a href="#" class="btn btn-primary text-white me-0" onclick="dowload()"><i class="icon-download"></i> Export</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-content tab-content-basic">
+                  <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"> 
+                    <div class="row">
+                      <div class="col-lg-12 d-flex flex-column">
+                        <div class="row flex-grow">
+                          <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div class= "bg-light"id='myDiv'> </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12 d-flex flex-column">
+                        <div class="row flex-grow">
+                          <div class="col-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div class= "bg-light" id='barChart'> </div>
+                                <!-- card due
+                                
+                                <div class="dropdown">
+                                      <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> This month </button>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <h6 class="dropdown-header">Settings</h6>
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Separated link</a>
+                                      </div>
+                                    </div>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row flex-grow">
+                          <div class="col-12 grid-margin stretch-card">
+                            <div class="card card-rounded table-darkBGImg">
+                              <div class="card-body">
+                                <div class="col-sm-8">
+                                  <h3 class="text-white upgrade-info mb-0">
+                                    Made in <span class="fw-bold">Sapienza</span> with ❤️
+                                  </h3>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium Lorem Ipsum</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All rights reserved.</span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
 
-        <button type="button" class="btn btn-success" onclick="dowload()">Download new dataset</button>
+  <script src="../vendors/js/vendor.bundle.base.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>
+  <script src='../js/main.js'></script>
+  <script src='../js/matrixOps.js'></script>
+</body>
 
-
-        <script src='../js/main.js'></script>
-    </body>
 </html>
+
