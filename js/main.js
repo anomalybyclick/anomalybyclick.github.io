@@ -106,7 +106,11 @@ slider.oninput = function() {
 var myPlot = document.getElementById('myDiv'),
     d3 = Plotly.d3;
 
-Plotly.newPlot('myDiv', data_matrix);
+    var layout = {
+      showlegend: true
+  };
+
+Plotly.newPlot('myDiv', data_matrix,layout,{displayModeBar: false});
 
 myPlot.on('plotly_click', function(data){
     var tmp_x = 0;

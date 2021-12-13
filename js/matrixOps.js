@@ -40,6 +40,9 @@ function plotHistogram(y, n_days){
         x: x,
         y: y,
         type: 'bar',
-      };
-    Plotly.newPlot('barChart', [data]);
+    };
+    var layout = {
+        showlegend: false
+    };
+    Plotly.newPlot('barChart', [data], layout, {displayModeBar: false});
 }
