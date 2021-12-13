@@ -8,12 +8,14 @@ $(".anomaly").on('click', function(){
         case 'duration':
             break;
         case 'position':
+            
             break;
         case 'order':
+            orderVisualizations(2,data_matrix[0].z);
             break;
         default:
           console.log(`Sorry, we are out of ${expr}.`);
-      } 
+    } 
 })
 
 function frequencyVisualizations(activityCode, codesMatrix){
@@ -60,7 +62,7 @@ function plotBarchart(y, n_days){
     };
 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
-    $('#mean').text(cutDecimanlsInString(cosputeMean(y)));
+    $('#mean').text(cutDecimanlsInString(computeMean(y)));
     $('#std').text("±" + cutDecimanlsInString(computeStd(y)));
     $('#min').text(cutDecimanlsInString(getMin(y)));
     $('#max').text(cutDecimanlsInString(getMax(y)));
@@ -68,7 +70,6 @@ function plotBarchart(y, n_days){
 
 function computeMean(values){
     return math.mean(values);
-    
 }
 
 function computeStd(values){
@@ -105,8 +106,7 @@ function createOrizontalLine(x0,y0,x1,y1, label){
 }
 
 function createAnnotations(label, x0,y0, position="top"){
-    return annotation =
-        {
+    return annotation = {
             showarrow: false,
             text: label,
             align: "right",
@@ -115,4 +115,61 @@ function createAnnotations(label, x0,y0, position="top"){
             y: y0,
             yanchor: position
         }
+}
+
+
+function orderVisualizations(activityCode, codesMatrix){
+    var n_days  = Object.keys(codesMatrix).length;
+    var preActivities = [];
+    var postActivities = [];
+    for (let i= 0; i<n_days; i++){
+        var day = removeActivityCodeRepetitions(codesMatrix[i]);
+        day.filter(function(array, index) {
+            
+            if(array == activityCode && (index+1)<n_days && (index-1)>0){
+                postActivities.push(translateActivityCode(day[index+1]));
+                preActivities.push(translateActivityCode(day[index-1]));
+            }
+        });
+    }
+    plotParallelDiagram(preActivities, [...Array(preActivities.length).fill(translateActivityCode(activityCode))], postActivities);
+}
+
+function plotParallelDiagram(pre, middle, post){
+    console.log(pre);
+    var trace1 = {
+        type: 'parcats',
+        line: {color: '#1F3BB3'},
+        dimensions: [
+          {label: 'PreActivity',
+           values: pre},
+          {label: 'Activity',
+           values: middle},
+          {label: 'PostActivity',
+           values: post}]
+      };
+      var data = [ trace1 ];
+      Plotly.newPlot('infoGraph', data);
+}
+
+function translateActivityCode(activityCode){
+    switch (activityCode) {
+        case 0:
+            return '';
+        case 1:
+            return 'Bed';
+        case 2:
+            return 'Court';
+        case 3:
+            return 'Hygine';
+        case 4:
+            return 'Dining Room';
+        case 5:
+            return 'WC';
+        case 6:
+            return 'Recreation Room';
+        default:
+          console.log(`Sorry, we are out of ${expr}.`);
+          return 'No activity'
+    }
 }
