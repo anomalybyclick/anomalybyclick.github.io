@@ -73,7 +73,6 @@ $('.dropdown-toggle').on('show.bs.dropdown', function () {
 setLinkFromCookie();
 
 
-
 /**functions */
 function setLinkFromCookie() {
   if (document.cookie.split(';')[0] != undefined) {
@@ -103,14 +102,13 @@ slider.oninput = function() {
 
 /**plot */
 
-var myPlot = document.getElementById('myDiv'),
+var myPlot = document.getElementById('mainGraph'),
     d3 = Plotly.d3;
-
     var layout = {
       showlegend: true
   };
 
-Plotly.newPlot('myDiv', data_matrix,layout,{displayModeBar: false});
+Plotly.newPlot('mainGraph', data_matrix,layout,{displayModeBar: false});
 
 myPlot.on('plotly_click', function(data){
     var tmp_x = 0;
@@ -134,11 +132,7 @@ myPlot.on('plotly_click', function(data){
         updateMatrixWithShift (x, y, x1)
       }
     }
-    
-    
 });
-
-
 
 function updateMatrixWithShift (x_cord, y_cord, x1_cord){
   console.log(x1_cord - x_cord);
@@ -160,7 +154,7 @@ function createPlotFromJson(link_dataset_to_load) {
 };
 
 function updateHeatmap(){
-  Plotly.redraw('myDiv');
+  Plotly.redraw('mainGraph');
 }
 
 /*****onclick********/

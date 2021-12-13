@@ -144,7 +144,7 @@
                       <a class="nav-link anomaly" id="orderAnomaly" data-bs-toggle="tab" href="" role="tab" data-anomaly="order" aria-selected="false">Order anomaly</a>
                     </li>
                     <li class="nav-item ">
-                      <a class="nav-link border-0 anomaly" id="positionAnomaly" data-bs-toggle="tab" href="" role="tab" data-anomaly="postion" aria-selected="false">Position anomaly</a>
+                      <a class="nav-link border-0 anomaly" id="positionAnomaly" data-bs-toggle="tab" href="" role="tab" data-anomaly="position" aria-selected="false">Position anomaly</a>
                     </li>
                   </ul>
                   <div>
@@ -169,7 +169,7 @@
                                    <h5 class="card-subtitle card-subtitle-dash">Lorem Ipsum is simply dummy text of the printing</h5>
                                   </div>
                                 </div>
-                                <div class= "bg-light"id='myDiv'> </div>
+                                <div class= "bg-light"id='mainGraph'> </div>
                               </div>
                             </div>
                           </div>
@@ -190,7 +190,7 @@
                                     <div id="performance-line-legend">
                                     </div>
                                   </div>
-                                  <div class= "bg-light" id='barChart'> 
+                                  <div class= "bg-light" id='infoGraph'>
                                   </div>
                                 </div>
                             </div>
@@ -202,51 +202,31 @@
                           <div class="col-md-6 col-lg-12 grid-margin stretch-card">
                             <div class="card bg-primary card-rounded">
                               <div class="card-body pb-0">
-                                <h4 class="card-title card-title-dash text-white mb-4">Status Summary</h4>
+                                <h4 class="card-title card-title-dash text-white mb-4">Statistical information</h4>
                                 <div class="row">
                                   <div class="col-sm-4">
-                                    <p class="status-summary-ight-white mb-1">Closed Value</p>
-                                    <h2 class="text-info">357</h2>
+                                    <p class="status-summary-ight-white mb-1">Mean</p>
+                                    <h2 class="text-info" id="mean">0</h2>
                                   </div>
                                   <div class="col-sm-8">
-                                    <div class="status-summary-chart-wrapper pb-4">
-                                      <canvas id="status-summary"></canvas>
-                                    </div>
+                                    <p class="status-summary-ight-white mb-1">Std</p>
+                                    <h2 class="text-info" id="std" >0</h2>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                            <div class="card card-rounded">
-                              <div class="card-body">
                                 <div class="row">
-                                  <div class="col-sm-6">
-                                    <div class="d-flex justify-content-between align-items-center mb-2 mb-sm-0">
-                                      <div class="circle-progress-width">
-                                        <div id="totalVisitors" class="progressbar-js-circle pr-2"></div>
-                                      </div>
-                                      <div>
-                                        <p class="text-small mb-2">Total Visitors</p>
-                                        <h4 class="mb-0 fw-bold">26.80%</h4>
-                                      </div>
-                                    </div>
+                                  <div class="col-sm-4">
+                                    <p class="status-summary-ight-white mb-1">Max.</p>
+                                    <h2 class="text-info" id="max">0</h2>
                                   </div>
-                                  <div class="col-sm-6">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                      <div class="circle-progress-width">
-                                        <div id="visitperday" class="progressbar-js-circle pr-2"></div>
-                                      </div>
-                                      <div>
-                                        <p class="text-small mb-2">Visits per day</p>
-                                        <h4 class="mb-0 fw-bold">9065</h4>
-                                      </div>
-                                    </div>
+                                  <div class="col-sm-8">
+                                    <p class="status-summary-ight-white mb-1">Min.</p>
+                                    <h2 class="text-info" id="min" >0</h2>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -257,7 +237,7 @@
                               <div class="card-body">
                                 <div class="col-sm-8">
                                   <h3 class="text-white upgrade-info mb-0">
-                                    Made in <span class="fw-bold">Sapienza</span> with ❤️
+                                    Made with ❤️ in <span class="fw-bold">Sapienza</span> 
                                   </h3>
                                 </div>
                               </div>
@@ -283,6 +263,7 @@
   <script src="../vendors/js/vendor.bundle.base.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.js"></script>
   <script src='../js/main.js'></script>
   <script src='../js/matrixOps.js'></script>
 </body>
@@ -290,60 +271,6 @@
 </html>
 
 
-<!--
-   <div class="col-lg-4 d-flex flex-column">
-                      <div class="row flex-grow">
-                        <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                          <div class="card bg-primary card-rounded">
-                            <div class="card-body pb-0">
-                              <h4 class="card-title card-title-dash text-white mb-4">Status Summary</h4>
-                              <div class="row">
-                                <div class="col-sm-4">
-                                  <p class="status-summary-ight-white mb-1">Closed Value</p>
-                                  <h2 class="text-info">357</h2>
-                                </div>
-                                <div class="col-sm-8">
-                                  <div class="status-summary-chart-wrapper pb-4">
-                                    <canvas id="status-summary"></canvas>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                          <div class="card card-rounded">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-sm-6">
-                                  <div class="d-flex justify-content-between align-items-center mb-2 mb-sm-0">
-                                    <div class="circle-progress-width">
-                                      <div id="totalVisitors" class="progressbar-js-circle pr-2"></div>
-                                    </div>
-                                    <div>
-                                      <p class="text-small mb-2">Total Visitors</p>
-                                      <h4 class="mb-0 fw-bold">26.80%</h4>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-6">
-                                  <div class="d-flex justify-content-between align-items-center">
-                                    <div class="circle-progress-width">
-                                      <div id="visitperday" class="progressbar-js-circle pr-2"></div>
-                                    </div>
-                                    <div>
-                                      <p class="text-small mb-2">Visits per day</p>
-                                      <h4 class="mb-0 fw-bold">9065</h4>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
--->
 
 <!-- card due
                                 
