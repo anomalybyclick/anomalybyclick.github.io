@@ -1,22 +1,3 @@
-//function to handle the business logic of visualizations based on the anomaly selected
-$(".anomaly").on('click', function(){
-    console.log($(this).data('anomaly'));
-    switch ($(this).data('anomaly')) {
-        case 'frequency':
-            frequencyVisualizations(0,data_matrix[0].z);
-            break;
-        case 'duration':
-            break;
-        case 'position':
-            
-            break;
-        case 'order':
-            orderVisualizations(2,data_matrix[0].z);
-            break;
-        default:
-          console.log(`Sorry, we are out of ${expr}.`);
-    } 
-})
 
 function frequencyVisualizations(activityCode, codesMatrix){
     var n_days  = Object.keys(codesMatrix).length;
@@ -136,7 +117,6 @@ function orderVisualizations(activityCode, codesMatrix){
 }
 
 function plotParallelDiagram(pre, middle, post){
-    console.log(pre);
     var trace1 = {
         type: 'parcats',
         line: {color: '#1F3BB3'},
@@ -149,6 +129,26 @@ function plotParallelDiagram(pre, middle, post){
            values: post}]
       };
       var data = [ trace1 ];
+
+      /*var trace2 = {
+        x: [0,1, 2],
+        y: [20, 1, 60],
+        mode: 'lines',
+        line: {'shape': 'spline', 'smoothing': 1.3}
+      };
+      var data = [
+  
+        {
+          z: [[20,1,60]],
+          x: [0,1,2],
+          y:['ciao1'],
+    
+          type: 'heatmap'
+        }  ,trace2,
+      ];*/
+      
+
+
       Plotly.newPlot('infoGraph', data);
 }
 

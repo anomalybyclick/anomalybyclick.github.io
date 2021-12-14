@@ -47,38 +47,38 @@
                 <p class="mb-0 font-weight-medium float-left">Select activity</p>
               </a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item" data-acivity-code="1">
+              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="1">
                 <div class="preview-item-content flex-grow py-2">
                   <p class="preview-subject ellipsis font-weight-medium text-dark" >Bed</p>
                   <p class="fw-light small-text mb-0">Code 1</p>
                 </div>
               </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2" data-acivity-code="2">
+              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="2">
+                <div class="preview-item-content flex-grow py-2" >
                   <p class="preview-subject ellipsis font-weight-medium text-dark">Court</p>
                   <p class="fw-light small-text mb-0">Code 2</p>
                 </div>
               </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2" data-acivity-code="3">
+              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="3">
+                <div class="preview-item-content flex-grow py-2" >
                   <p class="preview-subject ellipsis font-weight-medium text-dark">Hygine</p>
                   <p class="fw-light small-text mb-0">Code 3</p>
                 </div>
               </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2" data-acivity-code="4">
+              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="4">
+                <div class="preview-item-content flex-grow py-2" >
                   <p class="preview-subject ellipsis font-weight-medium text-dark">Dining Room</p>
                   <p class="fw-light small-text mb-0">Code 4</p>
                 </div>
               </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2" data-acivity-code="5">
+              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="5">
+                <div class="preview-item-content flex-grow py-2" >
                   <p class="preview-subject ellipsis font-weight-medium text-dark">WC</p>
                   <p class="fw-light small-text mb-0">Code 5</p>
                 </div>
               </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2" data-acivity-code="6">
+              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="6">
+                <div class="preview-item-content flex-grow py-2" >
                   <p class="preview-subject ellipsis font-weight-medium text-dark">Recreation Room</p>
                   <p class="fw-light small-text mb-0">Code 6</p>
                 </div>
@@ -149,8 +149,6 @@
                   </ul>
                   <div>
                     <div class="btn-wrapper">
-                      <!--<a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>
-                      <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i> Print</a>-->
                       <a href="#" class="btn btn-primary text-white me-0" onclick="dowload()"><i class="icon-download"></i> Export</a>
                     </div>
                   </div>
@@ -164,11 +162,29 @@
                             <div class="card card-rounded">
                               <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-start">
-                                  <div>
-                                   <h4 class="card-title card-title-dash">Performance Line Chart</h4>
-                                   <h5 class="card-subtitle card-subtitle-dash">Lorem Ipsum is simply dummy text of the printing</h5>
-                                  </div>
-                                </div>
+                                  <div class="container p-0 m-0">
+                                    <div class="row p-1 mx-3">
+                                        <div class="col-lg-6 d-flex flex-column">
+                                          <div>
+                                            <h4 class="card-title card-title-dash">Performance Line Chart</h4>
+                                            <h5 class="card-subtitle card-subtitle-dash">Lorem Ipsum is simply dummy text of the printing</h5>
+                                          </div>
+                                        </div>
+                                        <div class="col-lg-6 d-flex flex-column">
+                                          <div class="container">
+                                          <div class="row">
+                                              <div class="col-lg-8 d-flex flex-column">
+                                                <input id="anomalyDuration" type="text" placeholder="Insert anomaly duration in minutes" class="form-control" value="1">
+                                              </div>
+                                              <div class="col-lg-4 d-flex flex-column align-self-center">
+                                                <a href="#" id="updatemAnomalyDuration" class="btn btn-otline-dark"><i  class="mdi mdi-cached"></i> Update duration</a>
+                                            </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                 </div>
                                 <div class= "bg-light"id='mainGraph'> </div>
                               </div>
                             </div>
@@ -264,25 +280,11 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.js"></script>
+  <script src='../js/variables.js'></script>
+  <script src='../js/interactionLogic.js'></script>
   <script src='../js/main.js'></script>
   <script src='../js/matrixOps.js'></script>
 </body>
 
 </html>
-
-
-
-<!-- card due
-                                
-                                <div class="dropdown">
-                                      <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> This month </button>
-                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                        <h6 class="dropdown-header">Settings</h6>
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Separated link</a>
-                                      </div>
-                                    </div>-->
 

@@ -63,12 +63,6 @@ var data_matrix = [
 ];
 
 
-
-
-$('.dropdown-toggle').on('show.bs.dropdown', function () {
-  console.log($(this).html());
-})
-
 /**on startup page */
 setLinkFromCookie();
 
