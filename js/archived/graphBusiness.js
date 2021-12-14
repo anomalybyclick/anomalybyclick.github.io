@@ -72,6 +72,21 @@ myPlot.on('plotly_click', function(data){
             tmp_y= data.points[i].y;
     }
     updateMatrixWithShift (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
+    /*if (type == "point") {
+    
+      //data_matrix[0]['z'][tmp_y][tmp_x] = activity;
+      
+    } else if (type == "shift") {
+      /*if (isShift== false) {
+        x = tmp_x;
+        y = tmp_y;
+        isShift=true;
+      } else {
+        x1 = tmp_x;
+        isShift=false;
+        updateMatrixWithShift (x, y, x1)
+      }*/
+    }*/
 });
 
 
