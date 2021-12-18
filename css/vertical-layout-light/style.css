@@ -12652,6 +12652,7 @@ fieldset:disabled .swal2-modal .swal2-buttonswrapper .swal2-styled,
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+
 }
 
 .nav-link {
@@ -12660,6 +12661,7 @@ fieldset:disabled .swal2-modal .swal2-buttonswrapper .swal2-styled,
   color: #0d6efd;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  
 }
 
 @media (prefers-reduced-motion: reduce) {

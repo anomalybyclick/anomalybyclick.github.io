@@ -1,12 +1,12 @@
 //get and set activity code form dropdown menu
 $('.activity-dropdown').on('click', function () {
     config.activityCode = $(this).data('activityCode');
-    console.log(config.activityCode);
+    $("#messageDropdown").text(translateActivityCode(config.activityCode));
 });
 
 //function to handle the business logic of visualizations based on the anomaly selected
 $(".anomaly").on('click', function(){
-    console.log($(this).data('anomaly'));
+    document.getElementById("infoGraphDiv").scrollIntoView();
     switch ($(this).data('anomaly')) {
         case 'frequency':
             config.anomalyCode = 1;
@@ -14,9 +14,12 @@ $(".anomaly").on('click', function(){
             break;
         case 'duration':
             config.anomalyCode = 2;
+            console.log(config.activityCode);
+            durationVisualizations(config.activityCode, data_matrix[0].z)
             break;
         case 'position':
             config.anomalyCode = 3;
+            positionVisualization(config.activityCode, data_matrix[0].z);
             break;
         case 'order':
             config.anomalyCode = 4;

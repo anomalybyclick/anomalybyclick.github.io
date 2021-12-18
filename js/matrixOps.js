@@ -1,4 +1,3 @@
-
 function frequencyVisualizations(activityCode, codesMatrix){
     var n_days  = Object.keys(codesMatrix).length;
     var hist_values = new Array(n_days).fill(0);
@@ -41,8 +40,6 @@ function cutDecimanlsInString(valueLabel, length = 4){
 }
 
 
-
-
 function orderVisualizations(activityCode, codesMatrix){
     var n_days  = Object.keys(codesMatrix).length;
     var preActivities = [];
@@ -50,7 +47,6 @@ function orderVisualizations(activityCode, codesMatrix){
     for (let i= 0; i<n_days; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
         day.filter(function(array, index) {
-            
             if(array == activityCode && (index+1)<n_days && (index-1)>0){
                 postActivities.push(translateActivityCode(day[index+1]));
                 preActivities.push(translateActivityCode(day[index-1]));
@@ -58,6 +54,32 @@ function orderVisualizations(activityCode, codesMatrix){
         });
     }
     plotParallelDiagram(preActivities, [...Array(preActivities.length).fill(translateActivityCode(activityCode))], postActivities);
+}
+
+
+function durationVisualizations(activityCode, codesMatrix){
+    var n_days  = Object.keys(codesMatrix).length;
+    var durationsPerDays = [];
+    for (let i= 0; i<n_days; i++){
+        var tmpMatrix = codesMatrix[i].filter(function (activity){
+            return activity == activityCode
+        });
+        durationsPerDays.push(tmpMatrix.length);
+    }
+    plotBarchart(durationsPerDays, n_days);
+}
+
+function positionVisualization (activityCode, codesMatrix){
+    var n_days  = Object.keys(codesMatrix).length;
+    var activityPositionInDays = new Array(1440).fill(0);
+    for (let i= 0; i<n_days; i++){
+        for (let j = 0; j< 1440; j++){
+            if(codesMatrix[i][j] == activityCode){
+                activityPositionInDays[j]++;
+            }
+        }
+    }
+    console.log(activityPositionInDays);plotPositionGraph(activityPositionInDays);
 }
 
 

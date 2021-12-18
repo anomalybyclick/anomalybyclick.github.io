@@ -9,34 +9,26 @@ var type = "point";
 
 var colorscaleValue = [
     [0, 'rgb(165,0,38)'],
-    [0.1, 'rgb(165,0,38)'],
+    [0.143, 'rgb(165,0,38)'], //-1
 
-    [0.1, 'rgb(215,48,39)'],
-    [0.2, 'rgb(215,48,39)'],
+    [0.143, 'rgb(215,48,39)'],
+    [0.286, 'rgb(215,48,39)'], //0
 
-    [0.2, 'rgb(244,109,67)'],
-    [0.3, 'rgb(244,109,67)'],
+    [0.286, 'rgb(244,109,67)'],
+    [0.429, 'rgb(244,109,67)'],//
 
-    [0.3, 'rgb(253,174,97)'],
-    [0.4, 'rgb(253,174,97)'],
+    [0.429, 'rgb(253,174,97)'],
+    [0.572, 'rgb(253,174,97)'],//1
 
-    [0.4, 'rgb(254,224,144)'],
-    [0.5, 'rgb(254,224,144)'],
+    [0.572, 'rgb(254,224,144)'],
+    [0.715, 'rgb(254,224,144)'],//
 
-    [0.5, 'rgb(224,243,248)'],
-    [0.6, 'rgb(224,243,248)'],
+    [0.715, 'rgb(224,243,248)'],
+    [0.858, 'rgb(224,243,248)'],//
 
-    [0.6, 'rgb(171,217,233)'],
-    [0.7, 'rgb(171,217,233)'],
+    [0.858, 'rgb(171,217,233)'],
+    [1.0, 'rgb(171,217,233)'],//
 
-    [0.7, 'rgb(116,173,209)'],
-    [0.8, 'rgb(116,173,209)'],
-
-    [0.8, 'rgb(69,117,180)'],
-    [0.9, 'rgb(69,117,180)'],
-
-    [0.9, 'rgb(49,54,149)'],
-    [1.0, 'rgb(49,54,149)']
 ];
 
 
@@ -45,10 +37,13 @@ var data_matrix = [
       z: [[1, null, 2, 3, 5], [0, 2, 2, 3, 1], [5, 4, 4,4, 2]],
       colorscale: colorscaleValue,
       type: 'heatmap',
-      showscale:false,
+      showscale:true,
       hoverongaps: false,
       colorbar:{
-        autotick: true,
+        autotick: false,
+        tickmode: "array",
+        tickvals: [-1,0,1,2,3,4,5],
+        ticktext: ["No activity","Bed","Court","Dining room","Recreation room","Hygine","WC"],
         tick0: 0,
         dtick: 1
       }
@@ -71,19 +66,19 @@ myPlot.on('plotly_click', function(data){
             tmp_x= data.points[i].x; 
             tmp_y= data.points[i].y;
     }
+    console.log(config.anomalyDuration);
     updateMatrixWithShift (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
 });
 
 
 function updateMatrixWithShift (x_cord, y_cord, x1_cord){
   console.log(x1_cord - x_cord);
-  if(x1_cord - x_cord<0) {
-    return;
-  };
+
   for (i = 0; i< (x1_cord - x_cord); i++){
     data_matrix[0]['z'][y_cord][x_cord+i] = activity;
-    updateHeatmap();
+    
   }
+  updateHeatmap();
 }
 
 
@@ -121,7 +116,7 @@ function plotBarchart(y, n_days){
         ],
         annotations:[ createAnnotations('-std', 0, lowerStd), 
         createAnnotations('+std', 0, upperStd),
-        createAnnotations('mean', 0, mean) ]  
+        createAnnotations('mean', 0, mean) ] 
     };
 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
@@ -172,25 +167,26 @@ function plotParallelDiagram(pre, middle, post){
            values: post}]
       };
       var data = [ trace1 ];
-
-      /*var trace2 = {
-        x: [0,1, 2],
-        y: [20, 1, 60],
-        mode: 'lines',
-        line: {'shape': 'spline', 'smoothing': 1.3}
-      };
-      var data = [
-  
-        {
-          z: [[20,1,60]],
-          x: [0,1,2],
-          y:['ciao1'],
-    
-          type: 'heatmap'
-        }  ,trace2,
-      ];*/
-      
-
-
       Plotly.newPlot('infoGraph', data);
+}
+
+function plotPositionGraph (y){
+  var trace1 = {
+    z: [y],
+    x: [...Array(1440).keys()],
+    y:[-1,-2,-3],
+    type: 'heatmap',
+  };
+
+  var trace2 = {
+    x: [...Array(1440).keys()],
+    y: y,
+    fill: 'tonexty',
+    type: 'scatter',
+    line: {shape: 'spline'}
+  };
+
+  var layout = {showlegend: false};
+  var data = [trace1, trace2];
+  Plotly.newPlot('infoGraph', data, layout);
 }
