@@ -1,15 +1,77 @@
-.masthead {
-    top: 50%;
-    position: relative;
-    margin-top: -250;
-}
+@font-face {
+    font-family: myFirstFont;
+    src: url(../scss/fonts/Manrope/Manrope-Light.eot);
+  }
+  
+ .wrapper{
+    background: white;
 
-.footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: red;
-    color: white;
+  }
+  
+  .toggle_radio{
+    position: relative;
+    background: rgba(0,0,0,.1);
+    margin: 4px auto;
+    overflow: hidden;
+    padding: 0 !important;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    position: relative;
+    height: 26px;
+    width: 200px;
+  }
+  .toggle_radio > * {
+    float: left;
+  }
+  .toggle_radio input[type=radio]{
+    display: none;
+    /*position: fixed;*/
+  }
+  .toggle_radio label{
+
+    color: rgba(0,0,0,.9);
+    z-index: 0;
+    display: block;
+    width: 60px;
+    height: 20px;
+    margin: 3px 3px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 1;
+    /*background: rgba(0,0,0,.1);*/
     text-align: center;
- }
+    /*margin: 0 2px;*/
+    /*background: blue;*/ /*make it blue*/
+  }
+  .toggle_option_slider{
+    /*display: none;*/
+    /*background: red;*/
+    width: 60px;
+    height: 20px;
+    position: absolute;
+    top: 3px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    -webkit-transition: all .4s ease;
+    -moz-transition: all .4s ease;
+    -o-transition: all .4s ease;
+    -ms-transition: all .4s ease;
+    transition: all .4s ease;
+  }
+  
+  #first_toggle:checked ~ .toggle_option_slider{
+    background: rgba(0,0,0,.3);
+    left: 3px;
+  }
+  #second_toggle:checked ~ .toggle_option_slider{
+    background: rgba(0,0,0,.3);
+    left: 66px;
+  }
+  #third_toggle:checked ~ .toggle_option_slider{
+    background: rgba(0,0,0,.3);
+    left: 126px;
+  }
