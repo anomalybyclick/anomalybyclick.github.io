@@ -7,6 +7,8 @@ var activity = 0;
 
 var type = "point";
 
+var groundTruth;
+
 var colorscaleValue = [
     [0, 'rgb(165,0,38)'],
     [0.143, 'rgb(165,0,38)'], //-1
@@ -67,13 +69,13 @@ myPlot.on('plotly_click', function(data){
             tmp_y= data.points[i].y;
     }
     console.log(config.anomalyDuration);
+    updateGroundTruth (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
     updateMatrixWithShift (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
 });
 
 
 function updateMatrixWithShift (x_cord, y_cord, x1_cord){
   console.log(x1_cord - x_cord);
-
   for (i = 0; i< (x1_cord - x_cord); i++){
     data_matrix[0]['z'][y_cord][x_cord+i] = activity;
     
@@ -81,10 +83,21 @@ function updateMatrixWithShift (x_cord, y_cord, x1_cord){
   updateHeatmap();
 }
 
+function updateGroundTruth (x_cord, y_cord, x1_cord){
+
+  for (i = 0; i< (x1_cord - x_cord); i++){
+    console.log(groundTruth[y_cord][x_cord+i]);
+    groundTruth[y_cord][x_cord+i] = config.anomalyCode;
+  }
+  console.log(groundTruth);
+}
+
 
 function createPlotFromJson(link_dataset_to_load) {
   Plotly.d3.json(link_dataset_to_load, function(figure){ 
     data_matrix[0]['z'] =figure.z;
+    groundTruth = Array(12).fill().map(() => Array(1440).fill(0)) //TODO cambiare con n_days e gestire meglio questa varaibli
+    data_matrix[0]['z'] = clearVisualization(data_matrix[0]['z'],12);
     updateHeatmap();
   } );
 };
@@ -96,7 +109,7 @@ function updateHeatmap(){
 
 function plotBarchart(y, n_days){
     var x = [...Array(n_days).keys()];
-    console.log(x)
+    var xValue = ['data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data8', 'data9', 'data10', 'data11', 'data12'];
     var data = {
         x: x,
         y: y,
@@ -116,7 +129,30 @@ function plotBarchart(y, n_days){
         ],
         annotations:[ createAnnotations('-std', 0, lowerStd), 
         createAnnotations('+std', 0, upperStd),
-        createAnnotations('mean', 0, mean) ] 
+        createAnnotations('mean', 0, mean) ],
+        xaxis: {
+          tickmode: "array",
+          tickvals: x,
+          ticktext : xValue,
+          title: {
+            text: 'Testo di prova',
+            font: {
+              family: 'Courier New, monospace',
+              size: 18,
+              color: '#7f7f7f'
+            }
+          },
+        },
+        yaxis: {
+          title: {
+            text: 'Ore',
+            font: {
+              family: 'Courier New, monospace',
+              size: 18,
+              color: '#7f7f7f'
+            }
+          },
+        }
     };
 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
@@ -170,16 +206,17 @@ function plotParallelDiagram(pre, middle, post){
       Plotly.newPlot('infoGraph', data);
 }
 
-function plotPositionGraph (y){
+function plotPositionGraph (y, steps=1440){
+  console.log(Array.from({length:50},(v,k)=>k-50).reverse())
   var trace1 = {
     z: [y],
-    x: [...Array(1440).keys()],
-    y:[-1,-2,-3],
+    x: [...Array(steps).keys()],
+    y:Array.from({length:50},(v,k)=>k-50).reverse(),
     type: 'heatmap',
   };
 
   var trace2 = {
-    x: [...Array(1440).keys()],
+    x: [...Array(steps).keys()],
     y: y,
     fill: 'tonexty',
     type: 'scatter',

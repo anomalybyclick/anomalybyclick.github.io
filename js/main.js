@@ -22,6 +22,12 @@ function dowload(){
   var a = document.createElement('a');
   a.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(myjson));
   a.setAttribute('download',  "filename.json");
+  a.click();
+
+  myjson=JSON.stringify(groundTruth);
+  a = document.createElement('a');
+  a.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(myjson));
+  a.setAttribute('download',  "grounftrith.json");
   a.click()
 }
 

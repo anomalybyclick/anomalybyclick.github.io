@@ -36,3 +36,7 @@ $('#updatemAnomalyDuration').on('click', function () {
     console.log(config.anomalyDuration);
 });
 
+$(".toggle_option").click(function(){
+    config.timeGranularity = ($(this).data('toggle') != 'ss') ? $(this).data('toggle') : 'mm';
+});
+

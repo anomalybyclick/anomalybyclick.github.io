@@ -17,7 +17,6 @@ function removeActivityCodeRepetitions(activitiesCodes){
 }
 
 
-
 function computeMean(values){
     return math.mean(values);
 }
@@ -66,6 +65,13 @@ function durationVisualizations(activityCode, codesMatrix){
         });
         durationsPerDays.push(tmpMatrix.length);
     }
+    if(config.timeGranularity === 'hh'){
+        console.log('qua');
+        durationsPerDays = durationsPerDays.map(function(item) { 
+            return item/60;
+        });
+    }
+    console.log(config.timeGranularity);
     plotBarchart(durationsPerDays, n_days);
 }
 
@@ -79,7 +85,15 @@ function positionVisualization (activityCode, codesMatrix){
             }
         }
     }
-    console.log(activityPositionInDays);plotPositionGraph(activityPositionInDays);
+    if(config.timeGranularity === 'hh'){
+        console.log('qua');
+        console.log(activityPositionInDays);
+        activityPositionInDays = convertToHours(activityPositionInDays);
+        plotPositionGraph(activityPositionInDays, 60);
+    } else {
+        plotPositionGraph(activityPositionInDays);
+    }
+    
 }
 
 
@@ -105,3 +119,29 @@ function translateActivityCode(activityCode){
           return 'No activity'
     }
 }
+
+
+function convertToHours(arr, chunkSize=60) {
+    const res = [];
+    for (let j = 0; j < 1440; j += chunkSize) {
+        const chunk = arr.slice(j, j + chunkSize);
+        res.push(math.sum(chunk));
+    }
+    
+
+    console.log(res);
+    return res;
+}
+
+function clearVisualization (matrix, steps=1){
+   /*for (let i = 0; i< 12; i++){
+        for (let j = 1; j<1440-steps; j++){
+            if(matrix[i][j] !== matrix[i][j-steps] && matrix[i][j] !== matrix[i][j+steps]){
+                matrix[i][j] = matrix[i][j-steps];
+            }
+        }
+    }*/
+    return matrix;
+}
+
+
