@@ -96,8 +96,10 @@ function updateGroundTruth (x_cord, y_cord, x1_cord){
 function createPlotFromJson(link_dataset_to_load) {
   Plotly.d3.json(link_dataset_to_load, function(figure){ 
     data_matrix[0]['z'] =figure.z;
-    groundTruth = Array(12).fill().map(() => Array(1440).fill(0)) //TODO cambiare con n_days e gestire meglio questa varaibli
+    
     data_matrix[0]['z'] = clearVisualization(data_matrix[0]['z'],12);
+    config.nDays = math.size(data_matrix[0]['z'])[0]
+    groundTruth = Array(config.nDays).fill().map(() => Array(1440).fill(0))
     updateHeatmap();
   } );
 };
@@ -156,10 +158,9 @@ function plotBarchart(y, n_days){
     };
 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
-    $('#mean').text(cutDecimanlsInString(computeMean(y)));
-    $('#std').text("±" + cutDecimanlsInString(computeStd(y)));
-    $('#min').text(cutDecimanlsInString(getMin(y)));
-    $('#max').text(cutDecimanlsInString(getMax(y)));
+    // TODO mettere le impostazioni a statistical information
+    setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
+      cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 'Information about frequency');
 }
 
 function createOrizontalLine(x0,y0,x1,y1, label){
@@ -204,6 +205,7 @@ function plotParallelDiagram(pre, middle, post){
       };
       var data = [ trace1 ];
       Plotly.newPlot('infoGraph', data);
+      setStatisticalInformation();
 }
 
 function plotPositionGraph (y, steps=1440){
@@ -214,7 +216,6 @@ function plotPositionGraph (y, steps=1440){
     y:Array.from({length:50},(v,k)=>k-50).reverse(),
     type: 'heatmap',
   };
-
   var trace2 = {
     x: [...Array(steps).keys()],
     y: y,
@@ -222,8 +223,18 @@ function plotPositionGraph (y, steps=1440){
     type: 'scatter',
     line: {shape: 'spline'}
   };
-
   var layout = {showlegend: false};
   var data = [trace1, trace2];
   Plotly.newPlot('infoGraph', data, layout);
+  setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
+  cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 'Statistical information about number of times an activity occures in that time location in a day');
 }
+
+function setStatisticalInformation(mean = 0, std = 0, min = 0, max = 0, text = 'Additional information'){
+  $('#mean').text(mean);
+  $('#std').text("±" + std);
+  $('#min').text(min);
+  $('#max').text(max);
+  $('#statisticalAdditionalInformation').text(text);
+}
+

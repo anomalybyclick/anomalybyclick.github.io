@@ -1,11 +1,11 @@
 function frequencyVisualizations(activityCode, codesMatrix){
-    var n_days  = Object.keys(codesMatrix).length;
-    var hist_values = new Array(n_days).fill(0);
-    for (let i= 0; i<n_days; i++){
+    //var n_days  = Object.keys(codesMatrix).length;
+    var hist_values = new Array(config.nDays).fill(0);
+    for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
         hist_values[i] = day.filter(x => x === activityCode).length;
     }
-    plotBarchart(hist_values, n_days);
+    plotBarchart(hist_values, config.nDays);
     return hist_values;
 }
 
@@ -40,13 +40,13 @@ function cutDecimanlsInString(valueLabel, length = 4){
 
 
 function orderVisualizations(activityCode, codesMatrix){
-    var n_days  = Object.keys(codesMatrix).length;
+    // var n_days  = Object.keys(codesMatrix).length;
     var preActivities = [];
     var postActivities = [];
-    for (let i= 0; i<n_days; i++){
+    for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
         day.filter(function(array, index) {
-            if(array == activityCode && (index+1)<n_days && (index-1)>0){
+            if(array == activityCode && (index+1)<config.nDays && (index-1)>0){
                 postActivities.push(translateActivityCode(day[index+1]));
                 preActivities.push(translateActivityCode(day[index-1]));
             }
@@ -57,28 +57,27 @@ function orderVisualizations(activityCode, codesMatrix){
 
 
 function durationVisualizations(activityCode, codesMatrix){
-    var n_days  = Object.keys(codesMatrix).length;
+    //var n_days  = Object.keys(codesMatrix).length;
     var durationsPerDays = [];
-    for (let i= 0; i<n_days; i++){
+    for (let i= 0; i<config.nDays; i++){
         var tmpMatrix = codesMatrix[i].filter(function (activity){
             return activity == activityCode
         });
         durationsPerDays.push(tmpMatrix.length);
     }
     if(config.timeGranularity === 'hh'){
-        console.log('qua');
         durationsPerDays = durationsPerDays.map(function(item) { 
             return item/60;
         });
     }
     console.log(config.timeGranularity);
-    plotBarchart(durationsPerDays, n_days);
+    plotBarchart(durationsPerDays, config.nDays);
 }
 
 function positionVisualization (activityCode, codesMatrix){
-    var n_days  = Object.keys(codesMatrix).length;
+    //var n_days  = Object.keys(codesMatrix).length;
     var activityPositionInDays = new Array(1440).fill(0);
-    for (let i= 0; i<n_days; i++){
+    for (let i= 0; i<config.nDays; i++){
         for (let j = 0; j< 1440; j++){
             if(codesMatrix[i][j] == activityCode){
                 activityPositionInDays[j]++;

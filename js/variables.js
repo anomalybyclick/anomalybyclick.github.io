@@ -3,5 +3,6 @@ const config = {
     activityCode : -1,
     link_dataset: "https://raw.githubusercontent.com/Joker84a/alterdataset/main/datasets/patient_109.json",
     anomalyCode: 0,
-    timeGranularity: 'mm'
+    timeGranularity: 'mm',
+    nDays: 0
 }

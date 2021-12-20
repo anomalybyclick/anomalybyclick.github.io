@@ -2,6 +2,7 @@
 $('.activity-dropdown').on('click', function () {
     config.activityCode = $(this).data('activityCode');
     $("#messageDropdown").text(translateActivityCode(config.activityCode));
+    updateGraphs();
 });
 
 //function to handle the business logic of visualizations based on the anomaly selected
@@ -38,5 +39,26 @@ $('#updatemAnomalyDuration').on('click', function () {
 
 $(".toggle_option").click(function(){
     config.timeGranularity = ($(this).data('toggle') != 'ss') ? $(this).data('toggle') : 'mm';
+    updateGraphs();
 });
+
+function updateGraphs(){
+    document.getElementById("infoGraphDiv").scrollIntoView();
+    switch (config.anomalyCode) {
+        case 1:
+            frequencyVisualizations(0,data_matrix[0].z);
+            break;
+        case 2:
+            durationVisualizations(config.activityCode, data_matrix[0].z)
+            break;
+        case 3:
+            positionVisualization(config.activityCode, data_matrix[0].z);
+            break;
+        case 4:
+            orderVisualizations(2,data_matrix[0].z);
+            break;
+        default:
+          console.log(`Sorry, we are out of ${expr}.`);
+    } 
+}
 
