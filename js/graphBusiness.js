@@ -1,43 +1,7 @@
-var x = 0;
-var y = 0;
-
-var x1= 0;
-var y1= 0;
-var activity = 0;
-
-var type = "point";
-
-var groundTruth;
-
-var colorscaleValue = [
-    [0, 'rgb(165,0,38)'],
-    [0.143, 'rgb(165,0,38)'], //-1
-
-    [0.143, 'rgb(215,48,39)'],
-    [0.286, 'rgb(215,48,39)'], //0
-
-    [0.286, 'rgb(244,109,67)'],
-    [0.429, 'rgb(244,109,67)'],//
-
-    [0.429, 'rgb(253,174,97)'],
-    [0.572, 'rgb(253,174,97)'],//1
-
-    [0.572, 'rgb(254,224,144)'],
-    [0.715, 'rgb(254,224,144)'],//
-
-    [0.715, 'rgb(224,243,248)'],
-    [0.858, 'rgb(224,243,248)'],//
-
-    [0.858, 'rgb(171,217,233)'],
-    [1.0, 'rgb(171,217,233)'],//
-
-];
-
-
 var data_matrix = [
     {
       z: [[1, null, 2, 3, 5], [0, 2, 2, 3, 1], [5, 4, 4,4, 2]],
-      colorscale: colorscaleValue,
+      colorscale: colorscaleValues,
       type: 'heatmap',
       showscale:true,
       hoverongaps: false,
@@ -70,41 +34,35 @@ myPlot.on('plotly_click', function(data){
     }
     console.log(config.anomalyDuration);
     updateGroundTruth (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
-    updateMatrixWithShift (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
+    updateMatrixWithAnomaly (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
 });
 
 
-function updateMatrixWithShift (x_cord, y_cord, x1_cord){
-  console.log(x1_cord - x_cord);
+function updateMatrixWithAnomaly (x_cord, y_cord, x1_cord){
   for (i = 0; i< (x1_cord - x_cord); i++){
-    data_matrix[0]['z'][y_cord][x_cord+i] = activity;
-    
+    data_matrix[0]['z'][y_cord][x_cord+i] = config.activityCode;
   }
   updateHeatmap();
 }
 
 function updateGroundTruth (x_cord, y_cord, x1_cord){
-
   for (i = 0; i< (x1_cord - x_cord); i++){
-    console.log(groundTruth[y_cord][x_cord+i]);
-    groundTruth[y_cord][x_cord+i] = config.anomalyCode;
+    dataset.groundTruth[y_cord][x_cord+i] = config.anomalyCode;
   }
-  console.log(groundTruth);
 }
 
 
-function createPlotFromJson(link_dataset_to_load) {
-  Plotly.d3.json(link_dataset_to_load, function(figure){ 
-    data_matrix[0]['z'] =figure.z;
-    
-    data_matrix[0]['z'] = clearVisualization(data_matrix[0]['z'],12);
-    config.nDays = math.size(data_matrix[0]['z'])[0]
-    groundTruth = Array(config.nDays).fill().map(() => Array(1440).fill(0))
+function createPlotFromJson(linkToOnlineDataset) {
+  Plotly.d3.json(linkToOnlineDataset, function(figure){ 
+    dataset.sourceData = figure.z;
+    config.nDays = math.size(dataset.sourceData)[0]
+    dataset.groundTruth = Array(config.nDays).fill().map(() => Array(1440).fill(0))
     updateHeatmap();
   } );
 };
 
 function updateHeatmap(){
+  data_matrix[0]['z'] = dataset.sourceData;
   Plotly.redraw('mainGraph');
 }
 
@@ -136,60 +94,17 @@ function plotBarchart(y, n_days){
           tickmode: "array",
           tickvals: x,
           ticktext : xValue,
-          title: {
-            text: 'Testo di prova',
-            font: {
-              family: 'Courier New, monospace',
-              size: 18,
-              color: '#7f7f7f'
-            }
-          },
+          title: setTitle('Dates')
         },
         yaxis: {
-          title: {
-            text: 'Ore',
-            font: {
-              family: 'Courier New, monospace',
-              size: 18,
-              color: '#7f7f7f'
-            }
-          },
-        }
+          title: config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
+        }      
     };
-
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
-    // TODO mettere le impostazioni a statistical information
     setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
       cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 'Information about frequency');
 }
 
-function createOrizontalLine(x0,y0,x1,y1, label){
-    return line = {
-        type: 'line',
-        xref: 'paper',
-        x0: x0,
-        y0: y0,
-        x1: x1,
-        y1: y1,
-        line: {
-            color: '#52CDFF',
-            width: 2,
-            dash: 'dot'
-        }
-    }
-}
-
-function createAnnotations(label, x0,y0, position="top"){
-    return annotation = {
-            showarrow: false,
-            text: label,
-            align: "right",
-            x: x0,
-            xanchor: "right",
-            y: y0,
-            yanchor: position
-        }
-}
 
 function plotParallelDiagram(pre, middle, post){
     var trace1 = {
@@ -223,7 +138,15 @@ function plotPositionGraph (y, steps=1440){
     type: 'scatter',
     line: {shape: 'spline'}
   };
-  var layout = {showlegend: false};
+  var layout = {
+    showlegend: false,
+    xaxis: {
+      title:  config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
+    },
+    yaxis: {
+      title: setTitle('N. of times the activity occurs',12)
+    }      
+};
   var data = [trace1, trace2];
   Plotly.newPlot('infoGraph', data, layout);
   setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
