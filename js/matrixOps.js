@@ -17,22 +17,6 @@ function removeActivityCodeRepetitions(activitiesCodes){
 }
 
 
-function computeMean(values){
-    return math.mean(values);
-}
-
-function computeStd(values){
-    return math.std(values);
-}
-
-function getMax(values){
-    return math.max(values);
-}
-
-function getMin(values){
-    return math.min(values);
-}
-
 function cutDecimanlsInString(valueLabel, length = 4){
     valueLabel = valueLabel.toString();
     return valueLabel.substring(0, length);
@@ -40,7 +24,7 @@ function cutDecimanlsInString(valueLabel, length = 4){
 
 
 function orderVisualizations(activityCode, codesMatrix){
-    // var n_days  = Object.keys(codesMatrix).length;
+    // var n_days  = Object.keys(codesMatrix).length; TODO
     var preActivities = [];
     var postActivities = [];
     for (let i= 0; i<config.nDays; i++){
@@ -57,7 +41,7 @@ function orderVisualizations(activityCode, codesMatrix){
 
 
 function durationVisualizations(activityCode, codesMatrix){
-    //var n_days  = Object.keys(codesMatrix).length;
+    //var n_days  = Object.keys(codesMatrix).length; TODO
     var durationsPerDays = [];
     for (let i= 0; i<config.nDays; i++){
         var tmpMatrix = codesMatrix[i].filter(function (activity){
@@ -75,7 +59,7 @@ function durationVisualizations(activityCode, codesMatrix){
 }
 
 function positionVisualization (activityCode, codesMatrix){
-    //var n_days  = Object.keys(codesMatrix).length;
+    //var n_days  = Object.keys(codesMatrix).length; TODO
     var activityPositionInDays = new Array(1440).fill(0);
     for (let i= 0; i<config.nDays; i++){
         for (let j = 0; j< 1440; j++){
@@ -93,54 +77,6 @@ function positionVisualization (activityCode, codesMatrix){
         plotPositionGraph(activityPositionInDays);
     }
     
-}
-
-
-
-function translateActivityCode(activityCode){
-    switch (activityCode) {
-        case 0:
-            return '';
-        case 1:
-            return 'Bed';
-        case 2:
-            return 'Court';
-        case 3:
-            return 'Hygine';
-        case 4:
-            return 'Dining Room';
-        case 5:
-            return 'WC';
-        case 6:
-            return 'Recreation Room';
-        default:
-          console.log(`Sorry, we are out of ${expr}.`);
-          return 'No activity'
-    }
-}
-
-
-function convertToHours(arr, chunkSize=60) {
-    const res = [];
-    for (let j = 0; j < 1440; j += chunkSize) {
-        const chunk = arr.slice(j, j + chunkSize);
-        res.push(math.sum(chunk));
-    }
-    
-
-    console.log(res);
-    return res;
-}
-
-function clearVisualization (matrix, steps=1){
-   /*for (let i = 0; i< 12; i++){
-        for (let j = 1; j<1440-steps; j++){
-            if(matrix[i][j] !== matrix[i][j-steps] && matrix[i][j] !== matrix[i][j+steps]){
-                matrix[i][j] = matrix[i][j-steps];
-            }
-        }
-    }*/
-    return matrix;
 }
 
 

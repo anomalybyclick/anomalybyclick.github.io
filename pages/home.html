@@ -49,7 +49,7 @@
                 <p class="mb-0 font-weight-medium float-left" >Select activity</p>
               </a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="1">
+              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="0">
                 <div class="preview-item-content flex-grow py-2">
                   <p class="preview-subject ellipsis font-weight-medium text-dark" >Bed</p>
                   <p class="fw-light small-text mb-0">Code 1</p>
@@ -96,7 +96,7 @@
                       <button type="button" class="btn btn-primary btn-block" style="
                       width: 100%;
                       height: 32px;
-                      padding: 0;" id="submitButton" onclick="loadDataset(true)">Load</button>
+                      padding: 0;" id="submitButton" id="loadDataset">Load</button>
                     </div>
                   </div>
                 </div>
@@ -169,7 +169,7 @@
                   </ul>
                   <div>
                     <div class="btn-wrapper">
-                      <a href="#" class="btn btn-primary text-white me-0" onclick="dowload()"><i class="icon-download"></i> Export</a>
+                      <a href="#" class="btn btn-primary text-white me-0" id="dowload"><i class="icon-download"></i> Export</a>
                     </div>
                   </div>
                 </div>
@@ -181,31 +181,37 @@
                           <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
                             <div class="card card-rounded">
                               <div class="card-body">
-                                <div class="d-sm-flex justify-content-between align-items-start">
+                                  <div class="d-sm-flex justify-content-between align-items-start">
                                   <div class="container p-0 m-0">
-                                    <div class="row p-1 mx-3">
-                                        <div class="col-lg-6 d-flex flex-column">
-                                          <div>
-                                            <h4 class="card-title card-title-dash">Performance Line Chart</h4>
-                                            <h5 class="card-subtitle card-subtitle-dash">Lorem Ipsum is simply dummy text of the printing</h5>
+                                      <div class="row p-1 mx-3">
+                                          <div class="col-lg-6 d-flex flex-column">
+                                            <div>
+                                              <h4 class="card-title card-title-dash">Timeseries visualization </h4>
+                                              <h5 class="card-subtitle card-subtitle-dash">The visualization shows the different activities spread along the different days</h5>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div class="col-lg-6 d-flex flex-column">
-                                          <div class="container">
-                                          <div class="row">
-                                              <div class="col-lg-8 d-flex flex-column">
-                                                <input id="anomalyDuration" type="text" placeholder="Insert anomaly duration in minutes" class="form-control" value="1">
+                                          <div class="col-lg-6 d-flex flex-column">
+                                            <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-8 d-flex flex-column">
+                                                  <input id="anomalyDuration" type="text" placeholder="Insert anomaly duration in minutes" class="form-control" value="1">
+                                                </div>
+                                                <div class="col-lg-4 d-flex flex-column align-self-center">
+                                                  <a href="#" id="updatemAnomalyDuration" class="btn btn-otline-dark"><i  class="mdi mdi-cached"></i> Update duration</a>
                                               </div>
-                                              <div class="col-lg-4 d-flex flex-column align-self-center">
-                                                <a href="#" id="updatemAnomalyDuration" class="btn btn-otline-dark"><i  class="mdi mdi-cached"></i> Update duration</a>
-                                            </div>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
                                       </div>
-                                    </div>
-                                 </div>
-                                <div class= "bg-light"id='mainGraph'> </div>
+                                  </div>
+                                  </div>
+                                  <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                      <li class="page-item"><a class="page-link link-dark" href="#" id="dataSource">Data</a></li>
+                                      <li class="page-item"><a class="page-link link-dark" href="#" id="groundtruth">Groundtruth</a></li>
+                                    </ul>
+                                  </nav>
+                                  <div class= "bg-light"id='mainGraph'> </div>
                               </div>
                             </div>
                           </div>
@@ -321,8 +327,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.js"></script>
   <script src='../js/config.js'></script>
   <script src='../js/utils.js'></script>
-  <script src='../js/graphBusiness.js'></script>
-  <script src='../js/interactionLogic.js'></script>
+  <script src='../js/graphs.js'></script>
   <script src='../js/main.js'></script>
   <script src='../js/matrixOps.js'></script>
 </body>

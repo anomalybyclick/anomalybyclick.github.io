@@ -15,13 +15,56 @@ var data_matrix = [
       }
     }
   ];
+  
+  var myPlot = document.getElementById('mainGraph'),
+  d3 = Plotly.d3;
+  var layout = {
+    showlegend: true
+};
 
+function showGroundtruth (){
+  var tmp = [
+    {
+      z: dataset.groundTruth,
+      colorscale: colorscaleValues2,
+      type: 'heatmap',
+      showscale:true,
+      hoverongaps: false,
+      colorbar:{
+        autotick: false,
+        tickmode: "array",
+        tickvals: [0,1,2,3,4],
+        ticktext: ["No anomaly","Freqeuncy","Duration","Position","Order"],
+        tick0: 0,
+        dtick: 1
+      }
+    }
+  ];
 
-var myPlot = document.getElementById('mainGraph'),
-    d3 = Plotly.d3;
-    var layout = {
-      showlegend: true
-  };
+  Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
+}
+
+function showDataSource (){
+  var tmp = [
+    {
+      z: dataset.sourceData,
+      colorscale: colorscaleValues,
+      type: 'heatmap',
+      showscale:true,
+      hoverongaps: false,
+      colorbar:{
+        autotick: false,
+        tickmode: "array",
+        tickvals: [-1,0,1,2,3,4,5],
+        ticktext: ["No activity","Bed","Court","Dining room","Recreation room","Hygine","WC"],
+        tick0: 0,
+        dtick: 1
+      }
+    }
+  ];
+
+  Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
+}
 
 Plotly.newPlot('mainGraph', data_matrix,layout,{displayModeBar: false});
 
@@ -37,8 +80,8 @@ myPlot.on('plotly_click', function(data){
     updateMatrixWithAnomaly (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
 });
 
-
 function updateMatrixWithAnomaly (x_cord, y_cord, x1_cord){
+  console.log(config.activityCode);
   for (i = 0; i< (x1_cord - x_cord); i++){
     data_matrix[0]['z'][y_cord][x_cord+i] = config.activityCode;
   }
@@ -50,7 +93,6 @@ function updateGroundTruth (x_cord, y_cord, x1_cord){
     dataset.groundTruth[y_cord][x_cord+i] = config.anomalyCode;
   }
 }
-
 
 function createPlotFromJson(linkToOnlineDataset) {
   Plotly.d3.json(linkToOnlineDataset, function(figure){ 
@@ -65,7 +107,6 @@ function updateHeatmap(){
   data_matrix[0]['z'] = dataset.sourceData;
   Plotly.redraw('mainGraph');
 }
-
 
 function plotBarchart(y, n_days){
     var x = [...Array(n_days).keys()];
@@ -104,7 +145,6 @@ function plotBarchart(y, n_days){
     setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
       cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 'Information about frequency');
 }
-
 
 function plotParallelDiagram(pre, middle, post){
     var trace1 = {
