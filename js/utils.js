@@ -39,7 +39,6 @@ function setTitle (label, font=18){
 }
 
 function translateActivityCode(activityCode){
-  console.log(activityCode);
   switch (activityCode) {
       case 1:
           return '';
@@ -57,6 +56,7 @@ function translateActivityCode(activityCode){
           return 'Recreation Room';
       default:
         console.log(`Sorry, we are out of.`);
+        console.log(activityCode)
         return 'No activity'
   }
 }

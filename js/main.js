@@ -1,5 +1,6 @@
 /**on startup */
 setLinkFromCookie();
+clickGraph();
 
 /**Interaction functions */
 $('#dowload').on('click', function(){
@@ -7,22 +8,29 @@ $('#dowload').on('click', function(){
 });
 
 $('#dataSource').on('click', function(){
+  config.isSourceData = true;
   showDataSource();
+  clickGraph();
 });
 
 $('#groundtruth').on('click', function(){
+  config.isSourceData = false;
   showGroundtruth();
+  clickGraph();
 });
 
 $('#loadDataset').on('click', function(){
   loadDataset(true);
+  clickGraph();
 });
 
 $('.activity-dropdown').on('click', function () {
   config.activityCode = $(this).data('activityCode');
+  console.log('dropdown');
   $("#messageDropdown").text(translateActivityCode(config.activityCode));
   console.log(config.activityCode);
   updateGraphs();
+  clickGraph();
 });
 
 $(".anomaly").on('click', function(){
@@ -31,19 +39,23 @@ $(".anomaly").on('click', function(){
       case 'frequency':
           config.anomalyCode = 1;
           frequencyVisualizations(config.activityCode,data_matrix[0].z);
+          clickGraph();
           break;
       case 'duration':
           config.anomalyCode = 2;
           console.log(config.activityCode);
-          durationVisualizations(config.activityCode, data_matrix[0].z)
+          durationVisualizations(config.activityCode, data_matrix[0].z);
+          clickGraph();
           break;
       case 'position':
           config.anomalyCode = 3;
           positionVisualization(config.activityCode, data_matrix[0].z);
+          clickGraph();
           break;
       case 'order':
           config.anomalyCode = 4;
           orderVisualizations(config.activityCode,data_matrix[0].z);
+          clickGraph();
           break;
       default:
         console.log(`Sorry, we are out of ${expr}.`);
@@ -58,6 +70,7 @@ $('#updatemAnomalyDuration').on('click', function () {
 
 $(".toggle_option").click(function(){
   config.timeGranularity = ($(this).data('toggle') != 'ss') ? $(this).data('toggle') : 'mm';
+  document.getElementById("infoGraphDiv").scrollIntoView();
   updateGraphs();
 });
 
@@ -94,7 +107,6 @@ function setLinkFromCookie() {
 }
 
 function updateGraphs(){
-  document.getElementById("infoGraphDiv").scrollIntoView();
   switch (config.anomalyCode) {
       case 1:
           frequencyVisualizations(config.activityCode,data_matrix[0].z);

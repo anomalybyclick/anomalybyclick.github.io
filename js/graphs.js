@@ -1,3 +1,4 @@
+
 var data_matrix = [
     {
       z: [[1, null, 2, 3, 5], [0, 2, 2, 3, 1], [5, 4, 4,4, 2]],
@@ -16,13 +17,33 @@ var data_matrix = [
     }
   ];
   
-  var myPlot = document.getElementById('mainGraph'),
-  d3 = Plotly.d3;
-  var layout = {
-    showlegend: true
+var mainGraph = document.getElementById('mainGraph');
+var layout = {
+  showlegend: true
 };
 
-function showGroundtruth (){
+
+Plotly.newPlot('mainGraph', data_matrix,layout,{displayModeBar: false});
+
+function clickGraph(){
+  if(config.isSourceData) {
+    document.getElementById('mainGraph').on('plotly_click', function(data){
+
+        var tmp_x = 0;
+        var tmp_y = 0;
+        for(var i=0; i < data.points.length; i++){
+                tmp_x= data.points[i].x; 
+                tmp_y= data.points[i].y;
+        }
+        updateGroundTruth(parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
+        updateMatrixWithAnomaly(parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
+    });
+  }
+}
+
+
+
+function showGroundtruth(){
   var tmp = [
     {
       z: dataset.groundTruth,
@@ -44,7 +65,7 @@ function showGroundtruth (){
   Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
 }
 
-function showDataSource (){
+function showDataSource(){
   var tmp = [
     {
       z: dataset.sourceData,
@@ -66,29 +87,15 @@ function showDataSource (){
   Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
 }
 
-Plotly.newPlot('mainGraph', data_matrix,layout,{displayModeBar: false});
-
-myPlot.on('plotly_click', function(data){
-    var tmp_x = 0;
-    var tmp_y = 0;
-    for(var i=0; i < data.points.length; i++){
-            tmp_x= data.points[i].x; 
-            tmp_y= data.points[i].y;
-    }
-    console.log(config.anomalyDuration);
-    updateGroundTruth (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
-    updateMatrixWithAnomaly (parseInt(tmp_x), parseInt(tmp_y), parseInt(tmp_x)+parseInt(config.anomalyDuration));
-});
-
-function updateMatrixWithAnomaly (x_cord, y_cord, x1_cord){
-  console.log(config.activityCode);
+function updateMatrixWithAnomaly(x_cord, y_cord, x1_cord){
+  console.log('sono qua');
   for (i = 0; i< (x1_cord - x_cord); i++){
     data_matrix[0]['z'][y_cord][x_cord+i] = config.activityCode;
   }
   updateHeatmap();
 }
 
-function updateGroundTruth (x_cord, y_cord, x1_cord){
+function updateGroundTruth(x_cord, y_cord, x1_cord){
   for (i = 0; i< (x1_cord - x_cord); i++){
     dataset.groundTruth[y_cord][x_cord+i] = config.anomalyCode;
   }
@@ -99,6 +106,7 @@ function createPlotFromJson(linkToOnlineDataset) {
     dataset.sourceData = figure.z;
     config.nDays = math.size(dataset.sourceData)[0]
     dataset.groundTruth = Array(config.nDays).fill().map(() => Array(1440).fill(0))
+    frequencyVisualizations(config.activityCode,dataset.sourceData);
     updateHeatmap();
   } );
 };

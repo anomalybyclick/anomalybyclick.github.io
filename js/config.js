@@ -1,10 +1,11 @@
 const config = {
     anomalyDuration : 1,
-    activityCode : 1,
+    activityCode : 0,
     link_dataset: "https://raw.githubusercontent.com/Joker84a/alterdataset/main/datasets/patient_109.json",
-    anomalyCode: 0,
+    anomalyCode: 1,
     timeGranularity: 'mm',
-    nDays: 0
+    nDays: 0,
+    isSourceData: true
 }
 
 const colorscaleValues = [
@@ -33,16 +34,19 @@ const colorscaleValues = [
 
 const colorscaleValues2 = [
     [0, 'rgb(0,0,0,0.8)'],
-    [0.250, 'rgb(0,0,0,0.8)'], //-1
+    [0.2, 'rgb(0,0,0,0.8)'], //-1
 
-    [0.250, 'rgb(63,129,110)'],
-    [0.5, 'rgb(63,129,110)'], //0
+    [0.2, 'rgb(63,129,110)'],
+    [0.4, 'rgb(63,129,110)'], //0
 
-    [0.5, 'rgb(130,0,13)'],
-    [0.750, 'rgb(130,0,13)'],//
+    [0.4, 'rgb(130,0,13)'],
+    [0.6, 'rgb(130,0,13)'],//
 
-    [0.750, 'rgb(37,102,162)'],
-    [0.1, 'rgb(37,102,162)'],//1
+    [0.6, 'rgb(37,102,162)'],
+    [0.8, 'rgb(37,102,162)'],//1
+
+    [0.8, 'rgb(8,102,100)'],
+    [1.0, 'rgb(8,102,100)'],//1
 
 ];
 
