@@ -26,7 +26,13 @@ var layout = {
     b: 0,
     t: 10,
     pad: 4
-  }
+  },
+  yaxis: {
+    tickmode: "array",
+    tickvals: [...Array(12).keys()],
+    ticktext :  ['data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data8', 'data9', 'data10', 'data11', 'data12'],
+    
+  },
 };
 
 
@@ -123,7 +129,7 @@ function updateHeatmap(){
   Plotly.redraw('mainGraph');
 }
 
-function plotBarchart(y, n_days){
+function plotBarchart(y, n_days, type="frequency"){
     var x = [...Array(n_days).keys()];
     var xValue = ['data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data8', 'data9', 'data10', 'data11', 'data12'];
     var data = {
@@ -137,6 +143,7 @@ function plotBarchart(y, n_days){
     var mean = computeMean(y);
     var upperStd = computeMean(y)+computeStd(y);
     var lowerStd = computeMean(y)-computeStd(y);
+    
     var layout = {
         showlegend: false,
         shapes: [createOrizontalLine(0,mean,n_days,mean),
@@ -153,9 +160,15 @@ function plotBarchart(y, n_days){
           title: setTitle('Dates')
         },
         yaxis: {
-          title: config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
+          title: ""
         }      
     };
+
+    if(type == "frequency"){
+      layout.yaxis.title = "N. of times the activity accours in a day"; 
+    } else {
+      layout.yaxis.title = config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
+    }
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
     setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
       cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 'Information about frequency');
