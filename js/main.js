@@ -1,6 +1,7 @@
 /**on startup */
 setLinkFromCookie();
 clickGraph();
+$("#messageDropdown").text(translateActivityCode(config.activityCode));
 
 /**Interaction functions */
 $('#dowload').on('click', function(){
@@ -79,13 +80,13 @@ function dowload(){
   var myjson=JSON.stringify(data_matrix);
   var a = document.createElement('a');
   a.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(myjson));
-  a.setAttribute('download',  "filename.json");
+  a.setAttribute('download',  "data.json");
   a.click();
 
   myjson=JSON.stringify(dataset.groundTruth);
   a = document.createElement('a');
   a.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(myjson));
-  a.setAttribute('download',  "grounftrith.json");
+  a.setAttribute('download',  "groundtruth.json");
   a.click()
 }
 

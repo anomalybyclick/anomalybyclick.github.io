@@ -55,7 +55,7 @@ function durationVisualizations(activityCode, codesMatrix){
         });
     }
     console.log(config.timeGranularity);
-    plotBarchart(durationsPerDays, config.nDays);
+    plotBarchart(durationsPerDays, config.nDays, "duration");
 }
 
 function positionVisualization (activityCode, codesMatrix){
