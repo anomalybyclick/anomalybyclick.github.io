@@ -181,29 +181,33 @@
                           <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
                             <div class="card card-rounded">
                               <div class="card-body">
-                                  <div class="d-sm-flex justify-content-between align-items-start">
-                                  <div class="container p-0 m-0">
-                                      <div class="row p-1 mx-3">
-                                          <div class="col-lg-6 d-flex flex-column">
-                                            <div>
-                                              <h4 class="card-title card-title-dash">Timeseries visualization </h4>
-                                              <h5 class="card-subtitle card-subtitle-dash">The visualization shows the different activities spread along the different days</h5>
+                                  <div class="justify-content-between align-items-start">
+                                    <div class="container-fluid p-0 m-0">
+                                        <div class="row p-1 mx-0">
+                                            <div class="col-lg-6 d-flex flex-column">
+                                              <div>
+                                                <h4 class="card-title card-title-dash">Timeseries visualization </h4>
+                                                <h5 class="card-subtitle card-subtitle-dash">The visualization shows the different activities spread along the different days</h5>
+                                              </div>
                                             </div>
-                                          </div>
-                                          <div class="col-lg-6 d-flex flex-column">
-                                            <div class="container">
-                                            <div class="row">
-                                                <div class="col-lg-8 d-flex flex-column">
-                                                  <input id="anomalyDuration" type="text" placeholder="Insert anomaly duration in minutes" class="form-control" value="1">
+                                            <div class="col-lg-6 p-0">
+                                              <div class="row">
+                                                <div class="d-flex flex-row-reverse p-0 ">
+                                                  <div class="col-xs-2 ">
+                                                    <input id="anomalyDuration" type="text" placeholder="Insert anomaly duration in minutes" class="form-control" value="1">
+                                                  </div>
+                                                  <a href="#" id="updatemAnomalyDuration" class="btn btn-otline-dark d-inline-flex align-items-center align-middle"><i class="mdi mdi-cached h1 my-0 pr-2"></i>Update duration</a>
                                                 </div>
-                                                <div class="col-lg-4 d-flex flex-column align-self-center">
-                                                  <a href="#" id="updatemAnomalyDuration" class="btn btn-otline-dark"><i  class="mdi mdi-cached"></i> Update duration</a>
-                                              </div>
                                               </div>
                                             </div>
-                                          </div>
-                                      </div>
-                                  </div>
+                                        </div>
+                                        <!--
+                                          <ul class="pagination justify-content-end">
+                                          <li class="page-item"><input id="anomalyDuration" type="text" placeholder="Insert anomaly duration in minutes" class="form-control" value="1"></a></li>
+                                          <li class="page-item"><a href="#" id="updatemAnomalyDuration" class="btn btn-otline-dark"><i  class="mdi mdi-cached"></i> Update duration</a></li>
+                                        </ul>
+                                        -->
+                                    </div>
                                   </div>
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-end">

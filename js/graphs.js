@@ -19,7 +19,14 @@ var data_matrix = [
   
 var mainGraph = document.getElementById('mainGraph');
 var layout = {
-  showlegend: true
+  showlegend: true,
+  margin: {
+    l: 60,
+    r: 10,
+    b: 0,
+    t: 10,
+    pad: 4
+  }
 };
 
 
