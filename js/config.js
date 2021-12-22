@@ -1,13 +1,15 @@
 const config = {
     anomalyDuration : 1,
     activityCode : 0,
-    link_dataset: "https://raw.githubusercontent.com/Joker84a/alterdataset/main/datasets/patient_109.json",
+    link_dataset: "https://raw.githubusercontent.com/Joker84a/alterdataset/main/datasets/ELinus.json",
     anomalyCode: 1,
     timeGranularity: 'mm',
     nDays: 0,
     isSourceData: true,
     dates: [],
-    labels: []
+    labels: [],
+    dataV:{},
+    codes:[]
 }
 
 const colorscaleValues = [

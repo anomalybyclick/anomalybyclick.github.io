@@ -39,26 +39,10 @@ function setTitle (label, font=18){
 }
 
 function translateActivityCode(activityCode){
-  switch (activityCode) {
-      case 1:
-          return '';
-      case 0:
-          return 'Bed';
-      case 2:
-          return 'Court';
-      case 3:
-          return 'Hygine';
-      case 4:
-          return 'Dining Room';
-      case 5:
-          return 'WC';
-      case 6:
-          return 'Recreation Room';
-      default:
-        console.log(`Sorry, we are out of.`);
-        console.log(activityCode)
-        return 'No activity'
-  }
+    console.log(activityCode);
+    if(activityCode == -1) return 'No Activity';
+    return config.dataV[activityCode].activity;
+ 
 }
 
 function convertToHours(arr, chunkSize=60) {
@@ -86,3 +70,48 @@ function getMax(values){
 function getMin(values){
     return math.min(values);
 }
+
+function renderDropDown(data){
+    console.log(data);
+    var html = `
+    <a class="dropdown-item preview-item activity-dropdown" data-activity-code= "%CODES%">
+    <div class="preview-item-content flex-grow py-2">
+      <p class="preview-subject ellipsis font-weight-medium text-dark" > %LABELS%</p>
+      <p class="fw-light small-text mb-0">Code %CODES% </p>
+    </div>
+  </a>
+    `;
+
+    var dictionary = {};
+
+    for (var i = 0; i< Object.keys(data.codes).length; i++){
+        dictionary[data.codes[i]] = {'code': data.codes[i],'activity':  data.activities[i]};
+    }
+    config.dataV = dictionary;
+    console.log(config.dataV);
+
+    $.each(dictionary, function(key, v){
+        $('.dropdown-menu').append(html.replaceAll('%CODES%', v.code).replaceAll('%LABELS%', v.activity));
+    })
+    return dictionary;
+}
+
+function _empty(obj,arr_values){
+    if(obj.constructor === Object && Object.keys(obj).length === 0  )
+     return true;
+    if(arr_values.length != 0 && Object.keys(obj).length !== 0 && obj.constructor === Object ){
+     if(obj.constructor === Object && !obj.hasOwnProperty(arr_values[0])) 
+      return true;
+     if (arr_values.length ==1 && obj[arr_values[0]].constructor === Object && Object.keys(obj[arr_values[0]]).length !== 0 )
+      return false;
+     if(obj[arr_values[0]].constructor !== Object && obj[arr_values[0]]=="")
+      return true;
+     if(obj[arr_values[0]].constructor !== Object && obj[arr_values[0]]!="" )
+      return false;
+     if (arr_values.length >1 && obj[arr_values[0]].constructor === Object && Object.keys(obj[arr_values[0]]).length !== 0 ) {
+      current_elm=arr_values.shift();
+      return _empty(obj[current_elm],arr_values);
+     }
+    }
+    return true;
+   }

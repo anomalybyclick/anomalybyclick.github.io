@@ -10,6 +10,7 @@ function frequencyVisualizations(activityCode, codesMatrix){
 }
 
 function removeActivityCodeRepetitions(activitiesCodes){
+    console.log(activitiesCodes);
     var matrix = activitiesCodes.filter(function(item, pos, arr){
         return pos === 0 || item !== arr[pos-1];
     });
@@ -29,8 +30,10 @@ function orderVisualizations(activityCode, codesMatrix){
     var postActivities = [];
     for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
+        console.log(day);
         day.filter(function(array, index) {
             if(array == activityCode && (index+1)<config.nDays && (index-1)>0){
+                console.log(day[index+1]);
                 postActivities.push(translateActivityCode(day[index+1]));
                 preActivities.push(translateActivityCode(day[index-1]));
             }

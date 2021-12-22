@@ -1,7 +1,7 @@
 /**on startup */
 setLinkFromCookie();
 clickGraph();
-$("#messageDropdown").text(translateActivityCode(config.activityCode));
+
 
 /**Interaction functions */
 $('#dowload').on('click', function(){
@@ -25,8 +25,9 @@ $('#loadDataset').on('click', function(){
   clickGraph();
 });
 
-$('.activity-dropdown').on('click', function () {
+$('body').on('click', '.activity-dropdown', function () {
   config.activityCode = $(this).data('activityCode');
+  console.log(config.activityCode);
   console.log('dropdown');
   $("#messageDropdown").text(translateActivityCode(config.activityCode));
   console.log(config.activityCode);

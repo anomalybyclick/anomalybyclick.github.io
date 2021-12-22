@@ -11,7 +11,7 @@ var layout = {
   },
   yaxis: {
     tickmode: "array",
-    tickvals: [...Array(12).keys()],
+    tickvals: [],
     ticktext :  [],
   },
   xaxis:{
@@ -31,8 +31,8 @@ function setGraph (colorscale, data = [], isGroundTruth = false){
       colorbar:{
         autotick: false,
         tickmode: "array",
-        tickvals: (!isGroundTruth) ? [-1,0,1,2,3,4,5] :[0,1,2,3,4] ,
-        ticktext: (!isGroundTruth) ? ["No activity","Bed","Court","Dining room","Recreation room","Hygine","WC"] : ["No Anomaly","Freqeuncy","Duration","Order","Position"],
+        tickvals: (!isGroundTruth) ? config.codes :[0,1,2,3,4] ,
+        ticktext: (!isGroundTruth) ? config.labels : ["No Anomaly","Freqeuncy","Duration","Order","Position"],
         tick0: 0,
         dtick: 1
       }
@@ -62,7 +62,6 @@ function showGroundtruth(){
 }
 
 function showDataSource(){
- 
   var tmp = setGraph(colorscaleValues, dataset.sourceData );
   Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
 }
@@ -83,11 +82,20 @@ function updateGroundTruth(x_cord, y_cord, x1_cord){
 
 function createPlotFromJson(linkToOnlineDataset) {
   Plotly.d3.json(linkToOnlineDataset, function(figure){ 
+    console.log(figure);
     dataset.sourceData = figure.z;
     config.nDays = math.size(dataset.sourceData)[0]
     dataset.groundTruth = Array(config.nDays).fill().map(() => Array(1440).fill(0))
-    config.dates =  ['data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data8', 'data9', 'data10', 'data11', 'data12'];
+    config.dates =  figure.dates;
+    config.labels = figure.dictionary.activities;
+    config.codes = figure.dictionary.codes;
+    // generare dropdown
+    config.dataV = renderDropDown(figure.dictionary);
+    console.log(config.dataV);
+    layout.yaxis.tickvals = [...Array(367).keys()];
     layout.yaxis.ticktext = config.dates;
+    layout.yaxis.nticks = 10;
+    console.log(config.dates);
     frequencyVisualizations(config.activityCode,dataset.sourceData);
     updateHeatmap();
   } );
@@ -95,6 +103,8 @@ function createPlotFromJson(linkToOnlineDataset) {
 
 function updateHeatmap(){
   data_matrix[0]['z'] = dataset.sourceData;
+  data_matrix[0]['colorbar']['tickvals']  = config.codes;
+  data_matrix[0]['colorbar']['ticktext'] = config.labels;
   Plotly.redraw('mainGraph');
 }
 
@@ -146,7 +156,7 @@ function plotBarchart(y, n_days, type="frequency"){
       (type == "frequency") ? 'Information about frequency' : 'Information about duration',
       config.dates[y.indexOf(getMin(y))], config.dates[y.indexOf(getMax(y))]);
   
-}
+} 
 
 function plotParallelDiagram(pre, middle, post){
     var trace1 = {
