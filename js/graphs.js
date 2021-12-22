@@ -1,42 +1,44 @@
-
-var data_matrix = [
-    {
-      z: [[1, null, 2, 3, 5], [0, 2, 2, 3, 1], [5, 4, 4,4, 2]],
-      colorscale: colorscaleValues,
-      type: 'heatmap',
-      showscale:true,
-      hoverongaps: false,
-      colorbar:{
-        autotick: false,
-        tickmode: "array",
-        tickvals: [-1,0,1,2,3,4,5],
-        ticktext: ["No activity","Bed","Court","Dining room","Recreation room","Hygine","WC"],
-        tick0: 0,
-        dtick: 1
-      }
-    }
-  ];
-  
 var mainGraph = document.getElementById('mainGraph');
+var data_matrix = setGraph(colorscaleValues);
 var layout = {
   showlegend: true,
   margin: {
     l: 60,
     r: 10,
-    b: 0,
+    b: 50,
     t: 10,
     pad: 4
   },
   yaxis: {
     tickmode: "array",
     tickvals: [...Array(12).keys()],
-    ticktext :  ['data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data8', 'data9', 'data10', 'data11', 'data12'],
-    
+    ticktext :  [],
   },
+  xaxis:{
+    title:"Minutes in a day"
+  }
 };
-
-
 Plotly.newPlot('mainGraph', data_matrix,layout,{displayModeBar: false});
+
+function setGraph (colorscale, data = [], isGroundTruth = false){
+  return [
+    {
+      z: data,
+      colorscale: colorscale,
+      type: 'heatmap',
+      showscale:true,
+      hoverongaps: false,
+      colorbar:{
+        autotick: false,
+        tickmode: "array",
+        tickvals: (!isGroundTruth) ? [-1,0,1,2,3,4,5] :[0,1,2,3,4] ,
+        ticktext: (!isGroundTruth) ? ["No activity","Bed","Court","Dining room","Recreation room","Hygine","WC"] : ["No Anomaly","Freqeuncy","Duration","Order","Position"],
+        tick0: 0,
+        dtick: 1
+      }
+    }
+  ];
+}
 
 function clickGraph(){
   if(config.isSourceData) {
@@ -54,49 +56,14 @@ function clickGraph(){
   }
 }
 
-
-
 function showGroundtruth(){
-  var tmp = [
-    {
-      z: dataset.groundTruth,
-      colorscale: colorscaleValues2,
-      type: 'heatmap',
-      showscale:true,
-      hoverongaps: false,
-      colorbar:{
-        autotick: false,
-        tickmode: "array",
-        tickvals: [0,1,2,3,4],
-        ticktext: ["No anomaly","Freqeuncy","Duration","Position","Order"],
-        tick0: 0,
-        dtick: 1
-      }
-    }
-  ];
-
+  var tmp = setGraph(colorscaleValues2, dataset.groundTruth, true );
   Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
 }
 
 function showDataSource(){
-  var tmp = [
-    {
-      z: dataset.sourceData,
-      colorscale: colorscaleValues,
-      type: 'heatmap',
-      showscale:true,
-      hoverongaps: false,
-      colorbar:{
-        autotick: false,
-        tickmode: "array",
-        tickvals: [-1,0,1,2,3,4,5],
-        ticktext: ["No activity","Bed","Court","Dining room","Recreation room","Hygine","WC"],
-        tick0: 0,
-        dtick: 1
-      }
-    }
-  ];
-
+ 
+  var tmp = setGraph(colorscaleValues, dataset.sourceData );
   Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
 }
 
@@ -119,6 +86,8 @@ function createPlotFromJson(linkToOnlineDataset) {
     dataset.sourceData = figure.z;
     config.nDays = math.size(dataset.sourceData)[0]
     dataset.groundTruth = Array(config.nDays).fill().map(() => Array(1440).fill(0))
+    config.dates =  ['data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data8', 'data9', 'data10', 'data11', 'data12'];
+    layout.yaxis.ticktext = config.dates;
     frequencyVisualizations(config.activityCode,dataset.sourceData);
     updateHeatmap();
   } );
@@ -131,7 +100,7 @@ function updateHeatmap(){
 
 function plotBarchart(y, n_days, type="frequency"){
     var x = [...Array(n_days).keys()];
-    var xValue = ['data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data8', 'data9', 'data10', 'data11', 'data12'];
+    var xValue = config.dates;
     var data = {
         x: x,
         y: y,
@@ -164,14 +133,19 @@ function plotBarchart(y, n_days, type="frequency"){
         }      
     };
 
+    setTitleAdditionalGraph((type == "frequency") ? "Frequency of an activity on different days" : "Duration per day");
     if(type == "frequency"){
       layout.yaxis.title = "N. of times the activity accours in a day"; 
     } else {
       layout.yaxis.title = config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
     }
+
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
     setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
-      cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 'Information about frequency');
+      cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 
+      (type == "frequency") ? 'Information about frequency' : 'Information about duration',
+      config.dates[y.indexOf(getMin(y))], config.dates[y.indexOf(getMax(y))]);
+  
 }
 
 function plotParallelDiagram(pre, middle, post){
@@ -189,6 +163,7 @@ function plotParallelDiagram(pre, middle, post){
       var data = [ trace1 ];
       Plotly.newPlot('infoGraph', data);
       setStatisticalInformation();
+      setTitleAdditionalGraph("Order plot to show activities that precede and succeed the observed ");
 }
 
 function plotPositionGraph (y, steps=1440){
@@ -219,13 +194,19 @@ function plotPositionGraph (y, steps=1440){
   Plotly.newPlot('infoGraph', data, layout);
   setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
   cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 'Statistical information about number of times an activity occures in that time location in a day');
+  setTitleAdditionalGraph("Information about when the activity occurs most");
 }
 
-function setStatisticalInformation(mean = 0, std = 0, min = 0, max = 0, text = 'Additional information'){
+function setStatisticalInformation(mean = 0, std = 0, min = 0, max = 0, text = 'Additional information', dateMin="", dateMax = ""){
   $('#mean').text(mean);
   $('#std').text("±" + std);
   $('#min').text(min);
   $('#max').text(max);
   $('#statisticalAdditionalInformation').text(text);
+  $('#dateMin').text(dateMin);
+  $('#dateMax').text(dateMax);
 }
 
+function setTitleAdditionalGraph(label){
+  $('#titleAdditionalGraph').text (label);
+}

@@ -41,66 +41,67 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          <h5 class="welcome-sub-text">Activity selected: </h5>
-          <li class="nav-item dropdown d-none d-lg-block">
-            <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Activity </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
-              <a class="dropdown-item py-3" >
-                <p class="mb-0 font-weight-medium float-left" >Select activity</p>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="0">
-                <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis font-weight-medium text-dark" >Bed</p>
-                  <p class="fw-light small-text mb-0">Code 1</p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="2">
-                <div class="preview-item-content flex-grow py-2" >
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">Court</p>
-                  <p class="fw-light small-text mb-0">Code 2</p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="3">
-                <div class="preview-item-content flex-grow py-2" >
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">Hygine</p>
-                  <p class="fw-light small-text mb-0">Code 3</p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="4">
-                <div class="preview-item-content flex-grow py-2" >
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">Dining Room</p>
-                  <p class="fw-light small-text mb-0">Code 4</p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="5">
-                <div class="preview-item-content flex-grow py-2" >
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">WC</p>
-                  <p class="fw-light small-text mb-0">Code 5</p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item activity-dropdown" data-activity-code="6">
-                <div class="preview-item-content flex-grow py-2" >
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">Recreation Room</p>
-                  <p class="fw-light small-text mb-0">Code 6</p>
-                </div>
-              </a>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <p class="input-group-text text-black" id="blackText">Activity:</p>
             </div>
-          </li>
+
+              <li class="nav-item dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Activity </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
+                  <a class="dropdown-item py-3" >
+                    <p class="mb-0 font-weight-medium float-left" >Select activity</p>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item preview-item activity-dropdown" data-activity-code="0">
+                    <div class="preview-item-content flex-grow py-2">
+                      <p class="preview-subject ellipsis font-weight-medium text-dark" >Bed</p>
+                      <p class="fw-light small-text mb-0">Code 1</p>
+                    </div>
+                  </a>
+                  <a class="dropdown-item preview-item activity-dropdown" data-activity-code="2">
+                    <div class="preview-item-content flex-grow py-2" >
+                      <p class="preview-subject ellipsis font-weight-medium text-dark">Court</p>
+                      <p class="fw-light small-text mb-0">Code 2</p>
+                    </div>
+                  </a>
+                  <a class="dropdown-item preview-item activity-dropdown" data-activity-code="3">
+                    <div class="preview-item-content flex-grow py-2" >
+                      <p class="preview-subject ellipsis font-weight-medium text-dark">Hygine</p>
+                      <p class="fw-light small-text mb-0">Code 3</p>
+                    </div>
+                  </a>
+                  <a class="dropdown-item preview-item activity-dropdown" data-activity-code="4">
+                    <div class="preview-item-content flex-grow py-2" >
+                      <p class="preview-subject ellipsis font-weight-medium text-dark">Dining Room</p>
+                      <p class="fw-light small-text mb-0">Code 4</p>
+                    </div>
+                  </a>
+                  <a class="dropdown-item preview-item activity-dropdown" data-activity-code="5">
+                    <div class="preview-item-content flex-grow py-2" >
+                      <p class="preview-subject ellipsis font-weight-medium text-dark">WC</p>
+                      <p class="fw-light small-text mb-0">Code 5</p>
+                    </div>
+                  </a>
+                  <a class="dropdown-item preview-item activity-dropdown" data-activity-code="6">
+                    <div class="preview-item-content flex-grow py-2" >
+                      <p class="preview-subject ellipsis font-weight-medium text-dark">Recreation Room</p>
+                      <p class="fw-light small-text mb-0">Code 6</p>
+                    </div>
+                  </a>
+                </div>
+              </li>
+            </div>
           <li class="nav-item d-none d-lg-block">
             <div class="col-12">
               <div class='row justify-content-start'>
-                <div class="col-lg-5">
-                  <div class='row justify-content-start'>
-                    <div class="col-lg-12">
-                      <button type="button" class="btn btn-primary btn-block" style="
-                      width: 100%;
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <button type="button" class="btn btn-primary btn-block" style="
+                      width: 70px;
                       height: 32px;
                       padding: 0;" id="submitButton" id="loadDataset">Load</button>
-                    </div>
                   </div>
-                </div>
-                <div class="col-lg-7 my-auto">
                   <input id="link" type="text"  placeholder="Input dataset link" class="form-control "  title="Search here">
                 </div>
               </div>
@@ -232,8 +233,8 @@
                                     <div class="row flex-grow">
                                       <div class="col-lg-8">
                                         <div>
-                                          <h4 class="card-title card-title-dash">Activity frequency distribution</h4>
-                                          <h5 class="card-subtitle card-subtitle-dash">Each bar represents the number of times the activity occured for that specific day</h5>
+                                          <h4 class="card-title card-title-dash" id="titleAdditionalGraph">Additional graph to study the rpoperty selected</h4>
+                                          <h5 class="card-subtitle card-subtitle-dash">In this area specific information about a property of the activity is observed is shown</h5>
                                         </div>
                                       </div>
                                       <div class="col-lg-4">
@@ -285,6 +286,16 @@
                                   <div class="col-sm-8">
                                     <p class="status-summary-ight-white mb-1">Min.</p>
                                     <h2 class="text-info" id="min" >0</h2>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-4">
+                                    <p class="status-summary-ight-white mb-1">Date max.</p>
+                                    <h2 class="text-info" id="dateMax">0</h2>
+                                  </div>
+                                  <div class="col-sm-8">
+                                    <p class="status-summary-ight-white mb-1">Date min.</p>
+                                    <h2 class="text-info" id="dateMin" >0</h2>
                                   </div>
                                 </div>
                               </div>

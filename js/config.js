@@ -5,7 +5,9 @@ const config = {
     anomalyCode: 1,
     timeGranularity: 'mm',
     nDays: 0,
-    isSourceData: true
+    isSourceData: true,
+    dates: [],
+    labels: []
 }
 
 const colorscaleValues = [

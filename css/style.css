@@ -1,3 +1,7 @@
+#blackText{
+  color: black;
+}
+
 @font-face {
     font-family: myFirstFont;
     src: url(../scss/fonts/Manrope/Manrope-Light.eot);
