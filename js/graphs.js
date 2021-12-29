@@ -2,6 +2,7 @@ var mainGraph = document.getElementById('mainGraph');
 var data_matrix = setGraph(colorscaleValues);
 var settings = {displayModeBar: true, scrollZoom: true,modeBarButtonsToRemove: ['toImage', 'toggleSpikelines', 'hoverClosestGl2d', 
 'resetViewMapbox', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian']};
+
 var layout = {
   showlegend: true,
   dtick :100,
@@ -20,12 +21,9 @@ var layout = {
   },
   xaxis:{
     title:"Minutes in a day",
-   
   }
 };
 Plotly.newPlot('mainGraph', data_matrix,layout,settings);
-
-
 
 function setGraph (colorscale, data = [], isGroundTruth = false){
   return [
@@ -46,7 +44,6 @@ function setGraph (colorscale, data = [], isGroundTruth = false){
     }
   ];
 }
-
 
 function clickGraph(){
   if(config.isSourceData) {
@@ -99,8 +96,6 @@ function createPlotFromJson(linkToOnlineDataset) {
     config.dataV = renderDropDown(figure.dictionary);
     layout.yaxis.tickvals = reduceTickVals([...Array(math.size(figure.z)[0]).keys()], 15);
     layout.yaxis.ticktext = reduceTickVals(config.dates,15);
-    layout.yaxis.hoverformat = 
-    layout.yaxis.nticks = 50;
     
     frequencyVisualizations(config.activityCode,dataset.sourceData);
     updateHeatmap();
@@ -109,22 +104,20 @@ function createPlotFromJson(linkToOnlineDataset) {
 
 function updateHeatmap(){
   data_matrix[0]['z'] = dataset.sourceData;
-
   var text = data_matrix[0]['z'].map((row, i) => row.map((item, j) => {
-
     return `
       Data: ${config.dates[i]}<br>
       valeu: ${translateActivityCode(item)}
       ` 
   }))
-
-
   data_matrix[0]['text'] = text;
   data_matrix[0]['hoverinfo'] = 'text';
   data_matrix[0]['colorbar']['tickvals']  = config.codes;
   data_matrix[0]['colorbar']['ticktext'] = config.labels;
   Plotly.redraw('mainGraph');
 }
+
+
 
 function plotBarchart(y, n_days, type="frequency"){
     var x = [...Array(n_days).keys()];
@@ -135,7 +128,14 @@ function plotBarchart(y, n_days, type="frequency"){
         type: 'bar',
         marker: {
             color: '#1F3BB3'
-        }
+        },
+        hoverinfo: 'text',
+        text: y.map((item, i) => {
+          return `
+            Data: ${config.dates[i]}<br>
+            valeu: ${item}
+            ` 
+        })
     };
     var mean = computeMean(y);
     var upperStd = computeMean(y)+computeStd(y);
@@ -152,8 +152,8 @@ function plotBarchart(y, n_days, type="frequency"){
         createAnnotations('mean', 0, mean) ],
         xaxis: {
           tickmode: "array",
-          tickvals: x,
-          ticktext : xValue,
+          tickvals: reduceTickVals(x,15),
+          ticktext : reduceTickVals(xValue,15),
           title: setTitle('Dates')
         },
         yaxis: {
