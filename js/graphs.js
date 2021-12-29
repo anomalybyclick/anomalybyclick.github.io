@@ -2,6 +2,7 @@ var mainGraph = document.getElementById('mainGraph');
 var data_matrix = setGraph(colorscaleValues);
 var layout = {
   showlegend: true,
+  dtick :100,
   margin: {
     l: 60,
     r: 10,
@@ -15,7 +16,8 @@ var layout = {
     ticktext :  [],
   },
   xaxis:{
-    title:"Minutes in a day"
+    title:"Minutes in a day",
+   
   }
 };
 Plotly.newPlot('mainGraph', data_matrix,layout,{displayModeBar: false});
@@ -94,7 +96,7 @@ function createPlotFromJson(linkToOnlineDataset) {
     console.log(config.dataV);
     layout.yaxis.tickvals = [...Array(367).keys()];
     layout.yaxis.ticktext = config.dates;
-    layout.yaxis.nticks = 10;
+    layout.yaxis.nticks = 50;
     console.log(config.dates);
     frequencyVisualizations(config.activityCode,dataset.sourceData);
     updateHeatmap();
