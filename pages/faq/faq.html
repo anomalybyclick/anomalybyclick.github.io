@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Bootstrap FAQ Template | PrepBootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
+
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+<div class="page-header">
+    <h1>AnomalyByClick FAQ</h1>
+</div>
+
+<!-- Bootstrap FAQ - START -->
+<div class="container">
+
+    <div class="panel-group" id="accordion">
+        <div class="faqHeader">Domande e risposte utili</div>
+        <div class="panel panel-default">
+            <div class="panel-heading faq">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Come si intruduce un'anomalia?</a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    Per introdurre una anomalia:
+                    <ul>
+                        <li>
+                            1. Selezionare la tipologia di anomalia che si vuole introdurre(frequenza, posizione, durata, ordine) dal menu "Tipologia di anomalie" (Slide 3)
+                        </li>
+                        <li>
+                            2. Selezionare l'attività che costituirà l'attività anomala. Di default sarà selezionata l'attività che per prima si vede nel menu "Menu attività della routine" (Slide 3). Utilizzare il menu a tendina per selezionare una attività diversa
+                        </li>
+                        <li>
+                            3. Cliccare sul grafico dove si vuole inserire l'anomalia
+                        </li>
+                        <li>
+                            4. Per controllare dove sono state inserite le anomalie, premere sul pulsante "Groundtruth" (Slide 6). Per ritornare alla visualizzazione normale usare il pulsante "Data" (Slide 6)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading faq">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen">Come faccio a ricordare dove ho inserito le anomalie?</a>
+                </h4>
+            </div>
+            <div id="collapseTen" class="panel-collapse collapse">
+                <div class="panel-body">
+                    In altro a destra sopra la visualizzazione della routine, sono presenti i stati <strong>"Data"</strong> e <strong>"Groundtruth"</strong>. Premendo sul secondo è possibie rivelare tutte le anomalie insierite e la tipologia di anomalia. Premendo di nuovo su "Data" è possibile tornare alla visualizzazione completa della routine.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading faq">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">Come resetto lo zoom?</a>
+                </h4>
+            </div>
+            <div id="collapseEleven" class="panel-collapse collapse">
+                <div class="panel-body">
+                   Vicino la visualizzazione della routine sono presenti tutti li strumenti utili a lavorare e navigare tutti gli aspetti della routine. Per resettare la visualizzazione occorre premere sul punultimo tasto degli strumenti
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+<style>
+    .faqHeader {
+        font-size: 27px;
+        margin: 20px;
+    }
+
+    .panel-heading [data-toggle="collapse"]:after {
+        font-family: 'Glyphicons Halflings';
+        content: "\e072"; /* "play" icon */
+        float: right;
+        color: white;
+        font-size: 18px;
+        line-height: 22px;
+        /* rotate "play" icon from > (right arrow) to down arrow */
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+    .panel-heading [data-toggle="collapse"].collapsed:after {
+        /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg);
+        color: white;
+    }
+
+
+    .faq{
+        background-color: #3498DB !important;
+        color: white !important;
+    }
+</style>
+
+<!-- Bootstrap FAQ - END -->
+
+</div>
+
+</body>
+</html>
