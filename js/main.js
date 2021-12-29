@@ -21,7 +21,7 @@ $('#groundtruth').on('click', function(){
 });
 
 $('#loadDataset').on('click', function(){
-  loadDataset(true);
+  loadDataset(false);
   clickGraph();
 });
 
@@ -30,7 +30,7 @@ $('body').on('click', '.activity-dropdown', function () {
   console.log(config.activityCode);
   console.log('dropdown');
   $("#messageDropdown").text(translateActivityCode(config.activityCode));
-  console.log(config.activityCode);
+  console.log(config.activityCode[0]);
   updateGraphs();
   clickGraph();
 });
@@ -91,10 +91,10 @@ function dowload(){
   a.click()
 }
 
-function loadDataset(is_not_home){
+function loadDataset(is_index){
   config.link_dataset = $("#link").val().trim();
   document.cookie = "link=" + config.link_dataset;
-  if(is_not_home){
+  if(is_index){
     window.location.href="./pages/home.html";
   }
 }

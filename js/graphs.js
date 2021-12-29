@@ -94,6 +94,7 @@ function createPlotFromJson(linkToOnlineDataset) {
     config.labels = figure.dictionary.activities;
     config.codes = figure.dictionary.codes;
     config.dataV = renderDropDown(figure.dictionary);
+    $("#messageDropdown").text(translateActivityCode(config.activityCode));
     layout.yaxis.tickvals = reduceTickVals([...Array(math.size(figure.z)[0]).keys()], 15);
     layout.yaxis.ticktext = reduceTickVals(config.dates,15);
     

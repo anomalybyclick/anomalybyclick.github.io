@@ -92,6 +92,7 @@ function renderDropDown(data){
     $.each(dictionary, function(key, v){
         $('.dropdown-menu').append(html.replaceAll('%CODES%', v.code).replaceAll('%LABELS%', v.activity));
     })
+   
     return dictionary;
 }
 
