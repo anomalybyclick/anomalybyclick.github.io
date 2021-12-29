@@ -39,7 +39,6 @@ function setTitle (label, font=18){
 }
 
 function translateActivityCode(activityCode){
-    console.log(activityCode);
     if(activityCode == -1) return 'No Activity';
     return config.dataV[activityCode].activity;
  
@@ -114,4 +113,10 @@ function _empty(obj,arr_values){
      }
     }
     return true;
+   }
+
+   function reduceTickVals(arr, step=10){
+    if(arr.length < 20) return;
+    var newArr = arr.filter(n =>arr.indexOf(n) % step == 0)
+    return newArr;
    }

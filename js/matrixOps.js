@@ -10,7 +10,7 @@ function frequencyVisualizations(activityCode, codesMatrix){
 }
 
 function removeActivityCodeRepetitions(activitiesCodes){
-    console.log(activitiesCodes);
+   
     var matrix = activitiesCodes.filter(function(item, pos, arr){
         return pos === 0 || item !== arr[pos-1];
     });

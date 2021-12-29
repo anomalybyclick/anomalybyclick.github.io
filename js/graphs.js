@@ -1,26 +1,31 @@
 var mainGraph = document.getElementById('mainGraph');
 var data_matrix = setGraph(colorscaleValues);
+var settings = {displayModeBar: true, scrollZoom: true,modeBarButtonsToRemove: ['toImage', 'toggleSpikelines', 'hoverClosestGl2d', 
+'resetViewMapbox', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian']};
 var layout = {
   showlegend: true,
   dtick :100,
   margin: {
-    l: 60,
+    l: 100,
     r: 10,
     b: 50,
-    t: 10,
+    t: 30,
     pad: 4
   },
+  dragmode:true,
   yaxis: {
-    tickmode: "array",
-    tickvals: [],
-    ticktext :  [],
+  tickmode:'array',
+  ticktext:[],
+  tickmode:[]
   },
   xaxis:{
     title:"Minutes in a day",
    
   }
 };
-Plotly.newPlot('mainGraph', data_matrix,layout,{displayModeBar: false});
+Plotly.newPlot('mainGraph', data_matrix,layout,settings);
+
+
 
 function setGraph (colorscale, data = [], isGroundTruth = false){
   return [
@@ -42,10 +47,10 @@ function setGraph (colorscale, data = [], isGroundTruth = false){
   ];
 }
 
+
 function clickGraph(){
   if(config.isSourceData) {
     document.getElementById('mainGraph').on('plotly_click', function(data){
-
         var tmp_x = 0;
         var tmp_y = 0;
         for(var i=0; i < data.points.length; i++){
@@ -60,12 +65,12 @@ function clickGraph(){
 
 function showGroundtruth(){
   var tmp = setGraph(colorscaleValues2, dataset.groundTruth, true );
-  Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
+  Plotly.newPlot('mainGraph', tmp,layout,settings);
 }
 
 function showDataSource(){
   var tmp = setGraph(colorscaleValues, dataset.sourceData );
-  Plotly.newPlot('mainGraph', tmp,layout,{displayModeBar: false});
+  Plotly.newPlot('mainGraph', tmp,layout,settings);
 }
 
 function updateMatrixWithAnomaly(x_cord, y_cord, x1_cord){
@@ -84,20 +89,19 @@ function updateGroundTruth(x_cord, y_cord, x1_cord){
 
 function createPlotFromJson(linkToOnlineDataset) {
   Plotly.d3.json(linkToOnlineDataset, function(figure){ 
-    console.log(figure);
+
     dataset.sourceData = figure.z;
     config.nDays = math.size(dataset.sourceData)[0]
     dataset.groundTruth = Array(config.nDays).fill().map(() => Array(1440).fill(0))
     config.dates =  figure.dates;
     config.labels = figure.dictionary.activities;
     config.codes = figure.dictionary.codes;
-    // generare dropdown
     config.dataV = renderDropDown(figure.dictionary);
-    console.log(config.dataV);
-    layout.yaxis.tickvals = [...Array(367).keys()];
-    layout.yaxis.ticktext = config.dates;
+    layout.yaxis.tickvals = reduceTickVals([...Array(math.size(figure.z)[0]).keys()], 15);
+    layout.yaxis.ticktext = reduceTickVals(config.dates,15);
+    layout.yaxis.hoverformat = 
     layout.yaxis.nticks = 50;
-    console.log(config.dates);
+    
     frequencyVisualizations(config.activityCode,dataset.sourceData);
     updateHeatmap();
   } );
@@ -105,6 +109,18 @@ function createPlotFromJson(linkToOnlineDataset) {
 
 function updateHeatmap(){
   data_matrix[0]['z'] = dataset.sourceData;
+
+  var text = data_matrix[0]['z'].map((row, i) => row.map((item, j) => {
+
+    return `
+      Data: ${config.dates[i]}<br>
+      valeu: ${translateActivityCode(item)}
+      ` 
+  }))
+
+
+  data_matrix[0]['text'] = text;
+  data_matrix[0]['hoverinfo'] = 'text';
   data_matrix[0]['colorbar']['tickvals']  = config.codes;
   data_matrix[0]['colorbar']['ticktext'] = config.labels;
   Plotly.redraw('mainGraph');
