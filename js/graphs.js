@@ -102,6 +102,7 @@ function createPlotFromJson(linkToOnlineDataset) {
   } );
 };
 
+
 function updateHeatmap(){
   data_matrix[0]['z'] = dataset.sourceData;
   var text = data_matrix[0]['z'].map((row, i) => row.map((item, j) => {
