@@ -36,21 +36,21 @@
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Upload your <span class="text-black fw-bold">dataset in json format</span></h1>
-            <h3 class="welcome-sub-text">from Github or an other host </h3>
+           <h1 class="welcome-text lang" key="TITLE"> </h1>
+            <h3 class="welcome-sub-text lang" key="SUBTITLE"></h3>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
           <div class="input-group">
             <div class="input-group-prepend">
-              <p class="input-group-text text-black" id="blackText">Activity:</p>
+              <p class="input-group-text text-black lang" id="blackText" key="ACTIVITY"></p>
             </div>
 
               <li class="nav-item dropdown d-none d-lg-block">
                 <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Activity </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
                   <a class="dropdown-item py-3" >
-                    <p class="mb-0 font-weight-medium float-left" >Select activity</p>
+                    <p class="mb-0 font-weight-medium float-left lang" key="ACTIVITY-SELECTION" ></p>
                   </a>
                   <div class="dropdown-divider"></div>
                 </div>
@@ -61,10 +61,10 @@
               <div class='row justify-content-start'>
                 <div class="input-group mb-2">
                   <div class="input-group-prepend">
-                    <button type="button" class="btn btn-primary btn-block" style="
+                    <button type="button" class="btn btn-primary btn-block lang" key="LOAD" style="
                       width: 70px;
                       height: 32px;
-                      padding: 0;" id="submitButton" id="loadDataset">Load</button>
+                      padding: 0;" id="submitButton" id="loadDataset"></button>
                   </div>
                   <input id="link" type="text"  placeholder="Input dataset link" class="form-control "  title="Search here">
                 </div>
@@ -84,42 +84,55 @@
               <span class="menu-title">Dashboard</span>
             </a>  
           </li>
-          <li class="nav-item nav-category">Anomalies</li>
+          <li class="nav-item nav-category lang" key="LANGUAGES.SELECTE-LANGUAGES"></li>
+          <li class="nav-item language" data-language="it">
+            <a class="nav-link" href="#">
+              <img class="icon" src="../images/icons/italy.png"></img>
+              <span class="menu-title lang" key="LANGUAGES.IT"></span>
+            </a>
+          </li>
+          <li class="nav-item language" data-language="en">
+            <a class="nav-link" href="#">
+              <img class="icon" src="../images/icons/united-kingdom.png"></img>
+              <span class="menu-title lang" key="LANGUAGES.EN"></span>
+            </a>
+          </li>
+          <li class="nav-item nav-category lang" key="ANOMALIES-TITLE"></li>
           <li class="nav-item anomaly" data-anomaly="frequency">
             <a class="nav-link" href="#infoGraphDiv">
               <i class="menu-icon mdi mdi mdi-chart-bar"></i>
-              <span class="menu-title">Frequency anomaly</span>
+              <span class="menu-title lang" key="FREQUENCY-ANOMALY"></span>
             </a>
           </li>
           <li class="nav-item anomaly" data-anomaly="duration">
             <a class="nav-link" href="#infoGraphDiv">
               <i class="menu-icon mdi mdi mdi-calendar-clock"></i>
-              <span class="menu-title">Duration anomaly</span>
+              <span class="menu-title lang" key="DURATION-ANOMALY"></span>
             </a>
           </li>
           <li class="nav-item anomaly" data-anomaly="order">
             <a class="nav-link" href="#infoGraphDiv">
               <i class="menu-icon mdi mdi mdi-cube-unfolded"></i>
-              <span class="menu-title">Order anomaly</span>
+              <span class="menu-title lang" key="ORDER-ANOMALY"></span>
             </a>
           </li>
           <li class="nav-item anomaly" data-anomaly="position">
             <a class="nav-link" href="#infoGraphDiv">
               <i class="menu-icon mdi mdi mdi-crop-free"></i>
-              <span class="menu-title">Position anomaly</span>
+              <span class="menu-title lang" key="POSITION-ANOMALY"></span>
             </a>
           </li>
-          <li class="nav-item nav-category">Supporto</li>
+          <li class="nav-item nav-category lang" key="HELP-TITLE">Supporto</li>
           <li class="nav-item anomaly" data-anomaly="position">
             <a class="nav-link" href="../documents/documentation/Tutorial.pdf">
               <i class="menu-icon mdi mdi mdi-help-circle"></i>
-              <span class="menu-title">Tutorial</span>
+              <span class="menu-title lang" key="TUTORIAL">Tutorial</span>
             </a>
           </li>
           <li class="nav-item anomaly" data-anomaly="position">
             <a class="nav-link" href="../pages/faq/faq.html">
               <i class="menu-icon mdi mdi mdi-animation"></i>
-              <span class="menu-title">FAQ</span>
+              <span class="menu-title lang" key="FAQ"></span>
             </a>
           </li>
         </ul>
@@ -133,16 +146,16 @@
                 <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                   <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active ps-0 anomaly" id="frequencyAnomaly" data-bs-toggle="tab" href="#infoGraphDiv" role="tab" data-anomaly="frequency" aria-controls="overview" aria-selected="true">Frequency anomaly</a>
+                      <a class="nav-link active ps-0 anomaly lang" id="frequencyAnomaly" data-bs-toggle="tab" href="#infoGraphDiv" role="tab" data-anomaly="frequency" aria-controls="overview" aria-selected="true" key="FREQUENCY-ANOMALY"></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link anomaly" id="durationAnomaly" data-bs-toggle="tab" href="#infoGraphDiv" role="tab" data-anomaly="duration" aria-selected="false">Duration anomaly</a>
+                      <a class="nav-link anomaly lang " id="durationAnomaly" data-bs-toggle="tab" href="#infoGraphDiv" role="tab" data-anomaly="duration" aria-selected="false" key="DURATION-ANOMALY"></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link anomaly" id="orderAnomaly" data-bs-toggle="tab" href="#infoGraphDiv" role="tab" data-anomaly="order" aria-selected="false">Order anomaly</a>
+                      <a class="nav-link anomaly lang" id="orderAnomaly" data-bs-toggle="tab" href="#infoGraphDiv" role="tab" data-anomaly="order" aria-selected="false" key="ORDER-ANOMALY"></a>
                     </li>
                     <li class="nav-item ">
-                      <a class="nav-link border-0 anomaly" id="positionAnomaly" data-bs-toggle="tab" href="#infoGraphDiv" role="tab" data-anomaly="position" aria-selected="false">Position anomaly</a>
+                      <a class="nav-link border-0 anomaly lang" id="positionAnomaly" data-bs-toggle="tab" href="#infoGraphDiv" role="tab" data-anomaly="position" aria-selected="false" key="POSITION-ANOMALY"></a>
                     </li>
                   </ul>
                   <div>
@@ -164,8 +177,8 @@
                                         <div class="row p-1 mx-0">
                                             <div class="col-lg-6 d-flex flex-column">
                                               <div>
-                                                <h4 class="card-title card-title-dash">Timeseries visualization </h4>
-                                                <h5 class="card-subtitle card-subtitle-dash">The visualization shows the different activities spread along the different days</h5>
+                                                <h4 class="card-title card-title-dash lang" key="MAINGRAPH.TITLE"> </h4>
+                                                <h5 class="card-subtitle card-subtitle-dash lang"  key="MAINGRAPH.SUBTITLE"></h5>
                                               </div>
                                             </div>
                                             <div class="col-lg-6 p-0">
@@ -174,7 +187,7 @@
                                                   <div class="col-xs-2 ">
                                                     <input id="anomalyDuration" type="text" placeholder="Insert anomaly duration in minutes" class="form-control" value="1">
                                                   </div>
-                                                  <a href="#" id="updatemAnomalyDuration" class="btn btn-otline-dark d-inline-flex align-items-center align-middle"><i class="mdi mdi-cached h1 my-0 pr-2"></i>Update duration</a>
+                                                  <a href="#" id="updatemAnomalyDuration" class="btn btn-otline-dark d-inline-flex align-items-center align-middle"><i class="mdi mdi-cached h1 my-0 pr-2"></i><span class="lang" key="UPDATE-DURATION"></span></a>
                                                 </div>
                                               </div>
                                             </div>
@@ -189,8 +202,8 @@
                                   </div>
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-end">
-                                      <li class="page-item"><a class="page-link link-dark" href="#" id="dataSource">Data</a></li>
-                                      <li class="page-item"><a class="page-link link-dark" href="#" id="groundtruth">Groundtruth</a></li>
+                                      <li class="page-item"><a class="page-link link-dark lang" href="#" id="dataSource" key="MAINGRAPH.DATA"></a></li>
+                                      <li class="page-item"><a class="page-link link-dark lang" href="#" id="groundtruth" key="MAINGRAPH.GROUNDTRUTH"></a></li>
                                     </ul>
                                   </nav>
                                   <div class= "bg-light"id='mainGraph'> </div>
@@ -211,7 +224,7 @@
                                       <div class="col-lg-8">
                                         <div>
                                           <h4 class="card-title card-title-dash" id="titleAdditionalGraph">Additional graph to study the rpoperty selected</h4>
-                                          <h5 class="card-subtitle card-subtitle-dash">In this area specific information about a property of the activity is observed is shown</h5>
+                                          <h5 class="card-subtitle card-subtitle-dash lang" key="SECONDGRAPH.SUBTITLE"></h5>
                                         </div>
                                       </div>
                                       <div class="col-lg-4">
@@ -243,35 +256,35 @@
                           <div class="col-md-6 col-lg-12 grid-margin stretch-card">
                             <div class="card bg-primary card-rounded">
                               <div class="card-body pb-0">
-                                <h4 class="card-title card-title-dash text-white mb-4">Statistical information</h4>
+                                <h4 class="card-title card-title-dash text-white mb-4 lang" key="SECONDGRAPH.STATISTICS.STATISTICALTITLE"></h4>
                                 <h5 class="card-subtitle card-subtitle-dash" id="statisticalAdditionalInformation">Text test</h5>
                                 <div class="row">
                                   <div class="col-sm-4">
-                                    <p class="status-summary-ight-white mb-1">Mean</p>
+                                    <p class="status-summary-ight-white mb-1 lang" key="SECONDGRAPH.STATISTICS.MEAN"></p>
                                     <h2 class="text-info" id="mean">0</h2>
                                   </div>
                                   <div class="col-sm-8">
-                                    <p class="status-summary-ight-white mb-1">Std</p>
+                                    <p class="status-summary-ight-white mb-1 lang" key="SECONDGRAPH.STATISTICS.STD"></p>
                                     <h2 class="text-info" id="std" >0</h2>
                                   </div>
                                 </div>
                                 <div class="row">
                                   <div class="col-sm-4">
-                                    <p class="status-summary-ight-white mb-1">Max.</p>
+                                    <p class="status-summary-ight-white mb-1 lang" key="SECONDGRAPH.STATISTICS.MAX"></p>
                                     <h2 class="text-info" id="max">0</h2>
                                   </div>
                                   <div class="col-sm-8">
-                                    <p class="status-summary-ight-white mb-1">Min.</p>
+                                    <p class="status-summary-ight-white mb-1 lang" key="SECONDGRAPH.STATISTICS.MIN"></p>
                                     <h2 class="text-info" id="min" >0</h2>
                                   </div>
                                 </div>
                                 <div class="row">
                                   <div class="col-sm-4">
-                                    <p class="status-summary-ight-white mb-1">Date max.</p>
+                                    <p class="status-summary-ight-white mb-1 lang" key="SECONDGRAPH.STATISTICS.MAXDATE"></p>
                                     <h2 class="text-info" id="dateMax">0</h2>
                                   </div>
                                   <div class="col-sm-8">
-                                    <p class="status-summary-ight-white mb-1">Date min.</p>
+                                    <p class="status-summary-ight-white mb-1 lang" key="SECONDGRAPH.STATISTICS.MINDATE"></p>
                                     <h2 class="text-info" id="dateMin" >0</h2>
                                   </div>
                                 </div>

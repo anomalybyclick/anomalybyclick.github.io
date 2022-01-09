@@ -1,0 +1,92 @@
+{
+    "en":{
+        "TITLE":"Upload your dataset in json format",
+        "SUBTITLE":"from Github or an other host",
+        "FREQUENCY-ANOMALY":"Frequency anomaly",
+        "DURATION-ANOMALY":"Duration anomaly",
+        "ORDER-ANOMALY":"Order anomaly",
+        "POSITION-ANOMALY":"Position anomaly",
+        "UPDATE-DURATION":"Update Duration(in minutes)",
+        "MAINGRAPH":{
+            "TITLE":"Timeseries Visualizatido",
+            "SUBTITLE":"The visualization shows the different activities spread along the different days",
+            "DATA":"Data",
+            "GROUNDTRUTH":"Groundtruth",
+            "XAXES":"Minutes in a day"
+        },
+        "SECONDGRAPH":{
+            "TITLE":["Frequency Of An Activity On Different Days","Duration Per Day","Order Plot To Show Activities That Precede And Succeed The Observed","Information About When The Activity Occurs Most"],
+            "SUBTITLE":"In this area specific information about a property of the activity is observed is shown",
+            "YAXES":["N. of times the activity occurs in a day","Minutes","","N. of times the activity occurs"],
+            "STATISTICS":{
+                "STATISTICALTITLE":"Statistical info",
+                "STATISTICALINFO":["Information about frequency","Information about duration","Additional information","Statistical information about number of times an activity occures in that time location in a day"],
+                "MIN": "Min",
+                "MAX": "Max",
+                "STD": "Std",
+                "MEAN" : "Measn",
+                "MAXDATE":"Date ma3x.",
+                "MINDATE":"Date min."
+            }
+            
+        },
+        "DOWNLOAD":"Export",
+        "LOAD":"Load",
+        "ACTIVITY": "Activity:",
+        "ACTIVITY-SELECTION":"Select activity:",
+        "ANOMALIES-TITLE":"Anomalies",
+        "TUTORIAL":"Tutorial",
+        "FAQ":"FAQs",
+        "HELP-TITLE":"Help",
+        "LANGUAGES":{
+            "SELECTE-LANGUAGES":"Select language",
+            "IT":"Italian",
+            "EN":"English"
+        }
+    },
+    "it":{
+        "TITLE":"Carica il tuo dataset in formato JSON",
+        "SUBTITLE":"da Github o un altro host",
+        "FREQUENCY-ANOMALY":"Anomalia di frequenza",
+        "DURATION-ANOMALY":"Anomalia di durata",
+        "ORDER-ANOMALY":"Anomalia di ordine",
+        "POSITION-ANOMALY":"Anomalia di posizione",
+        "UPDATE-DURATION":"Aggiorna durata(in minuti)",
+        "MAINGRAPH":{
+            "TITLE":"Visualizzazione della routine",
+            "SUBTITLE":"Questa visualizzazione permette di visualizzare la routine rispetto alle diverse arrività",
+            "DATA":"Dati",
+            "GROUNDTRUTH":"Annotazioni",
+            "XAXES":"Minuti in un giorno"
+        },
+        "SECONDGRAPH":{
+            "TITLE":["Frequency Of An Activity On Different Days","Duration Per Day","Order Plot To Show Activities That Precede And Succeed The Observed","Information About When The Activity Occurs Most"],
+            "SUBTITLE":"In this area specific information about a property of the activity is observed is shown",
+            "YAXES":["N. of times the activity occurs in a day","Minutes","","N. of times the activity occurs"],
+            "STATISTICS":{
+                "STATISTICALTITLE":"Statistical info",
+                "STATISTICALINFO":["Information about frequency","Information about duration","Additional information","Statistical information about number of times an activity occures in that time location in a day"],
+                "MIN": "Min",
+                "MAX": "Max",
+                "STD": "Std",
+                "MEAN" : "Measn",
+                "MAXDATE":"Date ma3x.",
+                "MINDATE":"Date min."
+            }
+            
+        },
+        "DOWNLOAD":"Export",
+        "LOAD":"Load",
+        "ACTIVITY": "Activity:",
+        "ACTIVITY-SELECTION":"Select activity:",
+        "ANOMALIES-TITLE":"Anomalies",
+        "TUTORIAL":"Tutorial",
+        "FAQ":"FAQs",
+        "HELP-TITLE":"Help",
+        "LANGUAGES":{
+            "SELECTE-LANGUAGES":"Select language",
+            "IT":"Italian",
+            "EN":"English"
+        }
+    }
+}

@@ -35,6 +35,10 @@ $('body').on('click', '.activity-dropdown', function () {
   clickGraph();
 });
 
+$(".language").on('click', function(){
+  setLanguage($(this).data('language'));
+});
+
 $(".anomaly").on('click', function(){
   document.getElementById("infoGraphDiv").scrollIntoView();
   switch ($(this).data('anomaly')) {

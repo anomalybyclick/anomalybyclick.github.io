@@ -37,7 +37,7 @@ function setGraph (colorscale, data = [], isGroundTruth = false){
         autotick: false,
         tickmode: "array",
         tickvals: (!isGroundTruth) ? config.codes :[0,1,2,3,4] ,
-        ticktext: (!isGroundTruth) ? config.labels : ["No Anomaly","Freqeuncy","Duration","Order","Position"],
+        ticktext: (!isGroundTruth) ? config.labels : ["No Anomaly","Frequency","Duration","Order","Position"],
         tick0: 0,
         dtick: 1
       }
@@ -71,7 +71,6 @@ function showDataSource(){
 }
 
 function updateMatrixWithAnomaly(x_cord, y_cord, x1_cord){
-  console.log('sono qua');
   for (i = 0; i< (x1_cord - x_cord); i++){
     data_matrix[0]['z'][y_cord][x_cord+i] = config.activityCode;
   }
@@ -109,7 +108,7 @@ function updateHeatmap(){
   var text = data_matrix[0]['z'].map((row, i) => row.map((item, j) => {
     return `
       Data: ${config.dates[i]}<br>
-      valeu: ${translateActivityCode(item)}
+      ${anomalyTextInfoTranslated ("ACTIVITY")}: ${translateActivityCode(item)}
       ` 
   }))
   data_matrix[0]['text'] = text;
@@ -135,7 +134,7 @@ function plotBarchart(y, n_days, type="frequency"){
         text: y.map((item, i) => {
           return `
             Data: ${config.dates[i]}<br>
-            valeu: ${item}
+            ${anomalyTextInfoTranslated ("ACTIVITY")}: ${item}
             ` 
         })
     };
@@ -163,9 +162,9 @@ function plotBarchart(y, n_days, type="frequency"){
         }      
     };
 
-    setTitleAdditionalGraph((type == "frequency") ? "Frequency of an activity on different days" : "Duration per day");
+    setTitleAdditionalGraph((type == "frequency") ? anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 1) : anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 2));
     if(type == "frequency"){
-      layout.yaxis.title = "N. of times the activity accours in a day"; 
+      layout.yaxis.title = anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 1); 
     } else {
       layout.yaxis.title = config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
     }
@@ -173,7 +172,7 @@ function plotBarchart(y, n_days, type="frequency"){
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
     setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
       cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 
-      (type == "frequency") ? 'Information about frequency' : 'Information about duration',
+      (type == "frequency") ? anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", 1) : anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", 2),
       config.dates[y.indexOf(getMin(y))], config.dates[y.indexOf(getMax(y))]);
   
 } 
@@ -193,7 +192,7 @@ function plotParallelDiagram(pre, middle, post){
       var data = [ trace1 ];
       Plotly.newPlot('infoGraph', data);
       setStatisticalInformation();
-      setTitleAdditionalGraph("Order plot to show activities that precede and succeed the observed ");
+      setTitleAdditionalGraph(anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 3));
 }
 
 function plotPositionGraph (y, steps=1440){
@@ -217,14 +216,14 @@ function plotPositionGraph (y, steps=1440){
       title:  config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
     },
     yaxis: {
-      title: setTitle('N. of times the activity occurs',12)
+      title: setTitle(anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 4),12)
     }      
 };
   var data = [trace1, trace2];
   Plotly.newPlot('infoGraph', data, layout);
   setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
-  cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 'Statistical information about number of times an activity occures in that time location in a day');
-  setTitleAdditionalGraph("Information about when the activity occurs most");
+  cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", 4));
+  setTitleAdditionalGraph(anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 4));
 }
 
 function setStatisticalInformation(mean = 0, std = 0, min = 0, max = 0, text = 'Additional information', dateMin="", dateMax = ""){

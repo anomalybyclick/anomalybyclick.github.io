@@ -2,6 +2,13 @@
   color: black;
 }
 
+.icon{
+  height: 20px;
+  width: 20px;
+  display: block;
+  margin-right: 20px;;
+}
+
 @font-face {
     font-family: myFirstFont;
     src: url(../scss/fonts/Manrope/Manrope-Light.eot);
