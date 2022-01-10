@@ -85,18 +85,19 @@
             </a>  
           </li>
           <li class="nav-item nav-category lang" key="LANGUAGES.SELECTE-LANGUAGES"></li>
-          <li class="nav-item language" data-language="it">
-            <a class="nav-link" href="#">
-              <img class="icon" src="../images/icons/italy.png"></img>
-              <span class="menu-title lang" key="LANGUAGES.IT"></span>
-            </a>
-          </li>
           <li class="nav-item language" data-language="en">
             <a class="nav-link" href="#">
               <img class="icon" src="../images/icons/united-kingdom.png"></img>
               <span class="menu-title lang" key="LANGUAGES.EN"></span>
             </a>
           </li>
+          <li class="nav-item language" data-language="it">
+            <a class="nav-link" href="#">
+              <img class="icon" src="../images/icons/italy.png"></img>
+              <span class="menu-title lang" key="LANGUAGES.IT"></span>
+            </a>
+          </li>
+          
           <li class="nav-item nav-category lang" key="ANOMALIES-TITLE"></li>
           <li class="nav-item anomaly" data-anomaly="frequency">
             <a class="nav-link" href="#infoGraphDiv">
@@ -160,7 +161,7 @@
                   </ul>
                   <div>
                     <div class="btn-wrapper">
-                      <a href="#" class="btn btn-primary text-white me-0" id="dowload"><i class="icon-download"></i> Export</a>
+                      <a href="#" class="btn btn-primary text-white me-0" id="dowload"><i class="icon-download"></i><span class="lang" key="DOWNLOAD"></span></a>
                     </div>
                   </div>
                 </div>
@@ -182,7 +183,7 @@
                                               </div>
                                             </div>
                                             <div class="col-lg-6 p-0">
-                                              <div class="row">
+                                              <div class="row" id="showUpdateDuration">
                                                 <div class="d-flex flex-row-reverse p-0 ">
                                                   <div class="col-xs-2 ">
                                                     <input id="anomalyDuration" type="text" placeholder="Insert anomaly duration in minutes" class="form-control" value="1">
@@ -202,8 +203,8 @@
                                   </div>
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-end">
-                                      <li class="page-item"><a class="page-link link-dark lang" href="#" id="dataSource" key="MAINGRAPH.DATA"></a></li>
-                                      <li class="page-item"><a class="page-link link-dark lang" href="#" id="groundtruth" key="MAINGRAPH.GROUNDTRUTH"></a></li>
+                                      <li class="page-item"><a class="page-link link-dark lang btn-data" href="#" id="dataSource" key="MAINGRAPH.DATA"></a></li>
+                                      <li class="page-item"><a class="page-link link-dark lang btn-data" href="#" id="groundtruth" key="MAINGRAPH.GROUNDTRUTH"></a></li>
                                     </ul>
                                   </nav>
                                   <div class= "bg-light"id='mainGraph'> </div>
@@ -331,6 +332,7 @@
   <script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.js"></script>
   <script src='../js/config.js'></script>
+  <script src='../js/lang.js'></script>
   <script src='../js/utils.js'></script>
   <script src='../js/graphs.js'></script>
   <script src='../js/matrixOps.js'></script>

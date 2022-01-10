@@ -2,6 +2,8 @@ var mainGraph = document.getElementById('mainGraph');
 var data_matrix = setGraph(colorscaleValues);
 var settings = {displayModeBar: true, scrollZoom: true,modeBarButtonsToRemove: ['toImage', 'toggleSpikelines', 'hoverClosestGl2d', 
 'resetViewMapbox', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian']};
+const map1 = [...Array(1440).keys()].map(x => convertMinutesIntoMinutesHours(x));
+console.log(map1);
 
 var layout = {
   showlegend: true,
@@ -21,6 +23,9 @@ var layout = {
   },
   xaxis:{
     title:"Minutes in a day",
+    tickmode:'array',
+    ticktext: reduceTickVals(map1,100),
+    tickvals: reduceTickVals([...Array(1440).keys()], 100),
   }
 };
 Plotly.newPlot('mainGraph', data_matrix,layout,settings);
@@ -102,13 +107,14 @@ function createPlotFromJson(linkToOnlineDataset) {
   } );
 };
 
-
 function updateHeatmap(){
   data_matrix[0]['z'] = dataset.sourceData;
+  var textActivity = anomalyTextInfoTranslated ("ACTIVITY");
   var text = data_matrix[0]['z'].map((row, i) => row.map((item, j) => {
     return `
       Data: ${config.dates[i]}<br>
-      ${anomalyTextInfoTranslated ("ACTIVITY")}: ${translateActivityCode(item)}
+      ${textActivity} ${translateActivityCode(item)}<br>
+      Time: ${map1[j]}
       ` 
   }))
   data_matrix[0]['text'] = text;
@@ -118,11 +124,10 @@ function updateHeatmap(){
   Plotly.redraw('mainGraph');
 }
 
-
-
 function plotBarchart(y, n_days, type="frequency"){
     var x = [...Array(n_days).keys()];
     var xValue = config.dates;
+    var textActivity = anomalyTextInfoTranslated ("ACTIVITY");
     var data = {
         x: x,
         y: y,
@@ -134,7 +139,7 @@ function plotBarchart(y, n_days, type="frequency"){
         text: y.map((item, i) => {
           return `
             Data: ${config.dates[i]}<br>
-            ${anomalyTextInfoTranslated ("ACTIVITY")}: ${item}
+            ${textActivity}: ${item}
             ` 
         })
     };
@@ -162,7 +167,7 @@ function plotBarchart(y, n_days, type="frequency"){
         }      
     };
 
-    setTitleAdditionalGraph((type == "frequency") ? anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 1) : anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 2));
+    setTitleAdditionalGraph( anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", config.anomalyCode) );
     if(type == "frequency"){
       layout.yaxis.title = anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 1); 
     } else {
@@ -170,11 +175,13 @@ function plotBarchart(y, n_days, type="frequency"){
     }
 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
-    setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
-      cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), 
-      (type == "frequency") ? anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", 1) : anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", 2),
+
+    setStatisticalInformation(computeMean(y), computeStd(y),
+      getMin(y), getMax(y), 
+      anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", config.anomalyCode),
       config.dates[y.indexOf(getMin(y))], config.dates[y.indexOf(getMax(y))]);
-  
+
+    $("#anomalyDuration").val(config.timeGranularity == "mm" ? computeMean(y) : computeMean(y)*60 );
 } 
 
 function plotParallelDiagram(pre, middle, post){

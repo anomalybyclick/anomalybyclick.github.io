@@ -55,19 +55,19 @@ function convertToHours(arr, chunkSize=60) {
 
 
 function computeMean(values){
-    return math.mean(values);
+    return math.round(math.mean(values), 0);
 }
 
 function computeStd(values){
-    return math.std(values);
+    return  math.round(math.std(values), 1);
 }
 
 function getMax(values){
-    return math.max(values);
+    return  math.round(math.max(values),1);
 }
 
 function getMin(values){
-    return math.min(values);
+    return  math.round(math.min(values),1);
 }
 
 function renderDropDown(data){
@@ -96,29 +96,21 @@ function renderDropDown(data){
     return dictionary;
 }
 
-function _empty(obj,arr_values){
-    if(obj.constructor === Object && Object.keys(obj).length === 0  )
-     return true;
-    if(arr_values.length != 0 && Object.keys(obj).length !== 0 && obj.constructor === Object ){
-     if(obj.constructor === Object && !obj.hasOwnProperty(arr_values[0])) 
-      return true;
-     if (arr_values.length ==1 && obj[arr_values[0]].constructor === Object && Object.keys(obj[arr_values[0]]).length !== 0 )
-      return false;
-     if(obj[arr_values[0]].constructor !== Object && obj[arr_values[0]]=="")
-      return true;
-     if(obj[arr_values[0]].constructor !== Object && obj[arr_values[0]]!="" )
-      return false;
-     if (arr_values.length >1 && obj[arr_values[0]].constructor === Object && Object.keys(obj[arr_values[0]]).length !== 0 ) {
-      current_elm=arr_values.shift();
-      return _empty(obj[current_elm],arr_values);
-     }
-    }
-    return true;
-   }
 
-   function reduceTickVals(arr, step=10){
+
+function reduceTickVals(arr, step=10){
     if(arr.length < 20) return;
     var newArr = arr.filter(n =>arr.indexOf(n) % step == 0)
     return newArr;
-   }
+}
+
+function convertMinutesIntoMinutesHours(minutes){
+    var h = Math.floor(minutes / 60);
+    var m = minutes % 60;
+    h = h < 10 ? '0' + h : h; 
+    m = m < 10 ? '0' + m : m; 
+    return h + ':' + m;
+}
+
+
 

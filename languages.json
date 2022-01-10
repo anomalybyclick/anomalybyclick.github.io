@@ -8,10 +8,10 @@
         "POSITION-ANOMALY":"Position anomaly",
         "UPDATE-DURATION":"Update Duration(in minutes)",
         "MAINGRAPH":{
-            "TITLE":"Timeseries Visualizatido",
+            "TITLE":"Timeseries Visualization",
             "SUBTITLE":"The visualization shows the different activities spread along the different days",
-            "DATA":"Data",
-            "GROUNDTRUTH":"Groundtruth",
+            "DATA":"Original Data",
+            "GROUNDTRUTH":"Data with anomaly",
             "XAXES":"Minutes in a day"
         },
         "SECONDGRAPH":{
@@ -24,8 +24,8 @@
                 "MIN": "Min",
                 "MAX": "Max",
                 "STD": "Std",
-                "MEAN" : "Measn",
-                "MAXDATE":"Date ma3x.",
+                "MEAN" : "Mean",
+                "MAXDATE":"Date max.",
                 "MINDATE":"Date min."
             }
             

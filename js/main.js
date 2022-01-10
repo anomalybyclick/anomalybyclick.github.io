@@ -2,7 +2,6 @@
 setLinkFromCookie();
 clickGraph();
 
-
 /**Interaction functions */
 $('#dowload').on('click', function(){
   dowload();
@@ -10,6 +9,7 @@ $('#dowload').on('click', function(){
 
 $('#dataSource').on('click', function(){
   config.isSourceData = true;
+  // $('#showUpdateDuration').css('visibility', 'hidden');
   showDataSource();
   clickGraph();
 });
@@ -43,22 +43,25 @@ $(".anomaly").on('click', function(){
   document.getElementById("infoGraphDiv").scrollIntoView();
   switch ($(this).data('anomaly')) {
       case 'frequency':
+          $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 1;
           frequencyVisualizations(config.activityCode,data_matrix[0].z);
           clickGraph();
           break;
       case 'duration':
+          $('#showUpdateDuration').css('visibility', 'visible');
           config.anomalyCode = 2;
-          console.log(config.activityCode);
           durationVisualizations(config.activityCode, data_matrix[0].z);
           clickGraph();
           break;
       case 'position':
+          $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 3;
           positionVisualization(config.activityCode, data_matrix[0].z);
           clickGraph();
           break;
       case 'order':
+          $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 4;
           orderVisualizations(config.activityCode,data_matrix[0].z);
           clickGraph();
@@ -71,7 +74,6 @@ $(".anomaly").on('click', function(){
 //get and set anomaly duration form dropdown menu
 $('#updatemAnomalyDuration').on('click', function () {
   config.anomalyDuration = $("#anomalyDuration").val();
-  console.log(config.anomalyDuration);
 });
 
 $(".toggle_option").click(function(){
