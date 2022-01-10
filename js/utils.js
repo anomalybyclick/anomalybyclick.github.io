@@ -112,5 +112,17 @@ function convertMinutesIntoMinutesHours(minutes){
     return h + ':' + m;
 }
 
+function computeMeanDuration(codesMatrix){
+    console.log(codesMatrix)
+    var durationsPerDays = [];
+    for (let i= 0; i<config.nDays; i++){
+        var tmpMatrix = codesMatrix[i].filter(function (activity){
+            return activity == config.activityCode
+        });
+        durationsPerDays.push(tmpMatrix.length);
+    }
+    return computeMean(durationsPerDays);
+}
+
 
 

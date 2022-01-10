@@ -2,6 +2,9 @@
 setLinkFromCookie();
 clickGraph();
 
+// set value to duration 
+
+
 /**Interaction functions */
 $('#dowload').on('click', function(){
   dowload();
@@ -26,7 +29,9 @@ $('#loadDataset').on('click', function(){
 });
 
 $('body').on('click', '.activity-dropdown', function () {
+  
   config.activityCode = $(this).data('activityCode');
+  config.anomalyDuration = computeMeanDuration( dataset.sourceData);
   console.log(config.activityCode);
   console.log('dropdown');
   $("#messageDropdown").text(translateActivityCode(config.activityCode));

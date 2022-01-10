@@ -10,7 +10,6 @@ function frequencyVisualizations(activityCode, codesMatrix){
 }
 
 function removeActivityCodeRepetitions(activitiesCodes){
-   
     var matrix = activitiesCodes.filter(function(item, pos, arr){
         return pos === 0 || item !== arr[pos-1];
     });
@@ -60,6 +59,8 @@ function durationVisualizations(activityCode, codesMatrix){
     console.log(config.timeGranularity);
     plotBarchart(durationsPerDays, config.nDays, "duration");
 }
+
+
 
 function positionVisualization (activityCode, codesMatrix){
     //var n_days  = Object.keys(codesMatrix).length; TODO
