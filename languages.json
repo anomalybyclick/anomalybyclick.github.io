@@ -60,33 +60,33 @@
             "XAXES":"Minuti in un giorno"
         },
         "SECONDGRAPH":{
-            "TITLE":["Frequency Of An Activity On Different Days","Duration Per Day","Order Plot To Show Activities That Precede And Succeed The Observed","Information About When The Activity Occurs Most"],
-            "SUBTITLE":"In this area specific information about a property of the activity is observed is shown",
-            "YAXES":["N. of times the activity occurs in a day","Minutes","","N. of times the activity occurs"],
+            "TITLE":["Frequenza attività per giorni","Durata per giorno","Visulizzazione della attività frequenti che precedono e succedono l'attività osservata","Posizione temporale di quanto l'attività viene registrata più volte"],
+            "SUBTITLE":"Grafico per lo studio della specifica proprietà dell'attività analizzata",
+            "YAXES":["N. di volte l'attività viene registrata in un giorno","Minuti","","N. di volte l'sttività viene registata"],
             "STATISTICS":{
-                "STATISTICALTITLE":"Statistical info",
-                "STATISTICALINFO":["Information about frequency","Information about duration","Additional information","Statistical information about number of times an activity occures in that time location in a day"],
+                "STATISTICALTITLE":"Informazioni di contesto",
+                "STATISTICALINFO":["Informazioni di contesto sulla frequenza","Informazioni di contesto sulla durata","Informazioni aggiuntive","Informazione statistiche relative il numero di volte un'aattività registrata maggiormente nelle diverse posizioni temporali"],
                 "MIN": "Min",
                 "MAX": "Max",
                 "STD": "Std",
-                "MEAN" : "Measn",
-                "MAXDATE":"Date ma3x.",
-                "MINDATE":"Date min."
+                "MEAN" : "Media",
+                "MAXDATE":"Data con valore massimo",
+                "MINDATE":"Date con valore minimo"
             }
             
         },
-        "DOWNLOAD":"Export",
-        "LOAD":"Load",
-        "ACTIVITY": "Activity:",
-        "ACTIVITY-SELECTION":"Select activity:",
-        "ANOMALIES-TITLE":"Anomalies",
+        "DOWNLOAD":"Scarica",
+        "LOAD":"Carica",
+        "ACTIVITY": "Attività:",
+        "ACTIVITY-SELECTION":"Seleziona attività:",
+        "ANOMALIES-TITLE":"Anomalie",
         "TUTORIAL":"Tutorial",
         "FAQ":"FAQs",
-        "HELP-TITLE":"Help",
+        "HELP-TITLE":"Supporto",
         "LANGUAGES":{
-            "SELECTE-LANGUAGES":"Select language",
-            "IT":"Italian",
-            "EN":"English"
+            "SELECTE-LANGUAGES":"Seleziona lingua",
+            "IT":"Italiano",
+            "EN":"Inglese"
         }
     }
 }
