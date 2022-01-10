@@ -48,12 +48,12 @@ function translate(key,json,lang) {
 }
 
 
-var lang = "en";
 function anomalyTextInfoTranslated (key, anomalyCode= -1){
+    console.log(lang);
     if(anomalyCode!= -1) {
-        return translate(key, languages, "en")[anomalyCode-1];
+        return translate(key, languages, lang)[anomalyCode-1];
     } else{
-        return translate(key, languages, "en");
+        return translate(key, languages, lang);
     }
 }
 
