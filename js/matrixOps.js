@@ -73,8 +73,6 @@ function positionVisualization (activityCode, codesMatrix){
         }
     }
     if(config.timeGranularity === 'hh'){
-        console.log('qua');
-        console.log(activityPositionInDays);
         activityPositionInDays = convertToHours(activityPositionInDays);
         plotPositionGraph(activityPositionInDays, 60);
     } else {

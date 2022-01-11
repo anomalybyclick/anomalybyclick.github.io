@@ -13,14 +13,6 @@ const config = {
 }
 
 
-
-
-
-
-
-
-
-
 const colorscaleValues = [
     [0, 'rgb(0,0,0,0.8)'],
     [0.143, 'rgb(0,0,0,0.8)'], //-1

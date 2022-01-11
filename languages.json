@@ -8,7 +8,7 @@
         "POSITION-ANOMALY":"Position anomaly",
         "UPDATE-DURATION":"Update Duration(in minutes)",
         "MAINGRAPH":{
-            "TITLE":"Timeseries Visualization",
+            "TITLE":"Routine Visualization",
             "SUBTITLE":"The visualization shows the different activities spread along the different days",
             "DATA":"Original Data",
             "GROUNDTRUTH":"Data with anomaly",
@@ -56,7 +56,7 @@
             "TITLE":"Visualizzazione della routine",
             "SUBTITLE":"Questa visualizzazione permette di visualizzare la routine rispetto alle diverse arrività",
             "DATA":"Dati",
-            "GROUNDTRUTH":"Annotazioni",
+            "GROUNDTRUTH":"Attività con anomalie",
             "XAXES":"Minuti in un giorno"
         },
         "SECONDGRAPH":{

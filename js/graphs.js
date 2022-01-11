@@ -185,6 +185,8 @@ function plotBarchart(y, n_days, type="frequency"){
 } 
 
 function plotParallelDiagram(pre, middle, post){
+  console.log(pre);
+  console.log(post);
     var trace1 = {
         type: 'parcats',
         line: {color: '#1F3BB3'},
