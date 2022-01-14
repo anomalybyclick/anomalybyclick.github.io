@@ -1,13 +1,9 @@
 function frequencyVisualizations(activityCode, codesMatrix){
     var hist_values = new Array(config.nDays).fill(0);
-
     for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
         hist_values[i] = day.filter(x => x === activityCode).length;
-        console.log(day);
-
     }
-    plotBarchart(hist_values, config.nDays);
     return hist_values;
 }
 
@@ -26,12 +22,10 @@ function cutDecimanlsInString(valueLabel, length = 4){
 
 
 function orderVisualizations(activityCode, codesMatrix){
-    // var n_days  = Object.keys(codesMatrix).length; TODO
     var preActivities = [];
     var postActivities = [];
     for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
-        console.log(day);
         day.filter(function(array, index) {
             if(array == activityCode && (index+1)<config.nDays && (index-1)>0){
                 console.log(day[index+1]);
@@ -40,14 +34,13 @@ function orderVisualizations(activityCode, codesMatrix){
             }
         });
     }
-    plotParallelDiagram(preActivities, [...Array(preActivities.length).fill(translateActivityCode(activityCode))], postActivities);
+    return [preActivities, postActivities, [...Array(preActivities.length).fill(translateActivityCode(activityCode))]];
+    // plotParallelDiagram(preActivities, [...Array(preActivities.length).fill(translateActivityCode(activityCode))], postActivities);
 }
 
 
 function durationVisualizations(activityCode, codesMatrix){
-    //var n_days  = Object.keys(codesMatrix).length; TODO
     var durationsPerDays = [];
-    console.log(activityCode);
     for (let i= 0; i<config.nDays; i++){
         var tmpMatrix = codesMatrix[i].filter(function (activity){
             return activity == activityCode
@@ -60,13 +53,12 @@ function durationVisualizations(activityCode, codesMatrix){
         });
     }
     console.log(config.timeGranularity);
-    plotBarchart(durationsPerDays, config.nDays, "duration");
+    return durationsPerDays;
 }
 
 
-
 function positionVisualization (activityCode, codesMatrix){
-    //var n_days  = Object.keys(codesMatrix).length; TODO
+    console.log(codesMatrix)
     var activityPositionInDays = new Array(1440).fill(0);
     for (let i= 0; i<config.nDays; i++){
         for (let j = 0; j< 1440; j++){
@@ -75,12 +67,14 @@ function positionVisualization (activityCode, codesMatrix){
             }
         }
     }
-    if(config.timeGranularity === 'hh'){
+    /*if(config.timeGranularity === 'hh'){
         activityPositionInDays = convertToHours(activityPositionInDays);
         plotPositionGraph(activityPositionInDays, 60);
     } else {
         plotPositionGraph(activityPositionInDays);
-    }
+    }*/
+
+    return activityPositionInDays;
     
 }
 

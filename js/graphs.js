@@ -34,6 +34,7 @@ var layout = {
   },
   
 };
+
 Plotly.newPlot('mainGraph', data_matrix,layout,settings);
 
 function setGraph (colorscale, data = [], isGroundTruth = false){
@@ -75,10 +76,7 @@ function clickGraph(){
   }
 }
 
-
-
 function updateMatrixWithAnomaly(x_cord, y_cord, x1_cord){
-  console.log(dataset)
   for (i = 0; i< (x1_cord - x_cord); i++){
     data_matrix[0]['z'][y_cord][x_cord+i] = config.activityCode; // aggiornamento visuale
     dataset.sourceData[y_cord+config.actualDataIndex][x_cord+i] = config.activityCode; // aggiornamento della matrice sorgente
@@ -106,11 +104,14 @@ function createPlotFromJson(linkToOnlineDataset) {
 
     $("#messageDropdown").text(translateActivityCode(config.activityCode));
     $('#datePicker').val(fromStringToDate(config.dates)[0]);
+    $('#datePicker').attr('min', fromStringToDate(config.dates)[0]);
+    $('#datePicker').attr('max', fromStringToDate(config.dates).at(-1));
 
     layout.yaxis.tickvals = reduceTickVals([...Array(math.size(figure.z)[0]).keys()], 15);
     layout.yaxis.ticktext = reduceTickVals(config.dates,15);
 
-    // frequencyVisualizations(config.activityCode,dataset.sourceData); TODO  da riattivare per i grafici sotto
+    plotBarchart(frequencyVisualizations(config.activityCode,dataset.sourceData));
+    // plotBarchart(config.activityCode,dataset.sourceData); //TODO  da riattivare per i grafici sotto
     updateHeatmap();
   });
 };
@@ -137,8 +138,8 @@ function updateHeatmap(){
   Plotly.redraw('mainGraph');
 }
 
-function plotBarchart(y, n_days, type="frequency"){
-    var x = [...Array(n_days).keys()];
+function plotBarchart(y){
+    var x = [...Array(config.nDays).keys()];
     var xValue = config.dates;    
     var data = {
         x: x,
@@ -161,9 +162,9 @@ function plotBarchart(y, n_days, type="frequency"){
     
     var layout = {
         showlegend: false,
-        shapes: [createOrizontalLine(0,mean,n_days,mean),
-            createOrizontalLine(0,upperStd,n_days,upperStd),
-            createOrizontalLine(0,lowerStd,n_days,lowerStd)
+        shapes: [createOrizontalLine(0,mean,config.nDays,mean),
+            createOrizontalLine(0,upperStd,config.nDays,upperStd),
+            createOrizontalLine(0,lowerStd,config.nDays,lowerStd)
         ],
         annotations:[ createAnnotations('-std', 0, lowerStd), 
         createAnnotations('+std', 0, upperStd),
@@ -180,11 +181,11 @@ function plotBarchart(y, n_days, type="frequency"){
     };
 
     setTitleAdditionalGraph( anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", config.anomalyCode) );
-    if(type == "frequency"){
-      layout.yaxis.title = anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 1); 
-    } else {
+    // if(type == "frequency"){
+      layout.yaxis.title = anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", config.anomalyCode); 
+    /*} else {
       layout.yaxis.title = config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
-    }
+    }*/
 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
 
@@ -217,7 +218,6 @@ function plotParallelDiagram(pre, middle, post){
 }
 
 function plotPositionGraph (y, steps=1440){
-  console.log(Array.from({length:50},(v,k)=>k-50).reverse())
   var trace1 = {
     z: [y],
     x: [...Array(steps).keys()],
@@ -241,7 +241,6 @@ function plotPositionGraph (y, steps=1440){
     },
     yaxis: {
       title: setTitle(anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 4),12),
-      
     }      
 };
   var data = [trace1, trace2];

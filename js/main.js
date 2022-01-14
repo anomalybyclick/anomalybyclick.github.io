@@ -39,9 +39,7 @@ $('#loadDataset').on('click', function(){
 $('body').on('click', '.activity-dropdown', function () {
   config.activityCode = $(this).data('activityCode');
   config.anomalyDuration = computeMeanDuration( dataset.sourceData);
-  console.log(config.activityCode);
   $("#messageDropdown").text(translateActivityCode(config.activityCode));
-  console.log(config.activityCode);
   updateGraphs();
   clickGraph();
 });
@@ -56,25 +54,27 @@ $(".anomaly").on('click', function(){
       case 'frequency':
           $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 1;
-          frequencyVisualizations(config.activityCode,data_matrix[0].z);
+          plotBarchart(frequencyVisualizations(config.activityCode,dataset.sourceData));
           clickGraph();
           break;
       case 'duration':
           $('#showUpdateDuration').css('visibility', 'visible');
           config.anomalyCode = 2;
-          durationVisualizations(config.activityCode, data_matrix[0].z);
+          plotBarchart(durationVisualizations(config.activityCode,dataset.sourceData));
           clickGraph();
           break;
       case 'position':
           $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 3;
-          positionVisualization(config.activityCode, data_matrix[0].z);
+          var steps = (config.timeGranularity === 'hh') ? 1440 : 60;
+          plotPositionGraph(positionVisualization(config.activityCode,dataset.sourceData), steps);
           clickGraph();
           break;
       case 'order':
           $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 4;
-          orderVisualizations(config.activityCode,data_matrix[0].z);
+          var values = orderVisualizations(config.activityCode,dataset.sourceData);
+          plotParallelDiagram(values[0], values[1], values[2]);
           clickGraph();
           break;
       default:
@@ -125,21 +125,21 @@ function setLinkFromCookie() {
 }
 
 function updateGraphs(){
-  console.log(config.activityCode);
-  
   switch (config.anomalyCode) {
       case 1:
-          frequencyVisualizations(config.activityCode,dataset.sourceData);
-          break;
+        plotBarchart(frequencyVisualizations(config.activityCode,dataset.sourceData));
+        break;
       case 2:
-          durationVisualizations(config.activityCode, dataset.sourceData)
+          plotBarchart(durationVisualizations(config.activityCode,dataset.sourceData));
           break;
-      /*case 3:
-          positionVisualization(config.activityCode, data_matrix[0].z);
+      case 3:
+        var steps = (config.timeGranularity === 'hh') ? 60 : 1440;
+          plotPositionGraph(positionVisualization(config.activityCode,dataset.sourceData), steps);
           break;
       case 4:
-          orderVisualizations(config.activityCode,data_matrix[0].z);
-          break;*/
+          var values = orderVisualizations(config.activityCode,dataset.sourceData);
+          plotParallelDiagram(values[0], values[1], values[2]);
+          break;
       default:
         console.log(`Sorry, we are out of ${expr}.`);
   } 
