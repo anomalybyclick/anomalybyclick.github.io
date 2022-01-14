@@ -1,9 +1,11 @@
 function frequencyVisualizations(activityCode, codesMatrix){
-    //var n_days  = Object.keys(codesMatrix).length;
     var hist_values = new Array(config.nDays).fill(0);
+
     for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
         hist_values[i] = day.filter(x => x === activityCode).length;
+        console.log(day);
+
     }
     plotBarchart(hist_values, config.nDays);
     return hist_values;
@@ -45,6 +47,7 @@ function orderVisualizations(activityCode, codesMatrix){
 function durationVisualizations(activityCode, codesMatrix){
     //var n_days  = Object.keys(codesMatrix).length; TODO
     var durationsPerDays = [];
+    console.log(activityCode);
     for (let i= 0; i<config.nDays; i++){
         var tmpMatrix = codesMatrix[i].filter(function (activity){
             return activity == activityCode

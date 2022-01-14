@@ -2,8 +2,17 @@
 setLinkFromCookie();
 clickGraph();
 
-// set value to duration 
 
+$("#datePicker").on("input", function() {
+  let index = fromStringToDate(config.dates).indexOf($(this).val());
+  if (index < config.dates.length -config.observationWindowSize){
+    config.actualDataIndex = index;
+    updateHeatmap();
+  } else {
+    config.actualDataIndex = config.dates.length -config.observationWindowSize;
+    updateHeatmap();
+  }
+});
 
 /**Interaction functions */
 $('#dowload').on('click', function(){
@@ -11,15 +20,14 @@ $('#dowload').on('click', function(){
 });
 
 $('#dataSource').on('click', function(){
-  config.isSourceData = true;
-  // $('#showUpdateDuration').css('visibility', 'hidden');
-  showDataSource();
+  config.isGroundTruth = false;
+  updateHeatmap();
   clickGraph();
 });
 
 $('#groundtruth').on('click', function(){
-  config.isSourceData = false;
-  showGroundtruth();
+  config.isGroundTruth = true;
+  updateHeatmap();
   clickGraph();
 });
 
@@ -29,13 +37,11 @@ $('#loadDataset').on('click', function(){
 });
 
 $('body').on('click', '.activity-dropdown', function () {
-  
   config.activityCode = $(this).data('activityCode');
   config.anomalyDuration = computeMeanDuration( dataset.sourceData);
   console.log(config.activityCode);
-  console.log('dropdown');
   $("#messageDropdown").text(translateActivityCode(config.activityCode));
-  console.log(config.activityCode[0]);
+  console.log(config.activityCode);
   updateGraphs();
   clickGraph();
 });
@@ -110,7 +116,6 @@ function loadDataset(is_index){
   }
 }
 
-
 function setLinkFromCookie() {
   if (document.cookie.split(';')[0] != undefined) {
     config.link_dataset = document.cookie.split(';')[0].split("=")[1];
@@ -120,19 +125,21 @@ function setLinkFromCookie() {
 }
 
 function updateGraphs(){
+  console.log(config.activityCode);
+  
   switch (config.anomalyCode) {
       case 1:
-          frequencyVisualizations(config.activityCode,data_matrix[0].z);
+          frequencyVisualizations(config.activityCode,dataset.sourceData);
           break;
       case 2:
-          durationVisualizations(config.activityCode, data_matrix[0].z)
+          durationVisualizations(config.activityCode, dataset.sourceData)
           break;
-      case 3:
+      /*case 3:
           positionVisualization(config.activityCode, data_matrix[0].z);
           break;
       case 4:
           orderVisualizations(config.activityCode,data_matrix[0].z);
-          break;
+          break;*/
       default:
         console.log(`Sorry, we are out of ${expr}.`);
   } 

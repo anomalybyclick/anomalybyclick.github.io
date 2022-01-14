@@ -9,7 +9,9 @@ const config = {
     dates: [],
     labels: [],
     dataV:{},
-    codes:[]
+    codes:[],
+    actualDataIndex : 0,
+    observationWindowSize: 7
 }
 
 
@@ -57,6 +59,6 @@ const colorscaleValues2 = [
 
 const dataset ={
     sourceData: [],
-    groundTruth: []
+    groundTruth: [],
 }
 

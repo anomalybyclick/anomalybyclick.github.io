@@ -39,7 +39,7 @@ function setTitle (label, font=18){
 }
 
 function translateActivityCode(activityCode){
-    if(activityCode == -1) return 'No Activity';
+    if(activityCode == -1 || activityCode === undefined) return 'No Activity';
     return config.dataV[activityCode].activity;
  
 }
@@ -71,7 +71,6 @@ function getMin(values){
 }
 
 function renderDropDown(data){
-    console.log(data);
     var html = `
     <a class="dropdown-item preview-item activity-dropdown" data-activity-code= "%CODES%">
     <div class="preview-item-content flex-grow py-2">
@@ -87,7 +86,6 @@ function renderDropDown(data){
         dictionary[data.codes[i]] = {'code': data.codes[i],'activity':  data.activities[i]};
     }
     config.dataV = dictionary;
-    console.log(config.dataV);
 
     $.each(dictionary, function(key, v){
         $('.dropdown-menu').append(html.replaceAll('%CODES%', v.code).replaceAll('%LABELS%', v.activity));
@@ -95,8 +93,6 @@ function renderDropDown(data){
    
     return dictionary;
 }
-
-
 
 function reduceTickVals(arr, step=10){
     if(arr.length < 20) return;
@@ -113,7 +109,6 @@ function convertMinutesIntoMinutesHours(minutes){
 }
 
 function computeMeanDuration(codesMatrix){
-    console.log(codesMatrix)
     var durationsPerDays = [];
     for (let i= 0; i<config.nDays; i++){
         var tmpMatrix = codesMatrix[i].filter(function (activity){
@@ -124,5 +119,17 @@ function computeMeanDuration(codesMatrix){
     return computeMean(durationsPerDays);
 }
 
+function fromStringToDate(array){
+    return array.map(date => convertDateStringFormat(date));
+}
+
+function convertDateStringFormat(date){
+    let tmp = date.split('/');
+    return tmp[2]+'-'+tmp[1]+ '-'+tmp[0]
+}
+
+function zerosMatrix (rows, columns, fill=0){
+    return Array(rows).fill().map(() => Array(columns).fill(fill));
+}
 
 

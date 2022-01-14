@@ -1,15 +1,15 @@
 var mainGraph = document.getElementById('mainGraph');
 var data_matrix = setGraph(colorscaleValues);
 var settings = {displayModeBar: true, scrollZoom: true,modeBarButtonsToRemove: ['toImage', 'toggleSpikelines', 'hoverClosestGl2d', 
-'resetViewMapbox', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian']};
-const map1 = [...Array(1440).keys()].map(x => convertMinutesIntoMinutesHours(x));
+'resetViewMapbox', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian']} ;
+const map1 = [...Array(1440).keys()].map(x => convertMinutesIntoMinutesHours(x)); // minuti convertiti in ore
 
 var layout = {
   showlegend: true,
   dtick :100,
   margin: {
     l: 100,
-    r: 10,
+    r: 250,
     b: 50,
     t: 30,
     pad: 4
@@ -21,11 +21,18 @@ var layout = {
   tickmode:[]
   },
   xaxis:{
-    title:"Minutes in a day",
+    title:"Time",
     tickmode:'array',
     ticktext: reduceTickVals(map1,100),
     tickvals: reduceTickVals([...Array(1440).keys()], 100),
-  }
+  },
+  modebar: {
+    orientation: 'v',
+    bgcolor: 'white',
+    color: '#1F3BB3',
+    activecolor: '#9ED3CD'
+  },
+  
 };
 Plotly.newPlot('mainGraph', data_matrix,layout,settings);
 
@@ -49,6 +56,10 @@ function setGraph (colorscale, data = [], isGroundTruth = false){
   ];
 }
 
+function filterSourceData(data){
+  return data.slice(config.actualDataIndex,config.actualDataIndex+config.observationWindowSize);
+}
+
 function clickGraph(){
   if(config.isSourceData) {
     document.getElementById('mainGraph').on('plotly_click', function(data){
@@ -64,26 +75,20 @@ function clickGraph(){
   }
 }
 
-function showGroundtruth(){
-  var tmp = setGraph(colorscaleValues2, dataset.groundTruth, true );
-  Plotly.newPlot('mainGraph', tmp,layout,settings);
-}
 
-function showDataSource(){
-  var tmp = setGraph(colorscaleValues, dataset.sourceData );
-  Plotly.newPlot('mainGraph', tmp,layout,settings);
-}
 
 function updateMatrixWithAnomaly(x_cord, y_cord, x1_cord){
+  console.log(dataset)
   for (i = 0; i< (x1_cord - x_cord); i++){
-    data_matrix[0]['z'][y_cord][x_cord+i] = config.activityCode;
+    data_matrix[0]['z'][y_cord][x_cord+i] = config.activityCode; // aggiornamento visuale
+    dataset.sourceData[y_cord+config.actualDataIndex][x_cord+i] = config.activityCode; // aggiornamento della matrice sorgente
   }
   updateHeatmap();
 }
 
 function updateGroundTruth(x_cord, y_cord, x1_cord){
   for (i = 0; i< (x1_cord - x_cord); i++){
-    dataset.groundTruth[y_cord][x_cord+i] = config.anomalyCode;
+    dataset.groundTruth[y_cord+config.actualDataIndex][x_cord+i] = config.anomalyCode;
   }
 }
 
@@ -92,42 +97,49 @@ function createPlotFromJson(linkToOnlineDataset) {
 
     dataset.sourceData = figure.z;
     config.nDays = math.size(dataset.sourceData)[0]
-    dataset.groundTruth = Array(config.nDays).fill().map(() => Array(1440).fill(0))
+    dataset.groundTruth = zerosMatrix(config.nDays, 1440, 0);
     config.dates =  figure.dates;
     config.labels = figure.dictionary.activities;
     config.codes = figure.dictionary.codes;
     config.dataV = renderDropDown(figure.dictionary);
+    config.anomalyDuration = computeMeanDuration( dataset.sourceData);
+
     $("#messageDropdown").text(translateActivityCode(config.activityCode));
+    $('#datePicker').val(fromStringToDate(config.dates)[0]);
+
     layout.yaxis.tickvals = reduceTickVals([...Array(math.size(figure.z)[0]).keys()], 15);
     layout.yaxis.ticktext = reduceTickVals(config.dates,15);
-    
-    frequencyVisualizations(config.activityCode,dataset.sourceData);
+
+    // frequencyVisualizations(config.activityCode,dataset.sourceData); TODO  da riattivare per i grafici sotto
     updateHeatmap();
-    config.anomalyDuration = computeMeanDuration( dataset.sourceData);
   });
 };
 
 function updateHeatmap(){
-  data_matrix[0]['z'] = dataset.sourceData;
-  var textActivity = anomalyTextInfoTranslated ("ACTIVITY");
+  // data_matrix[0]['z'] = filterSourceData(dataset.sourceData);
+  data_matrix[0]['z'] = (!config.isGroundTruth) ? filterSourceData(dataset.sourceData) :filterSourceData(dataset.groundTruth);
+  var textActivity = anomalyTextInfoTranslated("ACTIVITY");
   var text = data_matrix[0]['z'].map((row, i) => row.map((item, j) => {
     return `
       Data: ${config.dates[i]}<br>
       ${textActivity} ${translateActivityCode(item)}<br>
       Time: ${map1[j]}
-      ` 
-  }))
+      `
+  }));
+
   data_matrix[0]['text'] = text;
   data_matrix[0]['hoverinfo'] = 'text';
-  data_matrix[0]['colorbar']['tickvals']  = config.codes;
-  data_matrix[0]['colorbar']['ticktext'] = config.labels;
+  
+  data_matrix[0]['colorbar']['tickvals'] = (!config.isGroundTruth) ? config.codes :[0,1,2,3,4];
+  data_matrix[0]['colorbar']['ticktext']  = (!config.isGroundTruth) ? config.labels : ["No Anomaly","Frequency","Duration","Order","Position"],
+  data_matrix[0]['colorscale'] = (!config.isGroundTruth) ? colorscaleValues :colorscaleValues2;
+ 
   Plotly.redraw('mainGraph');
 }
 
 function plotBarchart(y, n_days, type="frequency"){
     var x = [...Array(n_days).keys()];
-    var xValue = config.dates;
-    var textActivity = anomalyTextInfoTranslated ("ACTIVITY");
+    var xValue = config.dates;    
     var data = {
         x: x,
         y: y,
@@ -138,8 +150,8 @@ function plotBarchart(y, n_days, type="frequency"){
         hoverinfo: 'text',
         text: y.map((item, i) => {
           return `
-            Data: ${config.dates[i]}<br>
-            ${textActivity}: ${item}
+          Data: ${config.dates[i]}<br>
+          Value: ${item}
             ` 
         })
     };
@@ -222,10 +234,14 @@ function plotPositionGraph (y, steps=1440){
   var layout = {
     showlegend: false,
     xaxis: {
-      title:  config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
+      title:  config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours'),
+      tickmode:'array',
+      ticktext: reduceTickVals(map1,100),
+      tickvals: reduceTickVals([...Array(1440).keys()], 100),
     },
     yaxis: {
-      title: setTitle(anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 4),12)
+      title: setTitle(anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 4),12),
+      
     }      
 };
   var data = [trace1, trace2];
