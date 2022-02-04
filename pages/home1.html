@@ -25,7 +25,6 @@
 </head>
 <body>
   <div class="container-scroller bg"> 
-   
       <nav class="navbar default-layout row p-0 fixed-top d-flex align-items-top flex-row">
         <div class="row">
           <div class="col-auto">
@@ -72,14 +71,6 @@
             </div>
           </div>
         </div>
-  
-    
-  
-       
-        
-          
-          
-  
       </nav>
     </div>
    
@@ -135,9 +126,11 @@
       </nav>
       <!-- partial -->
       <div class="main-panel">
-        <div class="content-wrapper">
+        <div class="content-wrapper pt-0">
 
-          <div class="row tools-row">
+          <div class="row position-fixed tools">
+            <div class="col-12">
+              <div class="row tools-row " >
                 <div class="col-auto d-flex align-items-center">
                   <span >Select activity</span> 
                   <div class="dropdown" >
@@ -173,8 +166,11 @@
                 </div>
                 
           </div>
+            </div>
+          </div>
+          
          
-          <div class="row tools-row mt-3">
+          <div class="row tools-row" style=" margin-top:80px !important;">
             <div class="row justify-content-between mt-3">
                 <!--Tool e titolo grafico principale-->
                 <div class="col-auto">
@@ -182,7 +178,7 @@
                 </div>
                 <div class="col-auto">
                   <div class="row">
-                    <div class="col-auto spacing" > <!--id="showUpdateDuration"-->
+                    <div class="col-auto spacing" id="showUpdateDuration"> <!---->
                       <div class="row">
                         <p class="font-weight-bold p-0">Duration in minutes</p>
                       </div>
@@ -208,10 +204,10 @@
                             <span class="menu-title lang" >Source</span>
                           </a>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item d-flex my-auto align-items-center source-dropdown" href="#" data-source="original">
+                            <a class="dropdown-item d-flex my-auto align-items-center source-dropdown" href="#" data-source="original" key="MAINGRAPH.DATA">
                               <span class="menu-title lang">Source</span>
                             </a>
-                            <a class="dropdown-item d-flex align-items-center source-dropdown" href="#" data-source="annotations">
+                            <a class="dropdown-item d-flex align-items-center source-dropdown" href="#" data-source="annotations" key="MAINGRAPH.GROUNDTRUTH">
                               <span class="menu-title lang">Anomaly</span>
                             </a>
                           </div>
@@ -227,7 +223,7 @@
             </div>
           </div>
 
-          <div class="row tools-row mt-3" id="infoGraphDiv">
+          <div class="row tools-row" id="infoGraphDiv" style=" margin-top:20px !important;">
             <div class="row">
                 <!--Tool e titolo grafico secondario-->
                 <div class="col-auto">
@@ -238,7 +234,7 @@
               <!--Grafico secondario-->
               <div class="col-12">
                 <div class="row">
-                  <div class= "bg-light" id='infoGraph'>
+                  <div class= "bg-light p-0" id='infoGraph'>
                   </div>
                 </div>
                 <div class="row">
