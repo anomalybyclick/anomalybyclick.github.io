@@ -1,7 +1,7 @@
 const config = {
     anomalyDuration : 1,
     activityCode : 0,
-    link_dataset: "https://raw.githubusercontent.com/Joker84a/alterdataset/main/documents/datasets/ELinus.json",
+    link_dataset: "",
     anomalyCode: 1,
     timeGranularity: 'mm',
     nDays: 0,
@@ -16,8 +16,8 @@ const config = {
 
 
 const colorscaleValues = [
-    [0, 'rgb(0,0,0,0.8)'],
-    [0.143, 'rgb(0,0,0,0.8)'], //-1
+    [0, 'rgb(34,34,34,0.8)'],
+    [0.143, 'rgb(34,34,34,0.8)'], //-1
 
     [0.143, 'rgb(63,129,110)'],
     [0.286, 'rgb(63,129,110)'], //0

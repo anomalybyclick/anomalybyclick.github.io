@@ -1,6 +1,6 @@
 var mainGraph = document.getElementById('mainGraph');
 var data_matrix = setGraph(colorscaleValues);
-var settings = {displayModeBar: true, scrollZoom: true,modeBarButtonsToRemove: ['toImage', 'toggleSpikelines', 'hoverClosestGl2d', 
+var settings = {displayModeBar: true, scrollZoom: false,modeBarButtonsToRemove: ['toImage', 'toggleSpikelines', 'hoverClosestGl2d', 
 'resetViewMapbox', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian']} ;
 const map1 = [...Array(1440).keys()].map(x => convertMinutesIntoMinutesHours(x)); // minuti convertiti in ore
 

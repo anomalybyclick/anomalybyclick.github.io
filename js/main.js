@@ -1,7 +1,20 @@
 /**on startup */
-setLinkFromCookie();
-clickGraph();
+setLinkFromCookie(); 
+clickGraph(); 
 
+
+$('body').on('click', '.lang-dropdown', function () {
+  updateLanguageMenu(($(this).data('language')));
+});
+
+$('body').on('click', '.source-dropdown', function () {
+  var val = $(this).data('source');
+  $('#dataDropdown').text(val);
+  (val === 'original') ? config.isGroundTruth = false : config.isGroundTruth = true;
+  console.log(config.isGroundTruth);
+  updateHeatmap();
+  clickGraph();
+});
 
 $("#datePicker").on("input", function() {
   let index = fromStringToDate(config.dates).indexOf($(this).val());
@@ -19,17 +32,17 @@ $('#dowload').on('click', function(){
   dowload();
 });
 
-$('#dataSource').on('click', function(){
+/*$('#dataSource').on('click', function(){ // DA TOGLIERE
   config.isGroundTruth = false;
   updateHeatmap();
   clickGraph();
 });
 
-$('#groundtruth').on('click', function(){
+$('#groundtruth').on('click', function(){ // DA TOGLIERE
   config.isGroundTruth = true;
   updateHeatmap();
   clickGraph();
-});
+});*/
 
 $('#loadDataset').on('click', function(){
   loadDataset(false);
@@ -44,9 +57,9 @@ $('body').on('click', '.activity-dropdown', function () {
   clickGraph();
 });
 
-$(".language").on('click', function(){
-  setLanguage($(this).data('language'));
-});
+//$(".language").on('click', function(){
+//  setLanguage($(this).data('language'));
+//});
 
 $(".anomaly").on('click', function(){
   document.getElementById("infoGraphDiv").scrollIntoView();
@@ -110,18 +123,24 @@ function dowload(){
 
 function loadDataset(is_index){
   config.link_dataset = $("#link").val().trim();
+  console.log(config.link_dataset);
   document.cookie = "link=" + config.link_dataset;
   if(is_index){
     window.location.href="./pages/home.html";
   }
 }
 
-function setLinkFromCookie() {
+function setLinkFromCookie() { //TODO da sistemare 
+  console.log('ciao');
+  console.log(config.link_dataset);
   if (document.cookie.split(';')[0] != undefined) {
-    config.link_dataset = document.cookie.split(';')[0].split("=")[1];
-    $("#link").val(config.link_dataset);
+    console.log('ciao');
+    config.link_dataset = "https://raw.githubusercontent.com/Joker84a/Joker84a.github.io/main/documents/datasets/ELinus_patient2.json"
+    //config.link_dataset = document.cookie.split(';')[0].split("=")[1];
+    //$("#link").val(config.link_dataset);
     createPlotFromJson(config.link_dataset);
   }
+  // $("#link").val('https://raw.githubusercontent.com/Joker84a/alterdataset/main/documents/datasets/ELinus.json');
 }
 
 function updateGraphs(){
@@ -144,3 +163,8 @@ function updateGraphs(){
         console.log(`Sorry, we are out of ${expr}.`);
   } 
 }
+
+
+/****/ 
+
+

@@ -1,3 +1,111 @@
+:root{
+  --bg:#F3F4F6;
+  --color-title: #404040;
+  --bg-secondary:#E4E4E4;
+  --blue: #1F3BB3;
+  --gradient-button: linear-gradient(45deg, rgba(52,152,219,1) 12%, rgba(31,59,179,1) 100%);
+  --secondary-gray: #E7E7E7;
+  --light-blue: #2FC5FA;
+}
+
+.spacing{
+  margin-left: 15px;
+}
+
+.small-title{
+  color: var(--light-blue);
+  font-size: 12px;
+  font-weight: bold;
+  
+}
+
+.infoCard{
+  height: 90px;
+  background-color: var(--blue);
+  margin: 10px;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.custom-padding{
+  padding: 3px;
+}
+.custom-padding2{
+  padding: 4px;
+}
+
+.rounded-menu-blue{
+  background-color: white !important;
+  width: 150px;
+  border: solid 2px var(--blue);
+  border-radius: 25px;
+}
+
+.bg{
+  background-color: var(--bg);
+}
+
+.tools-row{
+  background-color: white;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.nav-button{
+  background-color: var(--bg) !important;
+  color: var(--color-title) !important;
+  border-radius: 0 25px 25px 0 !important;
+  border-color: var(--bg) !important;
+}
+
+.nav-button.active{
+  background-color: var(--bg-secondary) !important;
+}
+
+.nav-title{
+  color: var(--color-title);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  margin: 0 30px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 20px 0px 5px 0px;
+  text-transform: uppercase;
+}
+
+.nav-button-group{
+  padding-left: 15px !important;
+}
+
+
+.select-menu {
+  height: 40px !important;
+  border-radius: 25px !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+/*SEARCH FORM*/
+.search-form {
+  border-radius: 30px 0px 0px 30px;
+  /*border-radius:Top-left, Top-right, Bottom-right, Bottom-left;*/
+}
+/*to cange only one form and not all give unique class name like  class="search-form" */
+.search-btn {
+  border-radius: 0px 30px 30px 0px;
+  cursor:pointer;
+  height: 2rem;
+  background: var(--gradient-button);
+  color: white;
+}
+
+.rounded-menu{
+  border-radius: 25px;
+  background-color: var(--secondary-gray);
+  height: 40px;
+}
+/**/
+
+
 #blackText{
   color: black;
 }
@@ -13,82 +121,140 @@
 }
 
 .icon{
-  height: 20px;
-  width: 20px;
+  height:30px;
+  width: 30px;
   display: block;
-  margin-right: 20px;;
+  margin-right: 20px;
 }
 
 @font-face {
-    font-family: myFirstFont;
-    src: url(../scss/fonts/Manrope/Manrope-Light.eot);
-  }
-  
- .wrapper{
-    background: white;
-  }
-  
-  .toggle_radio{
-    position: relative;
-    background: rgba(0,0,0,.1);
-    margin: 4px auto;
-    overflow: hidden;
-    padding: 0 !important;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-    position: relative;
-    height: 26px;
-    width: 132px;
-  }
-  .toggle_radio > * {
-    float: left;
-  }
-  .toggle_radio input[type=radio]{
-    display: none;
-    /*position: fixed;*/
-  }
-  .toggle_radio label{
+  font-family: myFirstFont;
+  src: url(../scss/fonts/Manrope/Manrope-Light.eot);
+}
 
-    color: rgba(0,0,0,.9);
-    z-index: 0;
-    display: block;
-    width: 60px;
-    height: 20px;
-    margin: 3px 3px;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-    cursor: pointer;
-    z-index: 1;
-    /*background: rgba(0,0,0,.1);*/
-    text-align: center;
-    /*margin: 0 2px;*/
-    /*background: blue;*/ /*make it blue*/
-  }
-  .toggle_option_slider{
-    /*display: none;*/
-    /*background: red;*/
-    width: 60px;
-    height: 20px;
-    position: absolute;
-    top: 3px;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-    -webkit-transition: all .4s ease;
-    -moz-transition: all .4s ease;
-    -o-transition: all .4s ease;
-    -ms-transition: all .4s ease;
-    transition: all .4s ease;
-  }
-  
-  #first_toggle:checked ~ .toggle_option_slider{
-    background: rgba(0,0,0,.3);
-    left: 3px;
-  }
-  #second_toggle:checked ~ .toggle_option_slider{
-    background: rgba(0,0,0,.3);
-    left: 66px;
-  }
+/*toogle radio mm/hh**/
+
+.toggle_radio{
+  position: relative;
+  background: var(--blue);
+  margin: 4px auto;
+  overflow: hidden;
+  padding: 0 !important;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  position: relative;
+  height: 34px;
+  width: 132px;
+  margin-left: 15px;
+}
+.toggle_radio > * {
+  float: left;
+}
+.toggle_radio input[type=radio]{
+  display: none;
+}
+.toggle_radio label{
+  color: white;
+  display: block;
+  width: 60px;
+  height: 28px;
+  margin: 3px 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1;
+  text-align: center;
+  padding-top: 3px;
+}
+
+.toggle_option_slider{
+  width: 60px;
+  height: 28px;
+  position: absolute;
+  top: 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+}
+
+
+#first_toggle:checked ~ .toggle_option_slider {
+  background: rgba(255,255,255,.5);
+  left: 4px;
+}
+#second_toggle:checked ~ .toggle_option_slider{
+  background: rgba(255,255,255,.5);
+  left: 68px;
+}
+
+
+/****/
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-left: 15px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--blue);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--blue);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
  

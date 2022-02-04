@@ -31,7 +31,7 @@
             
         },
         "DOWNLOAD":"Export",
-        "LOAD":"Load",
+     
         "ACTIVITY": "Activity:",
         "ACTIVITY-SELECTION":"Select activity:",
         "ANOMALIES-TITLE":"Anomalies",
@@ -76,7 +76,7 @@
             
         },
         "DOWNLOAD":"Scarica",
-        "LOAD":"Carica",
+     
         "ACTIVITY": "Attività:",
         "ACTIVITY-SELECTION":"Seleziona attività:",
         "ANOMALIES-TITLE":"Anomalie",

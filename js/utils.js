@@ -88,7 +88,7 @@ function renderDropDown(data){
     config.dataV = dictionary;
 
     $.each(dictionary, function(key, v){
-        $('.dropdown-menu').append(html.replaceAll('%CODES%', v.code).replaceAll('%LABELS%', v.activity));
+        $('#dropdown-activity').append(html.replaceAll('%CODES%', v.code).replaceAll('%LABELS%', v.activity)); 
     })
    
     return dictionary;
