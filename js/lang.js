@@ -17,13 +17,18 @@ $(document).ready(function() {
 function setLanguage(langCode= 'en'){
     lang = langCode;
     $(".lang").each(function(index, element) {
-      console.log($(this).attr("key"));
+      
         $(this).text(translate($(this).attr("key"), languages, lang));
     });
 }
 
 function translate(key,json,lang) {
       var keys, value, _i, _len;
+      
+      if (key == undefined) {
+       
+        return;
+      }
       keys = key.split(/\./);
       value = json[lang];
       for (_i = 0, _len = keys.length; _i < _len; _i++) {

@@ -63,6 +63,8 @@
   color: var(--color-title) !important;
   border-radius: 0 25px 25px 0 !important;
   border-color: var(--bg) !important;
+  width: 205px;
+  margin-left: -15px;
 }
 
 .nav-button.active{
@@ -71,7 +73,6 @@
 
 .nav-title{
   color: var(--color-title);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
   margin: 0 30px;
   font-size: 11px;
   font-weight: 700;
@@ -263,5 +264,16 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.infocard-text{
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.main-button{
+  border-radius: 100px !important;
+  background-color: var(--blue);
+  color: white;
 }
  

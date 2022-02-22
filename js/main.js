@@ -11,7 +11,6 @@ $('body').on('click', '.source-dropdown', function () {
   var val = $(this).data('source');
   $('#dataDropdown').text(val);
   (val === 'original') ? config.isGroundTruth = false : config.isGroundTruth = true;
-  console.log(config.isGroundTruth);
   updateHeatmap();
   clickGraph();
 });
@@ -32,17 +31,6 @@ $('#dowload').on('click', function(){
   dowload();
 });
 
-/*$('#dataSource').on('click', function(){ // DA TOGLIERE
-  config.isGroundTruth = false;
-  updateHeatmap();
-  clickGraph();
-});
-
-$('#groundtruth').on('click', function(){ // DA TOGLIERE
-  config.isGroundTruth = true;
-  updateHeatmap();
-  clickGraph();
-});*/
 
 $('#loadDataset').on('click', function(){
   loadDataset(false);
@@ -57,9 +45,6 @@ $('body').on('click', '.activity-dropdown', function () {
   clickGraph();
 });
 
-//$(".language").on('click', function(){
-//  setLanguage($(this).data('language'));
-//});
 
 $(".anomaly").on('click', function(){
   document.getElementById("infoGraphDiv").scrollIntoView();
@@ -79,15 +64,14 @@ $(".anomaly").on('click', function(){
       case 'position':
           $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 3;
-          var steps = (config.timeGranularity === 'hh') ? 1440 : 60;
-          plotPositionGraph(positionVisualization(config.activityCode,dataset.sourceData), steps);
+          plotPositionGraph(positionVisualization(config.activityCode,dataset.sourceData));
           clickGraph();
           break;
       case 'order':
           $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 4;
           var values = orderVisualizations(config.activityCode,dataset.sourceData);
-          plotParallelDiagram(values[0], values[1], values[2]);
+          plotParallelDiagram(values[0], values[2], values[1]);
           clickGraph();
           break;
       default:
@@ -123,24 +107,20 @@ function dowload(){
 
 function loadDataset(is_index){
   config.link_dataset = $("#link").val().trim();
-  console.log(config.link_dataset);
-  document.cookie = "link=" + config.link_dataset;
+  setCookie("abclink", config.link_dataset, 1000);
   if(is_index){
     window.location.href="./pages/home.html";
+  } else {
+    setLinkFromCookie()
   }
 }
 
-function setLinkFromCookie() { //TODO da sistemare 
-  console.log('ciao');
-  console.log(config.link_dataset);
-  if (document.cookie.split(';')[0] != undefined) {
-    console.log('ciao');
-    config.link_dataset = "https://raw.githubusercontent.com/Joker84a/Joker84a.github.io/main/documents/datasets/ELinus_patient2.json"
-    //config.link_dataset = document.cookie.split(';')[0].split("=")[1];
-    //$("#link").val(config.link_dataset);
+function setLinkFromCookie() {
+  if (getCookie("abclink") != undefined) {
+    config.link_dataset = getCookie("abclink");
+    $("#link").val(config.link_dataset);
     createPlotFromJson(config.link_dataset);
   }
-  // $("#link").val('https://raw.githubusercontent.com/Joker84a/alterdataset/main/documents/datasets/ELinus.json');
 }
 
 function updateGraphs(){
@@ -149,16 +129,16 @@ function updateGraphs(){
         plotBarchart(frequencyVisualizations(config.activityCode,dataset.sourceData));
         break;
       case 2:
-          plotBarchart(durationVisualizations(config.activityCode,dataset.sourceData));
-          break;
+        plotBarchart(durationVisualizations(config.activityCode,dataset.sourceData));
+        break;
       case 3:
-        var steps = (config.timeGranularity === 'hh') ? 60 : 1440;
-          plotPositionGraph(positionVisualization(config.activityCode,dataset.sourceData), steps);
-          break;
+        //var steps = (config.timeGranularity === 'hh') ? 60 : 1440;
+        plotPositionGraph(positionVisualization(config.activityCode,dataset.sourceData));
+        break;
       case 4:
-          var values = orderVisualizations(config.activityCode,dataset.sourceData);
-          plotParallelDiagram(values[0], values[1], values[2]);
-          break;
+        var values = orderVisualizations(config.activityCode,dataset.sourceData);
+        plotParallelDiagram(values[0], values[2], values[1]);
+        break;
       default:
         console.log(`Sorry, we are out of ${expr}.`);
   } 

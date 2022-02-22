@@ -1,6 +1,6 @@
 var mainGraph = document.getElementById('mainGraph');
 var data_matrix = setGraph(colorscaleValues);
-var settings = {displayModeBar: true, scrollZoom: false,modeBarButtonsToRemove: ['toImage', 'toggleSpikelines', 'hoverClosestGl2d', 
+var settings = {displayModeBar: false, scrollZoom: false,modeBarButtonsToRemove: ['toImage', 'toggleSpikelines', 'hoverClosestGl2d', 
 'resetViewMapbox', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian']} ;
 const map1 = [...Array(1440).keys()].map(x => convertMinutesIntoMinutesHours(x)); // minuti convertiti in ore
 
@@ -9,7 +9,7 @@ var layout = {
   dtick :100,
   margin: {
     l: 100,
-    r: 250,
+    r: 50,
     b: 50,
     t: 30,
     pad: 4
@@ -134,7 +134,8 @@ function updateHeatmap(){
   data_matrix[0]['colorbar']['tickvals'] = (!config.isGroundTruth) ? config.codes :[0,1,2,3,4];
   data_matrix[0]['colorbar']['ticktext']  = (!config.isGroundTruth) ? config.labels : ["No Anomaly","Frequency","Duration","Order","Position"],
   data_matrix[0]['colorscale'] = (!config.isGroundTruth) ? colorscaleValues :colorscaleValues2;
- 
+
+
   Plotly.redraw('mainGraph');
 }
 
@@ -162,6 +163,13 @@ function plotBarchart(y){
     
     var layout = {
         showlegend: false,
+        margin: {
+          l: 100,
+          r: 80,
+          b: 100,
+          t: 30,
+          pad: 4
+        },
         shapes: [createOrizontalLine(0,mean,config.nDays,mean),
             createOrizontalLine(0,upperStd,config.nDays,upperStd),
             createOrizontalLine(0,lowerStd,config.nDays,lowerStd)
@@ -181,12 +189,7 @@ function plotBarchart(y){
     };
 
     setTitleAdditionalGraph( anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", config.anomalyCode) );
-    // if(type == "frequency"){
-      layout.yaxis.title = anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", config.anomalyCode); 
-    /*} else {
-      layout.yaxis.title = config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours')
-    }*/
-
+    layout.yaxis.title = anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", config.anomalyCode); 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
 
     setStatisticalInformation(computeMean(y), computeStd(y),
@@ -218,12 +221,8 @@ function plotParallelDiagram(pre, middle, post){
 }
 
 function plotPositionGraph (y, steps=1440){
-  var trace1 = {
-    z: [y],
-    x: [...Array(steps).keys()],
-    y:Array.from({length:50},(v,k)=>k-50).reverse(),
-    type: 'heatmap',
-  };
+ console.log(config.timeGranularity)
+  
   var trace2 = {
     x: [...Array(steps).keys()],
     y: y,
@@ -233,8 +232,15 @@ function plotPositionGraph (y, steps=1440){
   };
   var layout = {
     showlegend: false,
+    margin: {
+      l: 100,
+      r: 80,
+      b: 100,
+      t: 30,
+      pad: 4
+    },
     xaxis: {
-      title:  config.timeGranularity == "mm" ? setTitle('Minutes') : setTitle('Hours'),
+      title: setTitle('Hours'),
       tickmode:'array',
       ticktext: reduceTickVals(map1,100),
       tickvals: reduceTickVals([...Array(1440).keys()], 100),
@@ -243,7 +249,7 @@ function plotPositionGraph (y, steps=1440){
       title: setTitle(anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 4),12),
     }      
 };
-  var data = [trace1, trace2];
+  var data = [ trace2];
   Plotly.newPlot('infoGraph', data, layout);
   setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
   cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", 4));

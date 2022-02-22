@@ -28,7 +28,6 @@
                 "MAXDATE":"Date max.",
                 "MINDATE":"Date min."
             }
-            
         },
         "DOWNLOAD":"Export",
         "LOAD":"Load",
@@ -42,7 +41,11 @@
             "SELECTE-LANGUAGES":"Select language",
             "IT":"Italian",
             "EN":"English"
-        }
+        },
+        "7WEEK-VIS":"7 Days visualization",
+        "TIME-GRANULARITY":"Time granularity",
+        "WEEK":"Week of observation",
+        "DURATION":"Duration in minutes"
     },
     "it":{
         "TITLE":"Carica il tuo dataset in formato JSON",
@@ -87,6 +90,10 @@
             "SELECTE-LANGUAGES":"Seleziona lingua",
             "IT":"Italiano",
             "EN":"Inglese"
-        }
+        },
+        "7WEEK-VIS":"Visualizzazione a 7 giorni",
+        "TIME-GRANULARITY":"Grana temporale",
+        "WEEK":"Settimana visualizzata",
+        "DURATION":"Durata in minuti"
     }
 }

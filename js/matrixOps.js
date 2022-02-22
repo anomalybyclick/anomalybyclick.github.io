@@ -28,7 +28,6 @@ function orderVisualizations(activityCode, codesMatrix){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
         day.filter(function(array, index) {
             if(array == activityCode && (index+1)<config.nDays && (index-1)>0){
-                console.log(day[index+1]);
                 postActivities.push(translateActivityCode(day[index+1]));
                 preActivities.push(translateActivityCode(day[index-1]));
             }
@@ -52,13 +51,13 @@ function durationVisualizations(activityCode, codesMatrix){
             return item/60;
         });
     }
-    console.log(config.timeGranularity);
+   
     return durationsPerDays;
 }
 
 
 function positionVisualization (activityCode, codesMatrix){
-    console.log(codesMatrix)
+   
     var activityPositionInDays = new Array(1440).fill(0);
     for (let i= 0; i<config.nDays; i++){
         for (let j = 0; j< 1440; j++){
