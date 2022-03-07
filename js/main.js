@@ -79,6 +79,13 @@ $(".anomaly").on('click', function(){
   } 
 });
 
+const durationInput = document.getElementById('anomalyDuration');
+durationInput.addEventListener('input', updateValue);
+function updateValue(e) {
+  config.anomalyDuration = e.target.value;
+  console.log(config.anomalyDuration)
+}
+
 //get and set anomaly duration form dropdown menu
 $('#updatemAnomalyDuration').on('click', function () {
   config.anomalyDuration = $("#anomalyDuration").val();
