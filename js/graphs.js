@@ -156,7 +156,7 @@ function confirmOrDropAnomaly(){
     });
 }
 
-function plotBarchart(y){
+function plotBarchart(y, type){
     var x = [...Array(config.nDays).keys()];
     var xValue = config.dates;    
     var data = {
@@ -172,19 +172,27 @@ function plotBarchart(y){
         })
     };
 
-    // assign data to y without anomalies
-    data.y = y.map(function (v) {
-      return v % 10 == 0 ? v/10 : v
-    });
+    
+      // assign data to y without anomalies
+      data.y = y.map(function (v) {
+        if(config.anomalyCode == 1)
+          return v % 10 == 0 ? v/10 : v
+        else 
+          return typeof v  == 'string' ? parseInt(v.replace('!','')) : v
+      });
+      // detect anomalies by dividing by 10
+      data.marker.color = y.map(function (v) {
+        if(config.anomalyCode == 1)
+          return v % 10 == 0 ? 'red' : '#1F3BB3'
+        else
+          return typeof v  == 'string' ? 'red' : '#1F3BB3'
+      });
+   
+    
 
-    // detect anomalies by dividing by 10
-    data.marker.color = y.map(function (v) {
-      return v % 10 == 0 ? 'red' : '#1F3BB3'
-    });
-
-    var mean = computeMean(y);
-    var upperStd = computeMean(y)+computeStd(y);
-    var lowerStd = computeMean(y)-computeStd(y);
+    var mean = computeMean(data.y);
+    var upperStd = computeMean(data.y)+computeStd(data.y);
+    var lowerStd = computeMean(data.y)-computeStd(data.y);
     
     var layout = {
         showlegend: false,
@@ -219,12 +227,12 @@ function plotBarchart(y){
 
     confirmOrDropAnomaly()
 
-    setStatisticalInformation(computeMean(y), computeStd(y),
-      getMin(y), getMax(y), 
-      anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", config.anomalyCode),
-      config.dates[y.indexOf(getMin(y))], config.dates[y.indexOf(getMax(y))]);
+    setStatisticalInformation(computeMean(data.y), computeStd(data.y),
+        getMin(data.y), getMax(data.y), 
+        anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", config.anomalyCode),
+        config.dates[data.y.indexOf(getMin(data.y))], config.dates[data.y.indexOf(getMax(data.y))]);
 
-    $("#anomalyDuration").val(config.timeGranularity == "mm" ? computeMean(y) : computeMean(y)*60 );
+    $("#anomalyDuration").val(config.timeGranularity == "mm" ? computeMean(data.y) : computeMean(data.y)*60 );
 } 
 
 function plotParallelDiagram(pre, middle, post){
