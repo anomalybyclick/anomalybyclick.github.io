@@ -86,7 +86,7 @@ function updateMatrixWithAnomaly(x_cord, y_cord, x1_cord){
   updateHeatmap();
 }
 
-function updateGroundTruth(x_cord, y_cord, x1_cord){
+function updateGroundTruth(x_cord, y_cord, x1_cord ){
   for (i = 0; i< (x1_cord - x_cord); i++){
     dataset.groundTruth[y_cord+config.actualDataIndex][x_cord+i] = config.anomalyCode;
   }
@@ -94,10 +94,10 @@ function updateGroundTruth(x_cord, y_cord, x1_cord){
 
 function createPlotFromJson(linkToOnlineDataset) {
   Plotly.d3.json(linkToOnlineDataset, function(figure){ 
-
+    console.log(figure)
     dataset.sourceData = figure.z;
     config.nDays = math.size(dataset.sourceData)[0]
-    dataset.groundTruth = zerosMatrix(config.nDays, 1440, 0);
+    dataset.groundTruth = figure.anomalies//zerosMatrix(config.nDays, 1440, 0);
     config.dates =  figure.dates;
     config.labels = figure.dictionary.activities;
     config.codes = figure.dictionary.codes;
@@ -113,7 +113,6 @@ function createPlotFromJson(linkToOnlineDataset) {
     layout.yaxis.ticktext = reduceTickVals(config.dates,15);
 
     plotBarchart(frequencyVisualizations(config.activityCode,dataset.sourceData));
-    // plotBarchart(config.activityCode,dataset.sourceData); //TODO  da riattivare per i grafici sotto
     updateHeatmap();
   });
 };
@@ -141,24 +140,48 @@ function updateHeatmap(){
   Plotly.redraw('mainGraph');
 }
 
+function confirmOrDropAnomaly(){
+    document.getElementById('infoGraph').on('plotly_click', function(data){
+      console.log(data.points[0]['marker.color']);
+      if (data.points[0]['marker.color'] == 'red'){
+        if (window.confirm("Do you really want to leave?")) {
+          console.log(dataset.groundTruth[data.points[0].x])
+          dataset.groundTruth[data.points[0].x] = dataset.groundTruth[data.points[0].x].map(function(v){
+            return 0
+          })
+          console.log(dataset.groundTruth[data.points[0].x])
+          updateGraphs()
+        }
+      }
+    });
+}
+
 function plotBarchart(y){
     var x = [...Array(config.nDays).keys()];
     var xValue = config.dates;    
     var data = {
         x: x,
-        y: y,
         type: 'bar',
         marker: {
             color: '#1F3BB3'
         },
         hoverinfo: 'text',
         text: y.map((item, i) => {
-          return `
-          Data: ${config.dates[i]}<br>
-          Value: ${item}
-            ` 
+          return `Data: ${config.dates[i]}<br>
+                  Value: ${item}` 
         })
     };
+
+    // assign data to y without anomalies
+    data.y = y.map(function (v) {
+      return v % 10 == 0 ? v/10 : v
+    });
+
+    // detect anomalies by dividing by 10
+    data.marker.color = y.map(function (v) {
+      return v % 10 == 0 ? 'red' : '#1F3BB3'
+    });
+
     var mean = computeMean(y);
     var upperStd = computeMean(y)+computeStd(y);
     var lowerStd = computeMean(y)-computeStd(y);
@@ -193,6 +216,8 @@ function plotBarchart(y){
     setTitleAdditionalGraph( anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", config.anomalyCode) );
     layout.yaxis.title = anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", config.anomalyCode); 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
+
+    confirmOrDropAnomaly()
 
     setStatisticalInformation(computeMean(y), computeStd(y),
       getMin(y), getMax(y), 

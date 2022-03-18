@@ -2,7 +2,12 @@ function frequencyVisualizations(activityCode, codesMatrix){
     var hist_values = new Array(config.nDays).fill(0);
     for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
+        var anomalies = removeActivityCodeRepetitions(dataset.groundTruth[i])
         hist_values[i] = day.filter(x => x === activityCode).length;
+        var tmp = anomalies.filter(x => x === 1).length
+        if(tmp !=0){
+            hist_values[i] = hist_values[i] * 10
+        }
     }
     return hist_values;
 }
