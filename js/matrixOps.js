@@ -19,29 +19,31 @@ function removeActivityCodeRepetitions(activitiesCodes){
     return matrix;
 }
 
-
 function cutDecimanlsInString(valueLabel, length = 4){
     valueLabel = valueLabel.toString();
     return valueLabel.substring(0, length);
 }
 
-
 function orderVisualizations(activityCode, codesMatrix){
     var preActivities = [];
     var postActivities = [];
+    
     for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
-        day.filter(function(array, index) {
+       
+        day.map(function(array, index) {
             if(array == activityCode && (index+1)<config.nDays && (index-1)>0){
+
                 postActivities.push(translateActivityCode(day[index+1]));
                 preActivities.push(translateActivityCode(day[index-1]));
             }
         });
     }
-    return [preActivities, postActivities, [...Array(preActivities.length).fill(translateActivityCode(activityCode))]];
-    // plotParallelDiagram(preActivities, [...Array(preActivities.length).fill(translateActivityCode(activityCode))], postActivities);
-}
+    preActivities.sort();
+    postActivities.sort();
 
+    return [preActivities, postActivities, [...Array(preActivities.length).fill(translateActivityCode(activityCode))]];
+}
 
 function durationVisualizations(activityCode, codesMatrix){
     var durationsPerDays = [];
@@ -49,7 +51,12 @@ function durationVisualizations(activityCode, codesMatrix){
         var tmpMatrix = codesMatrix[i].filter(function (activity){
             return activity == activityCode
         });
-        durationsPerDays.push(tmpMatrix.length);
+
+        var anomalies = dataset.groundTruth[i].filter(x => x === 2).length
+        if(anomalies !=0)
+            durationsPerDays.push(tmpMatrix.length + '!');
+        else
+            durationsPerDays.push(tmpMatrix.length);
     }
     if(config.timeGranularity === 'hh'){
         durationsPerDays = durationsPerDays.map(function(item) { 
