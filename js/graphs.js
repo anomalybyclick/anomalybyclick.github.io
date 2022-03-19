@@ -158,14 +158,47 @@ function confirmOrDropAnomaly(type='bar'){
             for (j=0; j<dataset.sourceData[i].length;j++){
               if(translateActivityCode(dataset.sourceData[i][j]) == data.points[0].target.label.replace("!","") && dataset.groundTruth[i][j] == 4)
                 dataset.groundTruth[i][j] = 0
-                
-                
             }
           }
           updateGraphs()
         }
       } else {
         console.log(data.points[0])
+        if(data.points[0].fullData.fillcolor == 'red'){
+
+        
+          var x = data.points[0].x
+          var dataY = data.points[0].data.y
+          var x_=x
+
+          var stop = false
+          var intervall ={start:0, end:0}
+
+          while (!stop){
+            stop = dataY[x++] == 0 ? true : false
+            if(x>1440)
+              break
+          }
+          intervall.end = x
+          console.log(stop)
+          while (stop){
+            stop = dataY[x_--] == 0 ? false : true
+            if(x_<0)
+              break
+          }
+          intervall.start = x_
+          console.log('finito')
+        
+        console.log(intervall)
+        for (i=0; i<dataset.groundTruth.length; i++){
+          for(j=intervall.start; j<intervall.end; j++){
+            dataset.groundTruth[i][j] = 0
+          }
+        }
+        updateGraphs()
+        }
+
+
       }
     });
 }
@@ -295,15 +328,26 @@ function plotParallelDiagram(pre, middle, post){
     setTitleAdditionalGraph(anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 3));
 }
 
-function plotPositionGraph (y, steps=1440){
+function plotPositionGraph (y, anomalies, steps=1440){
   
   var trace2 = {
     x: [...Array(steps).keys()],
     y: y,
     fill: 'tonexty',
     type: 'scatter',
+    fillcolor: 'blue',
     line: {shape: 'spline'}
   };
+
+  var trace1 = {
+    x: [...Array(steps).keys()],
+    y: anomalies,
+    fill: 'tozeroy',
+    type: 'scatter',
+    fillcolor: 'red',
+    line: {shape: 'spline'}
+  }
+
   var layout = {
     showlegend: false,
     margin: {
@@ -321,9 +365,12 @@ function plotPositionGraph (y, steps=1440){
     },
     yaxis: {
       title: setTitle(anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", 4),12),
-    }      
+    },
+    hovermode: 'closest'
+
+      
 };
-  var data = [ trace2];
+  var data = [ trace2, trace1];
   Plotly.newPlot('infoGraph', data, layout);
   confirmOrDropAnomaly('postion')
   setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),

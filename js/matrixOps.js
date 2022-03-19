@@ -68,15 +68,17 @@ function durationVisualizations(activityCode, codesMatrix){
 
 function positionVisualization (activityCode, codesMatrix){
     var activityPositionInDays = new Array(config.steps).fill(0);
+    var anomalyPositionInDays = new Array(config.steps).fill(0);
     for (let i= 0; i<config.nDays; i++){
         for (let j = 0; j< config.steps; j++){
             if(codesMatrix[i][j] == activityCode){
                 activityPositionInDays[j]++;
+                if(dataset.groundTruth[i][j] == 3)
+                    anomalyPositionInDays[j]++;
             }
         }
     }
-
-    return activityPositionInDays;
+    return [activityPositionInDays,anomalyPositionInDays];
 }
 
 

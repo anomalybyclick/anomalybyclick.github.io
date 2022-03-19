@@ -64,7 +64,8 @@ $(".anomaly").on('click', function(){
       case 'position':
           $('#showUpdateDuration').css('visibility', 'hidden');
           config.anomalyCode = 3;
-          plotPositionGraph(positionVisualization(config.activityCode,dataset.sourceData));
+          var res = positionVisualization(config.activityCode,dataset.sourceData)
+          plotPositionGraph(res[0], res[1]);
           clickGraph();
           break;
       case 'order':
@@ -140,7 +141,8 @@ function updateGraphs(){
         break;
       case 3:
         //var steps = (config.timeGranularity === 'hh') ? 60 : 1440;
-        plotPositionGraph(positionVisualization(config.activityCode,dataset.sourceData));
+        var res = positionVisualization(config.activityCode,dataset.sourceData)
+        plotPositionGraph(res[0], res[1]);
         break;
       case 4:
         var values = orderVisualizations(config.activityCode,dataset.sourceData);
