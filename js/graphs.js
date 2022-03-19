@@ -296,7 +296,6 @@ function plotParallelDiagram(pre, middle, post){
 }
 
 function plotPositionGraph (y, steps=1440){
- console.log(config.timeGranularity)
   
   var trace2 = {
     x: [...Array(steps).keys()],

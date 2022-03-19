@@ -67,9 +67,9 @@ function durationVisualizations(activityCode, codesMatrix){
 }
 
 function positionVisualization (activityCode, codesMatrix){
-    var activityPositionInDays = new Array(1440).fill(0);
+    var activityPositionInDays = new Array(config.steps).fill(0);
     for (let i= 0; i<config.nDays; i++){
-        for (let j = 0; j< 1440; j++){
+        for (let j = 0; j< config.steps; j++){
             if(codesMatrix[i][j] == activityCode){
                 activityPositionInDays[j]++;
             }
@@ -77,7 +77,6 @@ function positionVisualization (activityCode, codesMatrix){
     }
 
     return activityPositionInDays;
-    
 }
 
 

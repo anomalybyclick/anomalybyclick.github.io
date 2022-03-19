@@ -11,7 +11,8 @@ const config = {
     dataV:{},
     codes:[],
     actualDataIndex : 0,
-    observationWindowSize: 7
+    observationWindowSize: 7,
+    steps: 1440
 }
 
 
