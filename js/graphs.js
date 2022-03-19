@@ -236,19 +236,67 @@ function plotBarchart(y, type){
 } 
 
 function plotParallelDiagram(pre, middle, post){
-  console.log(pre);
-  console.log(post);
-    var trace1 = {
-        type: 'parcats',
-        line: {color: '#1F3BB3'},
-        dimensions: [
-          {label: 'PreActivity',
-           values: pre},
-          {label: 'Activity',
-           values: middle},
-          {label: 'PostActivity',
-           values: post}]
-      };
+    // tmp  = pre.map(function(v){
+    //   console.log(v.includes('!'))
+    //     return v.includes('!')
+    // });
+
+    var preActivities = {
+      label: 'PreActivity',
+      values: pre,
+    };
+
+    
+    
+    // usage example:
+   
+    var preArray = pre.filter(onlyUnique);
+    var postArray = post.filter(onlyUnique);
+    var middleArray = middle.filter(onlyUnique);
+
+    final = preArray.concat(middleArray, postArray)
+    // var trace1 = {
+    //     type: 'parcats',
+    //     // line: {color: '#1F3BB3'},
+    //     dimensions: [
+    //       preActivities,
+    //       {label: 'Activity',
+    //        values: middle},
+    //       {label: 'PostActivity',
+    //        values: post}],
+    //     hoverinfo: 'probability',
+    //        //aggiungere campo count per percentuali
+    //        line:{
+    //          color:null
+    //        }
+    //   };
+    source = [...Array(preArray.length ).keys()]
+    source = source.concat(new Array(postArray.length).fill(preArray.length))
+
+    target = new Array(preArray.length).fill(preArray.length)
+    target = target.concat(range(preArray.length+1, preArray.length+postArray.length))
+
+     var trace1 = {
+      type: "sankey",
+      orientation: "h",
+      node: {
+        pad: 15,
+        thickness: 30,
+        line: {
+          color: "black",
+          width: 0.5
+        },
+       label: final,
+       color: ["blue", "blue", "blue", "blue", "blue", "blue"]
+      },
+
+      link: {
+        source: source,
+        target: target,
+        value:  new Array(target.length).fill(10)
+      }
+     }
+
       var data = [ trace1 ];
       Plotly.newPlot('infoGraph', data);
       setStatisticalInformation();

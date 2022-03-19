@@ -27,15 +27,15 @@ function cutDecimanlsInString(valueLabel, length = 4){
 function orderVisualizations(activityCode, codesMatrix){
     var preActivities = [];
     var postActivities = [];
-    
     for (let i= 0; i<config.nDays; i++){
         var day = removeActivityCodeRepetitions(codesMatrix[i]);
-       
+        var anomalies = removeActivityCodeRepetitions(dataset.groundTruth[i]);
+        var suffix = anomalies.includes(4) ? '!' : '';
         day.map(function(array, index) {
             if(array == activityCode && (index+1)<config.nDays && (index-1)>0){
-
-                postActivities.push(translateActivityCode(day[index+1]));
-                preActivities.push(translateActivityCode(day[index-1]));
+               
+                postActivities.push(translateActivityCode(day[index+1]) + suffix);
+                preActivities.push(translateActivityCode(day[index-1]) + suffix);
             }
         });
     }
