@@ -33,7 +33,6 @@ function orderVisualizations(activityCode, codesMatrix){
         var suffix = anomalies.includes(4) ? '!' : '';
         day.map(function(array, index) {
             if(array == activityCode && (index+1)<config.nDays && (index-1)>0){
-               
                 postActivities.push(translateActivityCode(day[index+1]) + suffix);
                 preActivities.push(translateActivityCode(day[index-1]) + suffix);
             }
@@ -67,9 +66,7 @@ function durationVisualizations(activityCode, codesMatrix){
     return durationsPerDays;
 }
 
-
 function positionVisualization (activityCode, codesMatrix){
-   
     var activityPositionInDays = new Array(1440).fill(0);
     for (let i= 0; i<config.nDays; i++){
         for (let j = 0; j< 1440; j++){
@@ -78,12 +75,6 @@ function positionVisualization (activityCode, codesMatrix){
             }
         }
     }
-    /*if(config.timeGranularity === 'hh'){
-        activityPositionInDays = convertToHours(activityPositionInDays);
-        plotPositionGraph(activityPositionInDays, 60);
-    } else {
-        plotPositionGraph(activityPositionInDays);
-    }*/
 
     return activityPositionInDays;
     

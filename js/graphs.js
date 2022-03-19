@@ -140,18 +140,32 @@ function updateHeatmap(){
   Plotly.redraw('mainGraph');
 }
 
-function confirmOrDropAnomaly(){
+function confirmOrDropAnomaly(type='bar'){
     document.getElementById('infoGraph').on('plotly_click', function(data){
-      console.log(data.points[0]['marker.color']);
-      if (data.points[0]['marker.color'] == 'red'){
-        if (window.confirm("Do you really want to leave?")) {
-          console.log(dataset.groundTruth[data.points[0].x])
-          dataset.groundTruth[data.points[0].x] = dataset.groundTruth[data.points[0].x].map(function(v){
-            return 0
-          })
-          console.log(dataset.groundTruth[data.points[0].x])
+     
+      if(type == 'bar'){
+        if (data.points[0]['marker.color'] == 'red'){
+          if (window.confirm("Do you really want to leave?")) {
+            dataset.groundTruth[data.points[0].x] = dataset.groundTruth[data.points[0].x].map(function(v){
+              return 0
+            })
+            updateGraphs()
+          }
+        }
+      } else if (type == 'sankey'){
+        if(data.points[0].source.label.includes("!") || true){
+          for (i= 0; i<dataset.sourceData.length; i++){
+            for (j=0; j<dataset.sourceData[i].length;j++){
+              if(translateActivityCode(dataset.sourceData[i][j]) == data.points[0].target.label.replace("!","") && dataset.groundTruth[i][j] == 4)
+                dataset.groundTruth[i][j] = 0
+                
+                
+            }
+          }
           updateGraphs()
         }
+      } else {
+        console.log(data.points[0])
       }
     });
 }
@@ -172,24 +186,21 @@ function plotBarchart(y, type){
         })
     };
 
-    
-      // assign data to y without anomalies
-      data.y = y.map(function (v) {
-        if(config.anomalyCode == 1)
-          return v % 10 == 0 ? v/10 : v
-        else 
-          return typeof v  == 'string' ? parseInt(v.replace('!','')) : v
-      });
-      // detect anomalies by dividing by 10
-      data.marker.color = y.map(function (v) {
-        if(config.anomalyCode == 1)
-          return v % 10 == 0 ? 'red' : '#1F3BB3'
-        else
-          return typeof v  == 'string' ? 'red' : '#1F3BB3'
-      });
+    // assign data to y without anomalies
+    data.y = y.map(function (v) {
+      if(config.anomalyCode == 1)
+        return v % 10 == 0 ? v/10 : v
+      else 
+        return typeof v  == 'string' ? parseInt(v.replace('!','')) : v
+    });
+    // detect anomalies by dividing by 10
+    data.marker.color = y.map(function (v) {
+      if(config.anomalyCode == 1)
+        return v % 10 == 0 ? 'red' : '#1F3BB3'
+      else
+        return typeof v  == 'string' ? 'red' : '#1F3BB3'
+    });
    
-    
-
     var mean = computeMean(data.y);
     var upperStd = computeMean(data.y)+computeStd(data.y);
     var lowerStd = computeMean(data.y)-computeStd(data.y);
@@ -225,7 +236,7 @@ function plotBarchart(y, type){
     layout.yaxis.title = anomalyTextInfoTranslated ("SECONDGRAPH.YAXES", config.anomalyCode); 
     Plotly.newPlot('infoGraph', [data], layout, {displayModeBar: false});
 
-    confirmOrDropAnomaly()
+    confirmOrDropAnomaly('bar')
 
     setStatisticalInformation(computeMean(data.y), computeStd(data.y),
         getMin(data.y), getMax(data.y), 
@@ -236,47 +247,27 @@ function plotBarchart(y, type){
 } 
 
 function plotParallelDiagram(pre, middle, post){
-    // tmp  = pre.map(function(v){
-    //   console.log(v.includes('!'))
-    //     return v.includes('!')
-    // });
-
-    var preActivities = {
-      label: 'PreActivity',
-      values: pre,
-    };
-
-    
-    
-    // usage example:
-   
     var preArray = pre.filter(onlyUnique);
     var postArray = post.filter(onlyUnique);
     var middleArray = middle.filter(onlyUnique);
 
-    final = preArray.concat(middleArray, postArray)
-    // var trace1 = {
-    //     type: 'parcats',
-    //     // line: {color: '#1F3BB3'},
-    //     dimensions: [
-    //       preActivities,
-    //       {label: 'Activity',
-    //        values: middle},
-    //       {label: 'PostActivity',
-    //        values: post}],
-    //     hoverinfo: 'probability',
-    //        //aggiungere campo count per percentuali
-    //        line:{
-    //          color:null
-    //        }
-    //   };
+    var countsMiddle = {};
+    var countsPost = {};
+    pre.forEach(function (x) { countsMiddle[x] = (countsMiddle[x] || 0) + 1; })
+    post.forEach(function (x) { countsPost[x] = (countsPost[x] || 0) + 1; })
+    var values = Object.values(countsMiddle).concat(Object.values(countsPost))
+
+    labels = preArray.concat(middleArray, postArray)
+    colors = labels.map(function(v){
+      return v.includes("!") ? "red": "blue";
+    })
     source = [...Array(preArray.length ).keys()]
     source = source.concat(new Array(postArray.length).fill(preArray.length))
 
     target = new Array(preArray.length).fill(preArray.length)
     target = target.concat(range(preArray.length+1, preArray.length+postArray.length))
 
-     var trace1 = {
+    var trace1 = {
       type: "sankey",
       orientation: "h",
       node: {
@@ -286,21 +277,22 @@ function plotParallelDiagram(pre, middle, post){
           color: "black",
           width: 0.5
         },
-       label: final,
-       color: ["blue", "blue", "blue", "blue", "blue", "blue"]
+       label: labels,
+       color: colors
       },
 
       link: {
         source: source,
         target: target,
-        value:  new Array(target.length).fill(10)
+        value:  values
       }
-     }
+    }
 
-      var data = [ trace1 ];
-      Plotly.newPlot('infoGraph', data);
-      setStatisticalInformation();
-      setTitleAdditionalGraph(anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 3));
+    var data = [ trace1 ];
+    Plotly.newPlot('infoGraph', data);
+    confirmOrDropAnomaly('sankey')
+    setStatisticalInformation();
+    setTitleAdditionalGraph(anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 3));
 }
 
 function plotPositionGraph (y, steps=1440){
@@ -334,6 +326,7 @@ function plotPositionGraph (y, steps=1440){
 };
   var data = [ trace2];
   Plotly.newPlot('infoGraph', data, layout);
+  confirmOrDropAnomaly('postion')
   setStatisticalInformation(cutDecimanlsInString(computeMean(y)), cutDecimanlsInString(computeStd(y)),
   cutDecimanlsInString(getMin(y)), cutDecimanlsInString(getMax(y)), anomalyTextInfoTranslated ("SECONDGRAPH.STATISTICS.STATISTICALINFO", 4));
   setTitleAdditionalGraph(anomalyTextInfoTranslated ("SECONDGRAPH.TITLE", 4));
