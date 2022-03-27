@@ -41,7 +41,14 @@ function setTitle (label, font=18){
 function translateActivityCode(activityCode){
     if(activityCode == -1 || activityCode === undefined) return 'No Activity';
     return config.dataV[activityCode].activity;
- 
+}
+
+function translateActivityInColor(activity, colorscale, gray){
+    if(activity == -1 || activity === undefined) return -1;
+    let val = config.labels.indexOf(activity)
+    if(val == -1)
+        return gray
+    return colorscale[val*2][1]
 }
 
 function convertToHours(arr, chunkSize=60) {
@@ -52,6 +59,11 @@ function convertToHours(arr, chunkSize=60) {
   }
   return res;
 }
+
+function normalize(val, max=6, min=0) { 
+    return (val - min) / (max - min); 
+}
+
 
 
 function computeMean(values){

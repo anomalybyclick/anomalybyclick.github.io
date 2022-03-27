@@ -163,10 +163,8 @@ function confirmOrDropAnomaly(type='bar'){
           updateGraphs()
         }
       } else {
-        console.log(data.points[0])
-        if(data.points[0].fullData.fillcolor == 'red'){
 
-        
+        if(data.points[0].fullData.fillcolor == 'red'){        
           var x = data.points[0].x
           var dataY = data.points[0].data.y
           var x_=x
@@ -283,6 +281,7 @@ function plotParallelDiagram(pre, middle, post){
     var preArray = pre.filter(onlyUnique);
     var postArray = post.filter(onlyUnique);
     var middleArray = middle.filter(onlyUnique);
+    console.log(middleArray)
 
     var countsMiddle = {};
     var countsPost = {};
@@ -291,9 +290,26 @@ function plotParallelDiagram(pre, middle, post){
     var values = Object.values(countsMiddle).concat(Object.values(countsPost))
 
     labels = preArray.concat(middleArray, postArray)
+    console.log(labels)
     colors = labels.map(function(v){
-      return v.includes("!") ? "red": "blue";
+      return v.includes("!") ? "red": translateActivityInColor(v, colorscaleValues, gray);
     })
+
+    colors_links = [];
+    for(let i=0; i<labels.length; i++){
+      if(labels[i].includes("!")){
+        colors_links.push('red')
+      }
+      else if(labels[i] != middleArray[0]){
+        colors_links.push(translateActivityInColor(labels[i], colorscaleValues_2, gray_a))
+      }
+        
+
+    }
+
+  
+
+    console.log(colors_links)
     source = [...Array(preArray.length ).keys()]
     source = source.concat(new Array(postArray.length).fill(preArray.length))
 
@@ -317,7 +333,8 @@ function plotParallelDiagram(pre, middle, post){
       link: {
         source: source,
         target: target,
-        value:  values
+        value:  values,
+        color: colors_links
       }
     }
 
