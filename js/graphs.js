@@ -281,7 +281,7 @@ function plotParallelDiagram(pre, middle, post){
     var preArray = pre.filter(onlyUnique);
     var postArray = post.filter(onlyUnique);
     var middleArray = middle.filter(onlyUnique);
-    console.log(middleArray)
+    
 
     var countsMiddle = {};
     var countsPost = {};
@@ -290,7 +290,7 @@ function plotParallelDiagram(pre, middle, post){
     var values = Object.values(countsMiddle).concat(Object.values(countsPost))
 
     labels = preArray.concat(middleArray, postArray)
-    console.log(labels)
+    
     colors = labels.map(function(v){
       return v.includes("!") ? "red": translateActivityInColor(v, colorscaleValues, gray);
     })
