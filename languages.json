@@ -16,7 +16,7 @@
         },
         "SECONDGRAPH":{
             "TITLE":["Frequency Of An Activity On Different Days","Duration Per Day","Order Plot To Show Activities That Precede And Succeed The Observed","Information About When The Activity Occurs Most"],
-            "SUBTITLE":"In this area specific information about a property of the activity is observed is shown",
+            "SUBTITLE":"",
             "YAXES":["N. of times the activity occurs in a day","Minutes","","N. of times the activity occurs"],
             "STATISTICS":{
                 "STATISTICALTITLE":"Statistical info",
