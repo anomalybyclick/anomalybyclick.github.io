@@ -145,7 +145,7 @@ function confirmOrDropAnomaly(type='bar'){
      
       if(type == 'bar'){
         if (data.points[0]['marker.color'] == 'red'){
-          if (window.confirm("Do you really want to leave?")) {
+          if (window.confirm("Do you really want to remove the anomaly?")) {
             dataset.groundTruth[data.points[0].x] = dataset.groundTruth[data.points[0].x].map(function(v){
               return 0
             })
@@ -154,46 +154,50 @@ function confirmOrDropAnomaly(type='bar'){
         }
       } else if (type == 'sankey'){
         if(data.points[0].source.label.includes("!") || true){
-          for (i= 0; i<dataset.sourceData.length; i++){
-            for (j=0; j<dataset.sourceData[i].length;j++){
-              if(translateActivityCode(dataset.sourceData[i][j]) == data.points[0].target.label.replace("!","") && dataset.groundTruth[i][j] == 4)
-                dataset.groundTruth[i][j] = 0
+          if (window.confirm("Do you really want to remove the anomaly?")) {
+            for (i= 0; i<dataset.sourceData.length; i++){
+              for (j=0; j<dataset.sourceData[i].length;j++){
+                if(translateActivityCode(dataset.sourceData[i][j]) == data.points[0].target.label.replace("!","") && dataset.groundTruth[i][j] == 4)
+                  dataset.groundTruth[i][j] = 0
+              }
             }
+            updateGraphs()
           }
-          updateGraphs()
         }
       } else {
 
-        if(data.points[0].fullData.fillcolor == 'red'){        
-          var x = data.points[0].x
-          var dataY = data.points[0].data.y
-          var x_=x
+        if(data.points[0].fullData.fillcolor == 'red'){   
+          if (window.confirm("Do you really want to remove the anomaly?")) {     
+            var x = data.points[0].x
+            var dataY = data.points[0].data.y
+            var x_=x
 
-          var stop = false
-          var intervall ={start:0, end:0}
+            var stop = false
+            var intervall ={start:0, end:0}
 
-          while (!stop){
-            stop = dataY[x++] == 0 ? true : false
-            if(x>1440)
-              break
+            while (!stop){
+              stop = dataY[x++] == 0 ? true : false
+              if(x>1440)
+                break
+            }
+            intervall.end = x
+            console.log(stop)
+            while (stop){
+              stop = dataY[x_--] == 0 ? false : true
+              if(x_<0)
+                break
+            }
+            intervall.start = x_
+            console.log('finito')
+          
+            console.log(intervall)
+            for (i=0; i<dataset.groundTruth.length; i++){
+              for(j=intervall.start; j<intervall.end; j++){
+                dataset.groundTruth[i][j] = 0
+              }
+            }
+            updateGraphs()
           }
-          intervall.end = x
-          console.log(stop)
-          while (stop){
-            stop = dataY[x_--] == 0 ? false : true
-            if(x_<0)
-              break
-          }
-          intervall.start = x_
-          console.log('finito')
-        
-        console.log(intervall)
-        for (i=0; i<dataset.groundTruth.length; i++){
-          for(j=intervall.start; j<intervall.end; j++){
-            dataset.groundTruth[i][j] = 0
-          }
-        }
-        updateGraphs()
         }
 
 
